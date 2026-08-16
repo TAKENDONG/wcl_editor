@@ -15,26 +15,25 @@ qui suit ne touche la production.
 
 ---
 
-## 2. Démarrer (trois commandes)
+## 2. Démarrer (une commande)
 
 ```bash
-# 1. Le backend local (depuis le dépôt wclplay, qui porte supabase/config.toml)
-cd wclplay && supabase start
-
-# 2. Le schéma du portail (depuis wclPortal)
-cd ../wclPortal && ./scripts/setup-local.sh
-
-# 3. Le portail
-cp .env.example .env          # puis coller l'ANON_KEY affichée par `supabase status`
-npm install && npm run dev
+cd wclPortal && ./start.sh
 ```
+
+C'est tout. Le script vérifie les prérequis, démarre le backend local, applique
+le schéma, crée les comptes de démonstration, installe les dépendances et lance
+le portail. Il est **idempotent** : réexécutable autant de fois que voulu.
 
 Le portail répond sur **http://127.0.0.1:5174**.
 Studio (pour inspecter la base) : **http://127.0.0.1:54323**.
 
-> `setup-local.sh` applique d'abord une amorce WCL minimale, puis les cinq
-> fichiers du modèle de locataire. Il est idempotent : réexécutable sans effet
-> de bord.
+> Le premier démarrage télécharge les images Docker de Supabase : comptez
+> plusieurs minutes. Les suivants sont immédiats.
+>
+> Si le SQL du portail n'est pas trouvé (il vit dans `wclplay`, sur la branche
+> `feat/publisher-tenancy` tant que la PR n'est pas fusionnée), indiquez-le :
+> `WCLPLAY_SQL=/chemin/vers/wclplay/supabase ./start.sh`
 
 ---
 
@@ -83,7 +82,8 @@ Deux refus **volontaires**, à constater :
 En local, le dépôt de fichier n'est pas branché sur R2. Pour poursuivre, simulez-le :
 
 ```bash
-docker exec supabase_db_anjqdvrniawarrueztva psql -U postgres -d postgres -c \
+docker exec "$(docker ps --filter name=supabase_db_ --format '{{.Names}}')" \
+  psql -U postgres -d postgres -c \
   "update publisher_submissions set file_key='submissions/x.epub',
      file_format='epub', file_sha256='deadbeef' where state='draft';"
 ```
@@ -99,15 +99,16 @@ docker exec supabase_db_anjqdvrniawarrueztva psql -U postgres -d postgres -c \
 La file est réservée à l'équipe WCL. Avec un compte éditeur, **Validation** répond
 `forbidden` — c'est le comportement attendu.
 
-Promouvoir un validateur :
+`start.sh` a déjà promu `valideur@cmci.cm`. Pour en promouvoir un autre :
 
 ```bash
-docker exec supabase_db_anjqdvrniawarrueztva psql -U postgres -d postgres -c \
+docker exec "$(docker ps --filter name=supabase_db_ --format '{{.Names}}')" \
+  psql -U postgres -d postgres -c \
   "insert into admin_users(user_id)
-   select id from auth.users where email='valideur@cmci.cm' on conflict do nothing;"
+   select id from auth.users where email='VOTRE@ADRESSE' on conflict do nothing;"
 ```
 
-Puis, connecté avec ce compte, aller dans **Validation** :
+Connecté comme validateur, aller dans **Validation** :
 
 1. Les dossiers sont classés **du plus ancien au plus récent** — un dossier ne doit
    jamais être doublé par un plus récent.
@@ -157,7 +158,8 @@ B=$(curl -s -X POST "$API/auth/v1/token?grant_type=password" -H "apikey: $ANON" 
      | python3 -c "import sys,json;print(json.load(sys.stdin)['access_token'])")
 
 # identifiant de l'éditeur d'Alice
-ALPHA=$(docker exec supabase_db_anjqdvrniawarrueztva psql -tAq -U postgres -d postgres \
+ALPHA=$(docker exec "$(docker ps --filter name=supabase_db_ --format '{{.Names}}')" \
+        psql -tAq -U postgres -d postgres \
         -c "select id from publishers where display_name='Editions Alpha';")
 
 # 1. Bob lit-il le catalogue d'Alice ?         → 0
@@ -223,8 +225,7 @@ Pour que ce tutoriel ne laisse rien supposer de faux :
 ## 11. Arrêter
 
 ```bash
-# depuis wclPortal
-pkill -f "vite" || true
-# depuis wclplay
-supabase stop
+# Ctrl+C dans le terminal où tourne start.sh, puis :
+supabase stop --project-id "$(basename "$(cd ../wclplay && pwd)")" 2>/dev/null || \
+  (cd ../wclplay && supabase stop)
 ```
