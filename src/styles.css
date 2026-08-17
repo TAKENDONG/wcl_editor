@@ -458,3 +458,10 @@ tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
   color: var(--text-secondary);
   font-size: 0.88rem;
 }
+
+/* Page de texte long : une largeur de ligne bornee, sinon le texte court d'un
+   bord a l'autre sur grand ecran et devient penible a suivre. */
+.prose { max-width: 46rem; }
+.prose h2 { margin-top: 2rem; }
+.prose ul { padding-left: 1.2rem; color: var(--text-secondary); }
+.prose li { margin-bottom: 0.4rem; }

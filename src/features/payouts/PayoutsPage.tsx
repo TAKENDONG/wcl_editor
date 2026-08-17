@@ -3,6 +3,7 @@ import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { EmptyState } from '../../components/ui/EmptyState.tsx';
 import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
 import { fetchPayouts } from '../../services/royaltyService.ts';
+import { usePublishers } from '../../hooks/usePublishers.ts';
 import type { PayoutRow } from '../../lib/types.ts';
 import { formatMoney } from '../royalties/format.ts';
 import { PayoutRowDetail, STATE_LABELS } from './PayoutRowDetail.tsx';
@@ -13,6 +14,8 @@ import { PayoutRowDetail, STATE_LABELS } from './PayoutRowDetail.tsx';
 // WCL retient son argent.
 export default function PayoutsPage() {
   const { strings } = useLocale();
+  // `enabled` : le crochet ne charge que pour un utilisateur connecte.
+  const { publishers } = usePublishers(true);
   const [rows, setRows] = useState<PayoutRow[]>([]);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
@@ -81,7 +84,11 @@ export default function PayoutsPage() {
               </thead>
               <tbody>
                 {rows.map((row) => (
-                  <PayoutRowDetail key={row.period_start} row={row} />
+                  <PayoutRowDetail
+                    key={row.period_start}
+                    row={row}
+                    publisher={publishers[0]?.display_name ?? ''}
+                  />
                 ))}
               </tbody>
             </table>

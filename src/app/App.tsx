@@ -6,6 +6,7 @@ import SignInPage from '../features/auth/SignInPage.tsx';
 import RegisterPage from '../features/account/RegisterPage.tsx';
 import AccountPage from '../features/account/AccountPage.tsx';
 import TermsPage from '../features/legal/TermsPage.tsx';
+import PrivacyPage from '../features/legal/PrivacyPage.tsx';
 import CatalogPage from '../features/catalog/CatalogPage.tsx';
 import ReviewQueuePage from '../features/review/ReviewQueuePage.tsx';
 import PeriodsPage from '../features/admin/PeriodsPage.tsx';
@@ -30,6 +31,7 @@ export function App() {
       <Route element={<PortalLayout signedIn={signedIn} />}>
         <Route index element={<VitrinePage />} />
         <Route path="/conditions" element={<TermsPage />} />
+        <Route path="/confidentialite" element={<PrivacyPage />} />
         <Route path="/connexion" element={signedIn ? <Navigate to="/catalogue" replace /> : <SignInPage />} />
         <Route path="/inscription" element={guard(<RegisterPage />)} />
         <Route path="/compte" element={guard(<AccountPage />)} />

@@ -7,6 +7,15 @@ import { currentPeriod, formatMoney } from '../royalties/format.ts';
 import { PeriodTable } from './PeriodTable.tsx';
 import { ConcentrationTable } from './ConcentrationTable.tsx';
 
+/// Les RPC d'administration levent `forbidden`. Le mot brut ne dit rien a un
+/// utilisateur : il faut nommer la cause, sinon un editeur croira a une panne
+/// et ecrira au support.
+function humanise(message: string): string {
+  return message.includes('forbidden')
+    ? 'Cet écran est réservé aux administrateurs WCL.'
+    : message;
+}
+
 // F1 / F5 et indicateurs internes (§ 7). Reserve aux administrateurs WCL.
 //
 // Le calcul A BLANC est propose AVANT la consolidation, et separement : une
@@ -30,7 +39,9 @@ export default function PeriodsPage() {
       setConcentration(shares);
       setError('');
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Erreur inconnue');
+      setPeriods([]);
+      setConcentration([]);
+      setError(humanise(cause instanceof Error ? cause.message : 'Erreur inconnue'));
     }
   }, []);
 
@@ -44,7 +55,7 @@ export default function PeriodsPage() {
       setError('');
       await load(period);
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Erreur inconnue');
+      setError(humanise(cause instanceof Error ? cause.message : 'Erreur inconnue'));
     } finally {
       setBusy(false);
     }
@@ -117,8 +128,12 @@ export default function PeriodsPage() {
         </p>
       )}
 
-      <ConcentrationTable rows={concentration} currency={current?.currency ?? 'XAF'} />
-      <PeriodTable rows={periods} />
+      {!error && (
+        <>
+          <ConcentrationTable rows={concentration} currency={current?.currency ?? 'XAF'} />
+          <PeriodTable rows={periods} />
+        </>
+      )}
     </>
   );
 }
