@@ -76,8 +76,28 @@ psql_run() { docker exec -i "$DB_CONTAINER" psql -q -v ON_ERROR_STOP=1 -U postgr
 say "2/6  Schéma"
 psql_run < "$HERE/supabase/local-bootstrap.sql" 2>&1 | grep -v '^NOTICE' || true
 ok "amorce WCL minimale"
+# L'ORDRE EST UNE DEPENDANCE, pas une preference : chaque bloc s'appuie sur les
+# fonctions et les tables du precedent. Les deplacer produit des erreurs
+# « relation inexistante » dont la cause est loin du symptome.
+#
+#   1. Locataires    : tables, puis fonctions d'appartenance, puis RLS.
+#   2. Reglements    : `payment_audit_logs` porte la recette ET les frais reels,
+#                      dont le moteur de redevances a besoin.
+#   3. Telemetrie    : les decalages de spine AVANT le schema qui s'y refere.
+#   4. Redevances    : le schema avant le moteur, le moteur avant les lectures.
+#   5. Versements    : apres les redevances, dont ils lisent les lignes.
+#   6. Gouvernance   : la conservation a besoin de `royalty_periods` ; la
+#                      planification a besoin des trois fonctions ci-dessus.
 for f in publishers_schema publishers_helpers publishers_rls publishers_rpc \
-         publishers_admin_rpc publishers_publication publishers_storage; do
+         publishers_rpc_metadata publishers_account publishers_admin_rpc \
+         publishers_publication publishers_storage publishers_file_history \
+         payment_audit_logs \
+         reading_spine_offsets reading_telemetry_schema reading_ingest \
+         reading_country \
+         royalties_schema royalties_engine royalties_reporting royalties_admin \
+         payouts_schema payouts_engine \
+         reading_retention royalties_schedule; do
+  [ -f "$SQL_DIR/$f.sql" ] || die "$f.sql introuvable dans $SQL_DIR"
   psql_run < "$SQL_DIR/$f.sql" 2>&1 | grep -v '^NOTICE' || true
   ok "$f.sql"
 done
