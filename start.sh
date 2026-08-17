@@ -76,7 +76,8 @@ psql_run() { docker exec -i "$DB_CONTAINER" psql -q -v ON_ERROR_STOP=1 -U postgr
 say "2/6  Schéma"
 psql_run < "$HERE/supabase/local-bootstrap.sql" 2>&1 | grep -v '^NOTICE' || true
 ok "amorce WCL minimale"
-for f in publishers_schema publishers_helpers publishers_rls publishers_rpc publishers_admin_rpc; do
+for f in publishers_schema publishers_helpers publishers_rls publishers_rpc \
+         publishers_admin_rpc publishers_publication publishers_storage; do
   psql_run < "$SQL_DIR/$f.sql" 2>&1 | grep -v '^NOTICE' || true
   ok "$f.sql"
 done

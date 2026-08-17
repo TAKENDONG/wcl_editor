@@ -63,6 +63,24 @@ export type Strings = {
   footerNote: string;
   formulaRate: string;
   formulaShare: string;
+  subtitle: string;
+  edition: string;
+  categories: string;
+  keywords: string;
+  bookFile: string;
+  bookFileHint: string;
+  coverFile: string;
+  measured: string;
+  chars: string;
+  submitHint: string;
+  errFileRequired: string;
+  errNeedsConversion: string;
+  sectionWork: string;
+  sectionClassify: string;
+  sectionFiles: string;
+  sectionRights: string;
+  coverHint: string;
+  working: string;
 };
 
 const fr: Strings = {
@@ -121,6 +139,18 @@ const fr: Strings = {
   footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
   formulaRate:  'taux_par_page = pool ÷ pages_validées_totales',
   formulaShare: 'votre_part    = vos_pages_validées × taux_par_page',
+  subtitle: 'Sous-titre', edition: 'Édition', categories: 'Thèmes et catégories',
+  keywords: 'Mots-clés',
+  bookFile: 'Fichier de l’ouvrage', coverFile: 'Couverture',
+  bookFileHint: 'EPUB recommandé. PDF, DOCX et TXT acceptés — le PDF devra passer par la conversion assistée avant d’être mesuré.',
+  measured: 'Mesuré par WCL — pages normalisées :', chars: 'signes',
+  submitHint: 'L’envoi en validation exige un fichier mesuré et une déclaration de droits. Une fois envoyé, le dossier n’est plus modifiable : c’est ce que WCL examine.',
+  errFileRequired: 'Déposez le fichier de l’ouvrage avant l’envoi.',
+  errNeedsConversion: 'Le PDF doit passer par la conversion assistée avant d’être mesuré : ses pages ne peuvent pas être comptées en l’état.',
+  sectionWork: 'L’ouvrage', sectionClassify: 'Classement',
+  sectionFiles: 'Fichiers', sectionRights: 'Droits',
+  coverHint: 'JPG ou PNG, format portrait de préférence.',
+  working: 'Envoi en cours…',
 };
 
 const en: Strings = {
@@ -175,6 +205,18 @@ const en: Strings = {
   footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
   formulaRate:  'rate_per_page = pool ÷ total_validated_pages',
   formulaShare: 'your_share    = your_validated_pages × rate_per_page',
+  subtitle: 'Subtitle', edition: 'Edition', categories: 'Themes and categories',
+  keywords: 'Keywords',
+  bookFile: 'Work file', coverFile: 'Cover',
+  bookFileHint: 'EPUB recommended. PDF, DOCX and TXT accepted — PDF must go through assisted conversion before it can be measured.',
+  measured: 'Measured by WCL — normalized pages:', chars: 'characters',
+  submitHint: 'Sending for review requires a measured file and a rights declaration. Once sent, the dossier is locked: it is what WCL examines.',
+  errFileRequired: 'Upload the work file before sending.',
+  errNeedsConversion: 'PDF must go through assisted conversion before measurement: its pages cannot be counted as is.',
+  sectionWork: 'The work', sectionClassify: 'Classification',
+  sectionFiles: 'Files', sectionRights: 'Rights',
+  coverHint: 'JPG or PNG, portrait format preferred.',
+  working: 'Sending…',
 };
 
 const es: Strings = {
@@ -231,6 +273,18 @@ const es: Strings = {
   footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
   formulaRate:  'tasa_por_pagina = fondo ÷ paginas_validadas_totales',
   formulaShare: 'su_parte        = sus_paginas_validadas × tasa_por_pagina',
+  subtitle: 'Subtítulo', edition: 'Edición', categories: 'Temas y categorías',
+  keywords: 'Palabras clave',
+  bookFile: 'Archivo de la obra', coverFile: 'Portada',
+  bookFileHint: 'EPUB recomendado. PDF, DOCX y TXT aceptados — el PDF debe pasar por la conversión asistida antes de medirse.',
+  measured: 'Medido por WCL — páginas normalizadas:', chars: 'caracteres',
+  submitHint: 'El envío a validación exige un archivo medido y una declaración de derechos. Una vez enviado, el expediente queda bloqueado.',
+  errFileRequired: 'Deposite el archivo de la obra antes de enviar.',
+  errNeedsConversion: 'El PDF debe pasar por la conversión asistida antes de medirse.',
+  sectionWork: 'La obra', sectionClassify: 'Clasificación',
+  sectionFiles: 'Archivos', sectionRights: 'Derechos',
+  coverHint: 'JPG o PNG, preferiblemente en formato vertical.',
+  working: 'Enviando…',
 };
 
 export const STRINGS: Record<Locale, Strings> = { fr, en, es };

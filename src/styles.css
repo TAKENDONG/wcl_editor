@@ -221,6 +221,57 @@ p.lead { color: var(--text-secondary); max-width: 64ch; line-height: 1.68; font-
 }
 .form-grid__wide { grid-column: 1 / -1; }
 
+/* ── Sections de formulaire ───────────────────────────────── */
+/* Dix champs a la file se lisent comme un questionnaire administratif. Les
+   regrouper par intention — l'ouvrage, le classement, les fichiers, les droits
+   — donne un parcours plutot qu'une liste. */
+.fieldset { border: 0; margin: 0 0 1.9rem; padding: 0; }
+.fieldset__legend {
+  display: flex; align-items: baseline; gap: 0.7rem; width: 100%;
+  font-family: var(--display); font-size: 0.8rem; font-weight: 700;
+  letter-spacing: 0.09em; text-transform: uppercase; color: var(--text-secondary);
+  margin-bottom: 0.9rem; padding: 0;
+}
+.fieldset__legend::before {
+  content: attr(data-step); color: var(--gold); font-size: 0.78rem; letter-spacing: 0.06em;
+}
+.fieldset__legend::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* ── Zone de depot ────────────────────────────────────────── */
+.dropzone {
+  display: flex; align-items: center; gap: 1rem; cursor: pointer;
+  padding: 1rem 1.15rem; border-radius: var(--radius);
+  border: 1px dashed var(--border-strong); background: rgba(255, 255, 255, 0.02);
+  transition: border-color 0.15s, background 0.15s;
+}
+.dropzone:hover, .dropzone:focus-visible { border-color: var(--gold); outline: none; }
+.dropzone.is-over { border-color: var(--gold); background: rgba(200, 148, 26, 0.08); }
+.dropzone.is-filled { border-style: solid; background: var(--bg-card); }
+.dropzone__body { display: flex; flex-direction: column; gap: 0.15rem; min-width: 0; }
+.dropzone__body strong {
+  font-size: 0.92rem; font-weight: 600; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.dropzone__body .muted { font-size: 0.8rem; }
+/* Pastille neutre : pas d'icone decorative, juste un reperage visuel. */
+.dropzone__glyph {
+  flex: none; width: 2.4rem; height: 2.4rem; border-radius: 8px;
+  background: var(--bg-surface); border: 1px solid var(--border);
+}
+.dropzone__thumb {
+  flex: none; width: 2.4rem; height: 3.2rem; border-radius: 6px;
+  object-fit: cover; border: 1px solid var(--border);
+}
+
+/* Barre d'action en pied de carte. Volontairement NON collante : dans une
+   carte qui ne defile pas, `position: sticky` la faisait flotter par-dessus la
+   zone de depot de la couverture. */
+.form-actions {
+  display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center;
+  padding: 1.15rem 0 0; margin-top: 0.35rem;
+  border-top: 1px solid var(--border);
+}
+
 /* ── Actions ──────────────────────────────────────────────────────────────── */
 button {
   font-family: var(--display); font-weight: 700; font-size: 0.88rem;
