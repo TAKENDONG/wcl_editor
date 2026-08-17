@@ -7,7 +7,7 @@ import { useLocale } from '../../i18n/LocaleContext.tsx';
 // FORMULE à droite. C'est elle l'argument du portail — la montrer avant même
 // l'inscription vaut mieux que de la promettre, et elle occupe une largeur qui
 // resterait sinon vide.
-export default function VitrinePage() {
+export default function VitrinePage({ signedIn }: { signedIn: boolean }) {
   const { strings } = useLocale();
 
   const model = [
@@ -24,11 +24,23 @@ export default function VitrinePage() {
         <div>
           <h1>{strings.heroTitle}</h1>
           <p className="lead">{strings.heroLead}</p>
+          {/* Un visiteur connecte n'a rien a faire de « Se connecter », et
+              « Devenir editeur » lui propose une inscription qu'il a deja
+              faite. Les deux appels a l'action changent donc ensemble : les
+              laisser tels quels donnerait l'impression d'une session perdue. */}
           <div className="row" style={{ marginTop: '1.5rem' }}>
-            <Link to="/inscription"><button type="button">{strings.heroCta}</button></Link>
-            <Link to="/connexion">
-              <button type="button" className="secondary">{strings.signIn}</button>
-            </Link>
+            {signedIn ? (
+              <Link to="/compte"><button type="button">{strings.heroCtaSignedIn}</button></Link>
+            ) : (
+              <>
+                <Link to="/inscription">
+                  <button type="button">{strings.heroCta}</button>
+                </Link>
+                <Link to="/connexion">
+                  <button type="button" className="secondary">{strings.signIn}</button>
+                </Link>
+              </>
+            )}
           </div>
         </div>
 

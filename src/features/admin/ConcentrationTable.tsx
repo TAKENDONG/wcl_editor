@@ -1,4 +1,5 @@
 import type { ConcentrationRow } from '../../lib/types.ts';
+import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
 import { formatMoney } from '../royalties/format.ts';
 
 // Correction n° 4 au cahier : rien dans le document n'est PAR EDITEUR.
@@ -46,6 +47,22 @@ export function ConcentrationTable(
           </tbody>
         </table>
       </div>
+      <ExportButtons
+        basename="concentration-editeurs"
+        title="Concentration par editeur"
+        columns={[
+          { key: 'publisher', label: 'Éditeur' },
+          { key: 'amount', label: 'Montant' },
+          { key: 'share', label: 'Part du pool' },
+          { key: 'over', label: 'Au-delà de 25 %' },
+        ]}
+        rows={rows.map((row) => ({
+          publisher: row.publisher_name,
+          amount: String(row.amount),
+          share: `${(Number(row.share_of_pool) * 100).toFixed(1)} %`,
+          over: row.over_cap ? 'oui' : 'non',
+        }))}
+      />
     </>
   );
 }

@@ -1,5 +1,15 @@
 // Mise en forme partagee par le releve et l'analytique.
 
+/// Decimales du TAUX PAR PAGE a l'affichage.
+///
+/// Six chiffres apres la virgule sont illisibles sur une carte de statistique.
+/// Les EXPORTS conservent en revanche la precision entiere, et c'est
+/// necessaire : le cahier promet que chaque editeur puisse refaire son calcul,
+/// or a cent mille pages un taux arrondi au centime derive de plusieurs
+/// centaines de francs. L'humain lit deux decimales, le controleur utilise
+/// l'export.
+export const RATE_DISPLAY_DIGITS = 2;
+
 /// Mois courant au format `AAAA-MM`, celui qu'attend `<input type="month">`.
 export function currentPeriod(): string {
   const now = new Date();

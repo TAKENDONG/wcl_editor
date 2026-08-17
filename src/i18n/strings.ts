@@ -13,6 +13,7 @@ export type Strings = {
   navReview: string;
   navPeriods: string;
   privacyTitle: string;
+  heroCtaSignedIn: string;
   navSignOut: string;
   heroTitle: string;
   heroLead: string;
@@ -149,6 +150,7 @@ const fr: Strings = {
   navRoyalties: 'Redevances', navPayouts: 'Versements', navReview: 'Validation',
   navPeriods: 'Périodes',
   privacyTitle: 'Données de lecture',
+  heroCtaSignedIn: 'Accéder à mon espace',
   navSignOut: 'Se déconnecter',
   heroTitle: 'Publiez vos ouvrages. Soyez payé aux pages réellement lues.',
   heroLead:
@@ -260,6 +262,7 @@ const en: Strings = {
   navRoyalties: 'Royalties', navPayouts: 'Payouts', navReview: 'Review',
   navPeriods: 'Periods',
   privacyTitle: 'Reading data',
+  heroCtaSignedIn: 'Go to my space',
   navSignOut: 'Sign out',
   heroTitle: 'Publish your works. Get paid for pages actually read.',
   heroLead:
@@ -366,6 +369,7 @@ const es: Strings = {
   navRoyalties: 'Regalías', navPayouts: 'Pagos', navReview: 'Validación',
   navPeriods: 'Periodos',
   privacyTitle: 'Datos de lectura',
+  heroCtaSignedIn: 'Ir a mi espacio',
   navSignOut: 'Cerrar sesión',
   heroTitle: 'Publique sus obras. Cobre por las páginas realmente leídas.',
   heroLead:

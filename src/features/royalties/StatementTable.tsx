@@ -1,5 +1,5 @@
 import type { RoyaltyStatementLine } from '../../lib/types.ts';
-import { formatMoney } from './format.ts';
+import { formatMoney, RATE_DISPLAY_DIGITS } from './format.ts';
 
 // Le detail titre par titre du releve mensuel (F3).
 //
@@ -29,7 +29,7 @@ export function StatementTable({ lines }: { lines: RoyaltyStatementLine[] }) {
               <td className="num muted">
                 {Number(line.validated_pages).toLocaleString('fr-FR')}
                 {' x '}
-                {formatMoney(line.rate_per_page, line.currency, 6)}
+                {formatMoney(line.rate_per_page, line.currency, RATE_DISPLAY_DIGITS)}
               </td>
               <td className="num">
                 <strong>{formatMoney(line.amount, line.currency)}</strong>

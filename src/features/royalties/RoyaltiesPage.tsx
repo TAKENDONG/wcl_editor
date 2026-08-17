@@ -6,7 +6,7 @@ import { fetchHistory, fetchStatement } from '../../services/royaltyService.ts';
 import type { RoyaltyHistoryRow, RoyaltyStatementLine } from '../../lib/types.ts';
 import { StatementTable } from './StatementTable.tsx';
 import { RoyaltyHistory } from './RoyaltyHistory.tsx';
-import { currentPeriod, formatMoney } from './format.ts';
+import { currentPeriod, formatMoney, RATE_DISPLAY_DIGITS } from './format.ts';
 
 // Module F — le coeur differenciant. Les AGREGATS DE PLATEFORME sont affiches
 // au-dessus du releve : sans le pool et le total des pages de la plateforme,
@@ -90,7 +90,7 @@ export default function RoyaltiesPage() {
             </div>
             <div className="card stat">
               <span className="stat__label">Taux par page</span>
-              <strong>{formatMoney(head.rate_per_page, head.currency, 6)}</strong>
+              <strong>{formatMoney(head.rate_per_page, head.currency, RATE_DISPLAY_DIGITS)}</strong>
             </div>
             <div className="card stat">
               <span className="stat__label">Votre part</span>

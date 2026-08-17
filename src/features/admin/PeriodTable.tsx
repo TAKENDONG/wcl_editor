@@ -1,6 +1,6 @@
 import type { AdminPeriodRow } from '../../lib/types.ts';
 import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
-import { formatMoney } from '../royalties/format.ts';
+import { formatMoney, RATE_DISPLAY_DIGITS } from '../royalties/format.ts';
 
 const LABELS: Record<AdminPeriodRow['state'], string> = {
   open: 'Ouverte',
@@ -33,7 +33,7 @@ export function PeriodTable({ rows }: { rows: AdminPeriodRow[] }) {
                 <td>{LABELS[row.state]}</td>
                 <td className="num">{formatMoney(row.pool_amount ?? 0, row.currency)}</td>
                 <td className="num">{Number(row.total_pages ?? 0).toLocaleString('fr-FR')}</td>
-                <td className="num">{formatMoney(row.rate_per_page ?? 0, row.currency, 6)}</td>
+                <td className="num">{formatMoney(row.rate_per_page ?? 0, row.currency, RATE_DISPLAY_DIGITS)}</td>
                 <td className="num">{formatMoney(row.distributed, row.currency)}</td>
                 <td className="num">{formatMoney(row.undistributed ?? 0, row.currency)}</td>
                 <td className="num">{row.publishers}</td>
