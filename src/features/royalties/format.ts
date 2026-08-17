@@ -10,7 +10,7 @@
 /// l'export.
 export const RATE_DISPLAY_DIGITS = 2;
 
-/// Mois courant au format `AAAA-MM`, celui qu'attend `<input type="month">`.
+/// Mois courant au format `AAAA-MM`, celui qu'echange `MonthPicker`.
 export function currentPeriod(): string {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;

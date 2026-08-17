@@ -1,15 +1,15 @@
+import { useLocale } from '../../i18n/LocaleContext.tsx';
+import { DateField } from '../../components/ui/DateField.tsx';
+
 // Filtres de periode (E4) : jour, mois, personnalise.
 
 export type RangeKey = 'day' | 'month' | 'year' | 'custom';
 
 export type CustomRange = { from: string; to: string };
 
-const OPTIONS: { key: RangeKey; label: string }[] = [
-  { key: 'day', label: 'Jour' },
-  { key: 'month', label: 'Mois' },
-  { key: 'year', label: 'Année' },
-  { key: 'custom', label: 'Personnalisé' },
-];
+/// Les libelles viennent de l'i18n : ecrits en dur, ils restaient en francais
+/// sur un portail explicitement trilingue.
+const OPTIONS: RangeKey[] = ['day', 'month', 'year', 'custom'];
 
 const iso = (date: Date): string => date.toISOString().slice(0, 10);
 
@@ -47,34 +47,34 @@ type Props = {
 };
 
 export function PeriodPicker({ value, custom, onChange, onCustomChange }: Props) {
+  const { strings } = useLocale();
   return (
     <div className="period-picker">
       <div className="segmented">
-        {OPTIONS.map((option) => (
+        {OPTIONS.map((key) => (
           <button
-            key={option.key}
+            key={key}
             type="button"
-            className={option.key === value ? 'is-active' : ''}
-            onClick={() => onChange(option.key)}
+            className={key === value ? 'is-active' : ''}
+            onClick={() => onChange(key)}
           >
-            {option.label}
+            {strings.range[key]}
           </button>
         ))}
       </div>
       {value === 'custom' && (
         <div className="row">
-          <input
-            type="date"
+          <DateField
+            label={strings.rangeFrom}
             value={custom.from}
-            max={custom.to || undefined}
-            onChange={(event) => onCustomChange({ ...custom, from: event.target.value })}
+            maxYear={new Date().getUTCFullYear()}
+            onChange={(from) => onCustomChange({ ...custom, from })}
           />
-          <span className="muted">au</span>
-          <input
-            type="date"
+          <DateField
+            label={strings.rangeTo}
             value={custom.to}
-            min={custom.from || undefined}
-            onChange={(event) => onCustomChange({ ...custom, to: event.target.value })}
+            maxYear={new Date().getUTCFullYear()}
+            onChange={(to) => onCustomChange({ ...custom, to })}
           />
         </div>
       )}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { EmptyState } from '../../components/ui/EmptyState.tsx';
 import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
+import { MonthPicker } from '../../components/ui/MonthPicker.tsx';
 import { fetchHistory, fetchStatement } from '../../services/royaltyService.ts';
 import type { RoyaltyHistoryRow, RoyaltyStatementLine } from '../../lib/types.ts';
 import { StatementTable } from './StatementTable.tsx';
@@ -59,15 +60,12 @@ export default function RoyaltiesPage() {
 
       <div className="row row--between">
         <h2>Relevé de la période</h2>
-        <label className="field field--inline">
-          <span>Période</span>
-          <input
-            type="month"
-            value={period}
-            max={currentPeriod()}
-            onChange={(event) => setPeriod(event.target.value)}
-          />
-        </label>
+        <MonthPicker
+          label={strings.periodLabel}
+          value={period}
+          max={currentPeriod()}
+          onChange={setPeriod}
+        />
       </div>
 
       {error && <p className="error">{error}</p>}

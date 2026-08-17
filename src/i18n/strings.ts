@@ -14,6 +14,13 @@ export type Strings = {
   navPeriods: string;
   privacyTitle: string;
   heroCtaSignedIn: string;
+  rangeFrom: string;
+  rangeTo: string;
+  periodLabel: string;
+  dayLabel: string;
+  monthLabel: string;
+  yearLabel: string;
+  range: { day: string; month: string; year: string; custom: string };
   navSignOut: string;
   heroTitle: string;
   heroLead: string;
@@ -151,6 +158,10 @@ const fr: Strings = {
   navPeriods: 'Périodes',
   privacyTitle: 'Données de lecture',
   heroCtaSignedIn: 'Accéder à mon espace',
+  rangeFrom: 'Du', rangeTo: 'Au',
+  periodLabel: 'Période',
+  dayLabel: 'jour', monthLabel: 'mois', yearLabel: 'année',
+  range: { day: 'Jour', month: 'Mois', year: 'Année', custom: 'Personnalisé' },
   navSignOut: 'Se déconnecter',
   heroTitle: 'Publiez vos ouvrages. Soyez payé aux pages réellement lues.',
   heroLead:
@@ -263,6 +274,10 @@ const en: Strings = {
   navPeriods: 'Periods',
   privacyTitle: 'Reading data',
   heroCtaSignedIn: 'Go to my space',
+  rangeFrom: 'From', rangeTo: 'To',
+  periodLabel: 'Period',
+  dayLabel: 'day', monthLabel: 'month', yearLabel: 'year',
+  range: { day: 'Day', month: 'Month', year: 'Year', custom: 'Custom' },
   navSignOut: 'Sign out',
   heroTitle: 'Publish your works. Get paid for pages actually read.',
   heroLead:
@@ -370,6 +385,10 @@ const es: Strings = {
   navPeriods: 'Periodos',
   privacyTitle: 'Datos de lectura',
   heroCtaSignedIn: 'Ir a mi espacio',
+  rangeFrom: 'Desde', rangeTo: 'Hasta',
+  periodLabel: 'Periodo',
+  dayLabel: 'día', monthLabel: 'mes', yearLabel: 'año',
+  range: { day: 'Día', month: 'Mes', year: 'Año', custom: 'Personalizado' },
   navSignOut: 'Cerrar sesión',
   heroTitle: 'Publique sus obras. Cobre por las páginas realmente leídas.',
   heroLead:

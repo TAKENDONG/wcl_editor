@@ -540,3 +540,9 @@ tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
 .prose h2 { margin-top: 2rem; }
 .prose ul { padding-left: 1.2rem; color: var(--text-secondary); }
 .prose li { margin-bottom: 0.4rem; }
+
+/* Un choix de date tient en trois listes etroites : le jour et l annee n ont
+   pas besoin de la largeur d un nom de mois. */
+.field--date select { min-width: 0; }
+.field--date select:first-of-type { width: 4.2rem; }
+.field--date select:last-of-type { width: 5.6rem; }
