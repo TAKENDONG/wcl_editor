@@ -1,65 +1,301 @@
-:root {
-  --ink: #14121f; --muted: #6a6580; --line: #e4e1ee; --bg: #faf9fd;
-  --accent: #4b2fa8; --accent-soft: #efeaff;
-  --ok: #1c7a4a; --warn: #9a6212; --danger: #a32020;
-  --radius: 10px;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-}
-* { box-sizing: border-box; }
-body { margin: 0; background: var(--bg); color: var(--ink); }
-a { color: var(--accent); }
+/* ─────────────────────────────────────────────────────────────────────────────
+   Langage visuel WCL — repris des applications existantes, non réinventé.
 
-.shell { min-height: 100vh; display: flex; flex-direction: column; }
-.topbar {
-  display: flex; align-items: center; gap: 1.5rem; padding: 0.9rem 1.5rem;
-  background: #fff; border-bottom: 1px solid var(--line); flex-wrap: wrap;
+     wclAdmin  src/styles.css   fond #070a12, or #c8941a, surfaces translucides,
+                                pastilles arrondies, halo doré radial, Inter
+     wclplay   app_palette.dart thème « chocolat » par défaut, or #D4892A,
+                                Montserrat en titrage, rayon 12
+                                (+ « bleu nuit » et « émeraude » au choix)
+
+   Le portail est un frère de wclAdmin : même base sombre, même or, mêmes
+   surfaces translucides — avec le Montserrat de l'application mobile en
+   titrage, qui est la police de marque.
+   ───────────────────────────────────────────────────────────────────────────── */
+
+:root {
+  color-scheme: dark;
+
+  /* Fonds — wclAdmin */
+  --bg: #070a12;
+  --bg-card: rgba(255, 255, 255, 0.045);
+  --bg-surface: rgba(255, 255, 255, 0.07);
+  --bg-raised: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.12);
+
+  /* Or de marque */
+  --gold: #c8941a;
+  --gold-light: #e8a030;
+  --gold-ink: #101014;
+
+  /* Textes */
+  --text: #edf2ff;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+
+  /* Sémantique — teintes translucides, comme les badges de wclAdmin */
+  --ok: #86efac;
+  --ok-bg: rgba(34, 197, 94, 0.16);
+  --warn: #fcd34d;
+  --warn-bg: rgba(234, 179, 8, 0.16);
+  --danger: #fca5a5;
+  --danger-bg: rgba(239, 68, 68, 0.16);
+
+  --radius: 12px;
+  --radius-sm: 8px;
+
+  --display: 'Montserrat', ui-sans-serif, system-ui, sans-serif;
+  --body: 'Inter', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+
+  font-family: var(--body);
+  background: var(--bg);
+  color: var(--text);
 }
-.topbar__brand { font-weight: 700; letter-spacing: -0.01em; }
-.topbar nav { display: flex; gap: 1rem; flex-wrap: wrap; }
-.topbar nav a { text-decoration: none; color: var(--muted); font-size: 0.92rem; }
-.topbar nav a.is-active { color: var(--accent); font-weight: 600; }
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  /* Halo doré de wclAdmin, doublé d'un second foyer froid pour donner de la
+     profondeur sans éclaircir le fond. */
+  background:
+    radial-gradient(circle at top left, rgba(200, 148, 26, 0.14), transparent 30rem),
+    radial-gradient(circle at 82% -10%, rgba(59, 130, 246, 0.08), transparent 34rem),
+    var(--bg);
+  background-attachment: fixed;
+}
+
+a { color: var(--gold); text-decoration: none; }
+a:hover { color: var(--gold-light); }
+
+/* ── Coquille ─────────────────────────────────────────────────────────────── */
+.shell { min-height: 100vh; display: flex; flex-direction: column; }
+
+.topbar {
+  display: flex; align-items: center; gap: 1.5rem;
+  padding: 0.85rem 1.75rem; flex-wrap: wrap;
+  border-bottom: 1px solid var(--border);
+  background: rgba(7, 10, 18, 0.72);
+  backdrop-filter: blur(14px);
+  position: sticky; top: 0; z-index: 10;
+}
+.topbar__brand {
+  font-family: var(--display);
+  font-weight: 800; letter-spacing: -0.015em; font-size: 0.98rem;
+}
+/* Le point doré rappelle la pastille de marque de l'application mobile. */
+.topbar__brand::before {
+  content: ''; display: inline-block;
+  width: 0.5rem; height: 0.5rem; margin-right: 0.55rem;
+  border-radius: 999px; background: var(--gold);
+  box-shadow: 0 0 12px rgba(200, 148, 26, 0.7);
+}
+.topbar nav { display: flex; gap: 1.35rem; flex-wrap: wrap; }
+.topbar nav a {
+  color: var(--text-muted); font-size: 0.88rem; font-weight: 500;
+  padding: 0.2rem 0; border-bottom: 2px solid transparent; transition: color 0.15s;
+}
+.topbar nav a:hover { color: var(--text-secondary); }
+.topbar nav a.is-active { color: var(--text); border-bottom-color: var(--gold); }
 .topbar__spacer { margin-left: auto; }
 
-main { flex: 1; padding: 1.75rem 1.5rem 4rem; max-width: 1080px; width: 100%; margin: 0 auto; }
-h1 { font-size: 1.6rem; margin: 0 0 0.35rem; letter-spacing: -0.02em; }
-h2 { font-size: 1.1rem; margin: 2rem 0 0.75rem; }
-p.lead { color: var(--muted); max-width: 62ch; line-height: 1.6; }
+main { flex: 1; padding: 2.25rem 1.75rem 5rem; max-width: 1120px; width: 100%; margin: 0 auto; }
 
-.card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 1.1rem 1.25rem; }
-.grid { display: grid; gap: 1rem; }
-.grid--3 { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+/* ── Typographie ──────────────────────────────────────────────────────────── */
+h1 {
+  font-family: var(--display);
+  font-size: clamp(1.55rem, 1.1rem + 1.6vw, 2.35rem);
+  font-weight: 800; letter-spacing: -0.03em; line-height: 1.12;
+  margin: 0 0 0.6rem; max-width: 20ch;
+}
+h2 {
+  font-family: var(--display);
+  font-size: 1.05rem; font-weight: 700; letter-spacing: -0.01em;
+  margin: 2.5rem 0 0.9rem;
+  display: flex; align-items: center; gap: 0.7rem;
+}
+h2::after { content: ''; flex: 1; height: 1px; background: var(--border); }
 
-.field { display: block; margin-bottom: 0.9rem; }
-.field span { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.3rem; }
+p.lead { color: var(--text-secondary); max-width: 64ch; line-height: 1.68; font-size: 0.97rem; }
+.muted { color: var(--text-muted); }
+
+/* ── Surfaces ─────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.15rem 1.3rem;
+  line-height: 1.6;
+}
+.grid { display: grid; gap: 0.9rem; }
+.grid--3 { grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); }
+
+/* ── Héros ─────────────────────────────────────────────────── */
+.hero {
+  display: grid; gap: 2.5rem; align-items: start;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+}
+.hero__panel {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.35rem 1.4rem;
+  position: relative; overflow: hidden;
+}
+/* Filet doré en tête de panneau : même signal que la pastille de marque. */
+.hero__panel::before {
+  content: ''; position: absolute; inset: 0 0 auto 0; height: 2px;
+  background: linear-gradient(90deg, var(--gold), transparent 70%);
+}
+.hero__panel-label {
+  font-family: var(--display); font-size: 0.72rem; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold);
+}
+
+/* ── Étapes du modèle ───────────────────────────────────────── */
+/* Une grille de cartes laissait une carte orpheline sur la seconde rangée ;
+   la bande numérotée ne le peut pas. */
+.steps {
+  list-style: none; counter-reset: step; margin: 0; padding: 0;
+  display: grid; gap: 0.55rem;
+}
+.steps__item {
+  counter-increment: step;
+  display: grid; grid-template-columns: 2.1rem 1fr; align-items: baseline; gap: 0.9rem;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 0.95rem 1.2rem;
+  color: var(--text-secondary); line-height: 1.6;
+}
+.steps__item::before {
+  content: counter(step, decimal-leading-zero);
+  font-family: var(--display); font-weight: 800; font-size: 0.82rem;
+  color: var(--gold); letter-spacing: 0.06em;
+}
+
+/* ── FAQ ──────────────────────────────────────────────────── */
+.faq { display: grid; gap: 0.55rem; }
+.faq__item {
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 1.1rem 1.3rem;
+}
+.faq__item h3 {
+  font-family: var(--display); font-size: 0.94rem; font-weight: 700;
+  margin: 0 0 0.4rem; color: var(--text);
+}
+.faq__item p { margin: 0; color: var(--text-secondary); line-height: 1.68; font-size: 0.92rem; }
+
+.site-footer {
+  margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+  color: var(--text-muted); font-size: 0.82rem;
+}
+
+/* ── Formulaires ──────────────────────────────────────────────────────────── */
+.field { display: block; margin-bottom: 1rem; }
+.field span {
+  display: block; font-size: 0.76rem; font-weight: 600; letter-spacing: 0.04em;
+  text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.4rem;
+}
 .field input, .field select, .field textarea {
-  width: 100%; padding: 0.55rem 0.7rem; border: 1px solid var(--line);
-  border-radius: 8px; font: inherit; background: #fff; color: var(--ink);
+  width: 100%; padding: 0.6rem 0.75rem;
+  border: 1px solid var(--border-strong); border-radius: var(--radius-sm);
+  font: inherit; background: rgba(255, 255, 255, 0.03); color: var(--text);
+  transition: border-color 0.15s, background 0.15s;
 }
-.field textarea { min-height: 5rem; resize: vertical; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  outline: none; border-color: var(--gold);
+  background: rgba(255, 255, 255, 0.055);
+}
+.field textarea { min-height: 5.5rem; resize: vertical; }
+.field select option { background: #0f1420; }
 
+/* La carte suit la largeur de son contenu : une carte de 1 000 px autour d'un
+   formulaire de 46 rem se lit comme un panneau à moitié vide. */
+.card--form { max-width: 49rem; }
+
+/* Les champs courts se lisent mieux sur deux colonnes : un champ « Titre »
+   large de 1 000 px n'aide personne. */
+.form-grid {
+  display: grid; gap: 0 1.1rem;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  max-width: 46rem;
+}
+.form-grid__wide { grid-column: 1 / -1; }
+
+/* ── Actions ──────────────────────────────────────────────────────────────── */
 button {
-  font: inherit; padding: 0.55rem 1rem; border-radius: 8px; cursor: pointer;
-  border: 1px solid var(--accent); background: var(--accent); color: #fff;
+  font-family: var(--display); font-weight: 700; font-size: 0.88rem;
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  min-height: 42px; padding: 0 1.05rem;
+  border: 0; border-radius: var(--radius-sm); cursor: pointer;
+  background: var(--gold); color: var(--gold-ink);
+  transition: filter 0.15s, background 0.15s;
 }
-button.secondary { background: #fff; color: var(--accent); }
-button.danger { background: #fff; color: var(--danger); border-color: var(--danger); }
-button:disabled { opacity: 0.5; cursor: not-allowed; }
-.row { display: flex; gap: 0.5rem; flex-wrap: wrap; align-items: center; }
+button:hover:not(:disabled) { filter: brightness(1.08); }
+button.secondary { background: var(--bg-surface); color: var(--text-secondary); }
+button.secondary:hover:not(:disabled) { background: var(--bg-raised); color: var(--text); }
+button.danger { background: var(--danger-bg); color: var(--danger); }
+button:disabled { cursor: not-allowed; opacity: 0.55; }
+.row { display: flex; gap: 0.6rem; flex-wrap: wrap; align-items: center; }
 
-table { width: 100%; border-collapse: collapse; font-size: 0.92rem; }
-th, td { text-align: left; padding: 0.6rem 0.5rem; border-bottom: 1px solid var(--line); }
-th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+/* ── Tableaux ─────────────────────────────────────────────────────────────── */
+table {
+  width: 100%; border-collapse: collapse; font-size: 0.9rem;
+  background: var(--bg-card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+}
+th, td { text-align: left; padding: 0.8rem 1rem; border-bottom: 1px solid var(--border); }
+th {
+  color: var(--text-muted); font-weight: 600; font-size: 0.72rem;
+  text-transform: uppercase; letter-spacing: 0.07em;
+  background: rgba(255, 255, 255, 0.02);
+}
+tbody tr:last-child td { border-bottom: 0; }
+tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
 
+/* ── Pastilles ────────────────────────────────────────────────────────────── */
 .badge {
-  display: inline-block; padding: 0.15rem 0.5rem; border-radius: 999px;
-  font-size: 0.75rem; font-weight: 600; background: var(--accent-soft); color: var(--accent);
+  display: inline-flex; align-items: center; min-height: 26px; padding: 0 0.65rem;
+  border-radius: 999px; font-size: 0.74rem; font-weight: 600;
+  background: rgba(148, 163, 184, 0.16); color: var(--text-secondary);
+  white-space: nowrap;
 }
-.badge--ok { background: #e3f5eb; color: var(--ok); }
-.badge--warn { background: #fdf2df; color: var(--warn); }
-.badge--danger { background: #fbe9e9; color: var(--danger); }
+.badge--ok { background: var(--ok-bg); color: var(--ok); }
+.badge--warn { background: var(--warn-bg); color: var(--warn); }
+.badge--danger { background: var(--danger-bg); color: var(--danger); }
 
-.notice { border-left: 3px solid var(--accent); background: var(--accent-soft); padding: 0.85rem 1rem; border-radius: 0 8px 8px 0; line-height: 1.55; }
-.notice--empty { border-color: var(--muted); background: #f1f0f6; color: var(--muted); }
+/* ── Encarts ──────────────────────────────────────────────────────────────── */
+.notice {
+  border: 1px solid rgba(200, 148, 26, 0.28);
+  border-left: 3px solid var(--gold);
+  background: rgba(200, 148, 26, 0.07);
+  padding: 0.95rem 1.15rem; border-radius: 0 var(--radius) var(--radius) 0;
+  line-height: 1.6; color: var(--text-secondary);
+}
+.notice strong { color: var(--text); }
+.notice--empty {
+  border-color: var(--border); border-left-color: var(--text-muted);
+  background: var(--bg-card); color: var(--text-muted);
+}
 .error { color: var(--danger); font-size: 0.9rem; }
-.muted { color: var(--muted); }
-.formula { font-family: 'SFMono-Regular', ui-monospace, monospace; background: #f1f0f6; padding: 0.75rem 1rem; border-radius: 8px; font-size: 0.9rem; }
+
+/* La formule est l'engagement central du portail : elle se lit comme une
+   citation, pas comme un bloc de code perdu dans la page. */
+.formula {
+  font-family: ui-monospace, 'SFMono-Regular', monospace;
+  background: linear-gradient(180deg, rgba(200, 148, 26, 0.1), rgba(200, 148, 26, 0.04));
+  border: 1px solid rgba(200, 148, 26, 0.25);
+  padding: 1.15rem 1.3rem; border-radius: var(--radius);
+  font-size: 0.86rem; line-height: 1.9; color: var(--text);
+  margin: 0; white-space: pre-wrap; overflow-x: auto;
+}
+
+@media (max-width: 900px) {
+  .hero { grid-template-columns: 1fr; gap: 1.75rem; }
+}
+
+@media (max-width: 640px) {
+  main { padding: 1.5rem 1.1rem 4rem; }
+  .steps__item { grid-template-columns: 1.7rem 1fr; gap: 0.6rem; padding: 0.85rem 1rem; }
+  .topbar { padding: 0.75rem 1.1rem; gap: 1rem; }
+  .topbar nav { gap: 0.9rem; width: 100%; order: 3; }
+}

@@ -2,6 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { decideReview, fetchDuplicates, fetchReviewQueue } from '../../services/reviewService.ts';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { StateBadge } from '../../components/ui/StateBadge.tsx';
+import { RightsLabel } from '../../components/ui/RightsLabel.tsx';
 import type { DuplicateHint, ReviewDecision, ReviewItem } from '../../lib/types.ts';
 
 // Module D — file de validation WCL. Reservee aux membres d'admin_users : la
@@ -71,7 +72,8 @@ export default function ReviewQueuePage() {
           </div>
           <p className="muted" style={{ margin: '0.35rem 0' }}>
             {item.authors} · {item.publisher_name} · {item.language.toUpperCase()}
-            {item.isbn ? ` · ISBN ${item.isbn}` : ''} · droits déclarés : {item.declared_rights}
+            {item.isbn ? ` · ISBN ${item.isbn}` : ''} · droits déclarés :{' '}
+            <RightsLabel status={item.declared_rights} />
           </p>
 
           <label className="field">

@@ -2,48 +2,66 @@ import { Link } from 'react-router-dom';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 
 // Module A — vitrine publique, accessible sans compte, en FR / EN / ES.
+//
+// Le héros est en deux colonnes sur grand écran : le discours à gauche, la
+// FORMULE à droite. C'est elle l'argument du portail — la montrer avant même
+// l'inscription vaut mieux que de la promettre, et elle occupe une largeur qui
+// resterait sinon vide.
 export default function VitrinePage() {
   const { strings } = useLocale();
 
+  const model = [
+    strings.modelPool,
+    strings.modelPage,
+    strings.modelValidated,
+    strings.modelRate,
+    strings.modelPublicDomain,
+  ];
+
   return (
     <>
-      <h1>{strings.heroTitle}</h1>
-      <p className="lead">{strings.heroLead}</p>
-      <div className="row" style={{ marginTop: '1.25rem' }}>
-        <Link to="/inscription"><button type="button">{strings.heroCta}</button></Link>
-        <Link to="/connexion"><button type="button" className="secondary">{strings.signIn}</button></Link>
-      </div>
+      <section className="hero">
+        <div>
+          <h1>{strings.heroTitle}</h1>
+          <p className="lead">{strings.heroLead}</p>
+          <div className="row" style={{ marginTop: '1.5rem' }}>
+            <Link to="/inscription"><button type="button">{strings.heroCta}</button></Link>
+            <Link to="/connexion">
+              <button type="button" className="secondary">{strings.signIn}</button>
+            </Link>
+          </div>
+        </div>
+
+        <aside className="hero__panel">
+          <span className="hero__panel-label">{strings.heroPanelTitle}</span>
+          <pre className="formula" style={{ margin: '0.75rem 0 0' }}>
+{strings.formulaRate}
+{'\n'}{strings.formulaShare}
+          </pre>
+          <p className="muted" style={{ fontSize: '0.85rem', margin: '0.9rem 0 0', lineHeight: 1.6 }}>
+            {strings.heroPanelNote}
+          </p>
+        </aside>
+      </section>
 
       <h2>{strings.modelTitle}</h2>
-      <div className="grid grid--3">
-        <div className="card">{strings.modelPool}</div>
-        <div className="card">{strings.modelPage}</div>
-        <div className="card">{strings.modelValidated}</div>
-        <div className="card">{strings.modelRate}</div>
-        <div className="card">{strings.modelPublicDomain}</div>
-      </div>
+      <ol className="steps">
+        {model.map((line) => <li key={line} className="steps__item">{line}</li>)}
+      </ol>
 
       <h2>{strings.faqTitle}</h2>
-      <div className="card">
-        <p style={{ marginTop: 0 }}>
-          <strong>Comment vérifier mon relevé ?</strong><br />
-          <span className="muted">
-            Chaque période publie le montant du pool, le total des pages validées de la
-            plateforme et le taux par page. Multipliez vos pages validées par ce taux :
-            vous devez retrouver votre part, au centime près.
-          </span>
-        </p>
-        <p>
-          <strong>Que protège exactement WCL ?</strong><br />
-          <span className="muted">
-            Vos fichiers sont stockés dans un espace privé, servis par des liens qui expirent
-            en quinze minutes, tronqués à un aperçu pour les non-abonnés, et chiffrés sur
-            l’appareil de chaque lecteur. Il n’y a en revanche ni DRM industriel, ni filigrane
-            par lecteur, ni effacement à distance : nous préférons l’écrire ici plutôt que de
-            le laisser supposer.
-          </span>
-        </p>
+      <div className="faq">
+        <div className="faq__item">
+          <h3>{strings.faqVerifyQ}</h3>
+          <p>{strings.faqVerifyA}</p>
+        </div>
+        <div className="faq__item">
+          <h3>{strings.faqProtectQ}</h3>
+          <p>{strings.faqProtectA}</p>
+        </div>
       </div>
+
+      <footer className="site-footer">{strings.footerNote}</footer>
     </>
   );
 }

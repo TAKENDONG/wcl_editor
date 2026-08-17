@@ -47,16 +47,18 @@ export function SubmissionForm({ publisherId, onDone }: {
   }
 
   return (
-    <form className="card" onSubmit={(event) => void run(false, event)}>
-      <h2 style={{ marginTop: 0 }}>{strings.newWork}</h2>
+    <form className="card card--form" onSubmit={(event) => void run(false, event)}>
+      <div className="form-grid">
       <TextField label={strings.title} value={draft.title} onChange={(v) => patch({ title: v })} required />
       <TextField label={strings.authors} value={draft.authors} onChange={(v) => patch({ authors: v })} required />
       <SelectField label={strings.language} value={draft.language} onChange={(v) => patch({ language: v })}>
         <option value="fr">Français</option><option value="en">English</option><option value="es">Español</option>
       </SelectField>
       <TextField label={strings.isbn} value={draft.isbn} onChange={(v) => patch({ isbn: v })} />
-      <TextAreaField label={strings.description} value={draft.description}
-                     onChange={(v) => patch({ description: v })} />
+      <div className="form-grid__wide">
+        <TextAreaField label={strings.description} value={draft.description}
+                       onChange={(v) => patch({ description: v })} />
+      </div>
 
       <SelectField label={strings.rightsDeclaration} value={rights}
                    onChange={(v) => setRights(v as RightsStatus)}>
@@ -66,6 +68,7 @@ export function SubmissionForm({ publisherId, onDone }: {
       </SelectField>
       <TextField label={strings.territories} value={territories} onChange={setTerritories}
                  placeholder="CM, FR, BE" />
+      </div>
 
       {error && <p className="error">{error}</p>}
       <div className="row">

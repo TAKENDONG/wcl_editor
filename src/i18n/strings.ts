@@ -54,6 +54,15 @@ export type Strings = {
   reject: string;
   reviewNotes: string;
   duplicates: string;
+  faqVerifyQ: string;
+  faqVerifyA: string;
+  faqProtectQ: string;
+  faqProtectA: string;
+  heroPanelTitle: string;
+  heroPanelNote: string;
+  footerNote: string;
+  formulaRate: string;
+  formulaShare: string;
 };
 
 const fr: Strings = {
@@ -94,6 +103,24 @@ const fr: Strings = {
   reviewTitle: 'File de validation',
   approve: 'Approuver', requestChanges: 'Demander une correction', reject: 'Rejeter',
   reviewNotes: 'Motif (obligatoire sauf approbation)', duplicates: 'Doublons probables',
+  faqVerifyQ: 'Comment vérifier mon relevé ?',
+  faqVerifyA:
+    'Chaque période publie le montant du pool, le total des pages validées de la plateforme et ' +
+    'le taux par page. Multipliez vos pages validées par ce taux : vous devez retrouver votre ' +
+    'part, au centime près.',
+  faqProtectQ: 'Que protège exactement WCL ?',
+  faqProtectA:
+    'Vos fichiers sont stockés dans un espace privé, servis par des liens qui expirent en quinze ' +
+    'minutes, tronqués à un aperçu pour les non-abonnés, et chiffrés sur l’appareil de chaque ' +
+    'lecteur. Il n’y a en revanche ni DRM industriel, ni filigrane par lecteur, ni effacement à ' +
+    'distance : nous préférons l’écrire ici plutôt que de le laisser supposer.',
+  heroPanelTitle: 'La formule, publiée',
+  heroPanelNote:
+    'Ni barème négocié, ni part discrétionnaire. Le même calcul pour tous, recalculable par ' +
+    'chacun à partir des chiffres publiés.',
+  footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
+  formulaRate:  'taux_par_page = pool ÷ pages_validées_totales',
+  formulaShare: 'votre_part    = vos_pages_validées × taux_par_page',
 };
 
 const en: Strings = {
@@ -131,6 +158,23 @@ const en: Strings = {
   reviewTitle: 'Review queue',
   approve: 'Approve', requestChanges: 'Request changes', reject: 'Reject',
   reviewNotes: 'Reason (required unless approving)', duplicates: 'Likely duplicates',
+  faqVerifyQ: 'How do I verify my statement?',
+  faqVerifyA:
+    'Every period publishes the pool amount, the platform’s total validated pages and the rate ' +
+    'per page. Multiply your validated pages by that rate: you must find your share, to the cent.',
+  faqProtectQ: 'What exactly does WCL protect?',
+  faqProtectA:
+    'Your files sit in private storage, are served through links that expire in fifteen minutes, ' +
+    'are truncated to a preview for non-subscribers, and are encrypted on each reader’s device. ' +
+    'There is however no industrial DRM, no per-reader watermark and no remote wipe: we would ' +
+    'rather write that here than let it be assumed.',
+  heroPanelTitle: 'The formula, published',
+  heroPanelNote:
+    'No negotiated rate, no discretionary share. The same calculation for everyone, recomputable ' +
+    'by anyone from the published figures.',
+  footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
+  formulaRate:  'rate_per_page = pool ÷ total_validated_pages',
+  formulaShare: 'your_share    = your_validated_pages × rate_per_page',
 };
 
 const es: Strings = {
@@ -169,6 +213,24 @@ const es: Strings = {
   reviewTitle: 'Cola de validación',
   approve: 'Aprobar', requestChanges: 'Solicitar corrección', reject: 'Rechazar',
   reviewNotes: 'Motivo (obligatorio salvo aprobación)', duplicates: 'Duplicados probables',
+  faqVerifyQ: '¿Cómo verificar mi liquidación?',
+  faqVerifyA:
+    'Cada período publica el importe del fondo, el total de páginas validadas de la plataforma y ' +
+    'la tasa por página. Multiplique sus páginas validadas por esa tasa: debe encontrar su parte, ' +
+    'al céntimo.',
+  faqProtectQ: '¿Qué protege exactamente WCL?',
+  faqProtectA:
+    'Sus archivos se guardan en un espacio privado, se sirven mediante enlaces que caducan en ' +
+    'quince minutos, se truncan a una vista previa para los no suscriptores y se cifran en el ' +
+    'dispositivo de cada lector. En cambio no hay DRM industrial, ni marca de agua por lector, ni ' +
+    'borrado remoto: preferimos escribirlo aquí antes que dejarlo suponer.',
+  heroPanelTitle: 'La fórmula, publicada',
+  heroPanelNote:
+    'Ni tarifa negociada, ni parte discrecional. El mismo cálculo para todos, recalculable por ' +
+    'cualquiera a partir de las cifras publicadas.',
+  footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
+  formulaRate:  'tasa_por_pagina = fondo ÷ paginas_validadas_totales',
+  formulaShare: 'su_parte        = sus_paginas_validadas × tasa_por_pagina',
 };
 
 export const STRINGS: Record<Locale, Strings> = { fr, en, es };

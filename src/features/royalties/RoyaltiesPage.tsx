@@ -9,10 +9,10 @@ export default function RoyaltiesPage() {
     <>
       <h1>{strings.navRoyalties}</h1>
       <h2>La formule</h2>
-      <p className="formula">
-        taux_par_page = pool ÷ total_pages_validées_de_la_plateforme<br />
-        votre_part = vos_pages_validées × taux_par_page
-      </p>
+      <pre className="formula">
+{strings.formulaRate}
+{'\n'}{strings.formulaShare}
+      </pre>
       <p className="lead">
         Le pool vaut 30 % de la recette nette des abonnements de la période. Les titres du
         domaine public ne perçoivent rien mais <strong>comptent</strong> dans le total des pages
