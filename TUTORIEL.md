@@ -206,6 +206,30 @@ Comptes de démonstration locaux uniquement.
 
 ---
 
+## 9 bis. Nouveaux parcours
+
+**Compte** (`/compte`) — signature électronique du contrat, équipe et rôles
+(inviter, changer de rôle, révoquer ; le dernier administrateur ne peut pas
+l'être), pièces justificatives, coordonnées de versement et informations
+fiscales *réservées aux rôles administrateur et comptable*, double
+authentification TOTP.
+
+À constater : connectez-vous en **bob@auteur.fr** (comptable d'Editions Alpha)
+— il voit les versements mais le serveur lui refuse le dépôt d'un ouvrage.
+
+**Conditions générales** (`/conditions`) — publiques, liées depuis l'accueil.
+Elles énoncent aussi ce qui n'est **pas** garanti en matière de protection.
+
+**Import en masse** — en bas du catalogue. Téléchargez le modèle, remplissez-le,
+réimportez : chaque ligne devient un brouillon. Le fichier de chaque ouvrage
+s'attache ensuite, un à un.
+
+**Dépôt de fichier** — le fichier part dans un compartiment privé, puis le
+**serveur** le mesure et renvoie le nombre de pages normalisées. Ce nombre
+n'est jamais calculé par le navigateur : c'est l'assiette de la rémunération.
+
+---
+
 ## 10. Ce qui n'est PAS encore là
 
 Pour que ce tutoriel ne laisse rien supposer de faux :
@@ -213,12 +237,10 @@ Pour que ce tutoriel ne laisse rien supposer de faux :
 | Manque | Conséquence |
 |---|---|
 | **Sonde de lecture** | Modules E et F vides. C'est le chemin critique : livraison applicative, puis un mois d'accumulation, puis deux périodes à blanc. |
-| **Dépôt de fichier vers R2** | Le champ fichier est simulé en SQL dans ce tutoriel. |
-| **Import en masse** | L'analyseur XLSX de wclAdmin est réutilisable tel quel (`BulkContentImportPage.tsx`). |
-| **Équipe multi-utilisateurs (invitations)** | Le modèle et les rôles existent (`publisher_members`, trois rôles) ; l'écran d'invitation reste à faire. |
-| **Signature électronique du contrat** | Les colonnes existent (`contract_signed_at`, `contract_version`) ; le parcours non. |
-| **Versements** | Aucun rail branché. Ils n'ouvriront qu'après deux périodes calculées à blanc. |
-| **2FA** | Exigée par le cahier. Supabase GoTrue la propose ; elle n'est pas activée. |
+| **Conversion assistée des PDF** | Le PDF est accepté au dépôt mais **refusé à la mesure** : ses pages ne peuvent pas être comptées en l'état. |
+| **Historique des versions de fichier** | La table existe et est alimentée à chaque dépôt ; aucun écran ne l'affiche encore. |
+| **Conformité à la ligne éditoriale** | Aucun outillage : c'est un jugement humain, la file de validation le permet mais ne l'assiste pas. |
+| **Versements réels** | Aucun rail branché. Ils n'ouvriront qu'après deux périodes calculées à blanc. |
 
 ---
 
