@@ -546,3 +546,31 @@ tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
 .field--date select { min-width: 0; }
 .field--date select:first-of-type { width: 4.2rem; }
 .field--date select:last-of-type { width: 5.6rem; }
+
+/* ── Etroit : les barres de controles se replient ──────────────────────────
+   MESURE A 390 px : le selecteur de mois demandait 375 px dans une zone de
+   354 px, et faisait defiler la PAGE ENTIERE de 3 px. Un defilement lateral de
+   page fait disparaitre l'en-tete et la navigation des qu'on regarde un
+   tableau — les tableaux, eux, defilent DANS leur conteneur, ce qui est voulu.
+*/
+@media (max-width: 640px) {
+  .field--inline { flex-wrap: wrap; }
+  .field--inline span { flex-basis: 100%; }
+  .field--inline select,
+  .field--inline input,
+  .period-picker input { min-width: 0; flex: 1 1 6.5rem; }
+  .field--date select:first-of-type { width: auto; flex: 0 1 4.2rem; }
+  .field--date select:last-of-type { width: auto; flex: 0 1 5.4rem; }
+  .row--between { align-items: flex-start; }
+  .period-picker { width: 100%; }
+  /* Une barre de filtres etroite se lit mieux empilee qu'en colonnes serrees. */
+  .segmented { width: 100%; }
+  .segmented button { flex: 1 1 0; padding-inline: 0.4rem; }
+}
+
+/* Cible tactile : 42 px passe a 44 px au doigt, seuil en deca duquel un appui
+   manque sa cible une fois sur plusieurs. */
+@media (pointer: coarse) {
+  :root { --control-h: 44px; }
+  button { min-height: 44px; }
+}
