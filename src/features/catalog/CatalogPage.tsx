@@ -5,6 +5,7 @@ import { withdrawSubmission } from '../../services/submissionService.ts';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { StateBadge } from '../../components/ui/StateBadge.tsx';
 import { SubmissionForm } from './SubmissionForm.tsx';
+import { BulkImport } from './BulkImport.tsx';
 
 // Module C — catalogue de l'editeur. Le composant n'accede jamais a Supabase
 // directement : tout passe par les hooks et le service.
@@ -79,6 +80,11 @@ export default function CatalogPage() {
       <h2>{strings.newWork}</h2>
       {publisherId && (
         <SubmissionForm publisherId={publisherId} onDone={() => { void reload(); void reloadPublishers(); }} />
+      )}
+
+      <h2>{strings.bulkTitle}</h2>
+      {publisherId && (
+        <BulkImport publisherId={publisherId} onDone={() => { void reload(); void reloadPublishers(); }} />
       )}
     </>
   );

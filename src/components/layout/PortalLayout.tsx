@@ -15,6 +15,7 @@ export function PortalLayout({ signedIn }: { signedIn: boolean }) {
         <span className="topbar__brand">{strings.brand}</span>
         <nav>
           <NavLink to="/" className={cls} end>{strings.navVitrine}</NavLink>
+          {signedIn && <NavLink to="/compte" className={cls}>{strings.navAccount}</NavLink>}
           {signedIn && <NavLink to="/catalogue" className={cls}>{strings.navCatalog}</NavLink>}
           {signedIn && <NavLink to="/statistiques" className={cls}>{strings.navAnalytics}</NavLink>}
           {signedIn && <NavLink to="/redevances" className={cls}>{strings.navRoyalties}</NavLink>}

@@ -4,6 +4,8 @@ import { useAuth } from '../hooks/useAuth.ts';
 import VitrinePage from '../features/vitrine/VitrinePage.tsx';
 import SignInPage from '../features/auth/SignInPage.tsx';
 import RegisterPage from '../features/account/RegisterPage.tsx';
+import AccountPage from '../features/account/AccountPage.tsx';
+import TermsPage from '../features/legal/TermsPage.tsx';
 import CatalogPage from '../features/catalog/CatalogPage.tsx';
 import ReviewQueuePage from '../features/review/ReviewQueuePage.tsx';
 import AnalyticsPage from '../features/analytics/AnalyticsPage.tsx';
@@ -26,8 +28,10 @@ export function App() {
     <Routes>
       <Route element={<PortalLayout signedIn={signedIn} />}>
         <Route index element={<VitrinePage />} />
+        <Route path="/conditions" element={<TermsPage />} />
         <Route path="/connexion" element={signedIn ? <Navigate to="/catalogue" replace /> : <SignInPage />} />
         <Route path="/inscription" element={guard(<RegisterPage />)} />
+        <Route path="/compte" element={guard(<AccountPage />)} />
         <Route path="/catalogue" element={guard(<CatalogPage />)} />
         <Route path="/statistiques" element={guard(<AnalyticsPage />)} />
         <Route path="/redevances" element={guard(<RoyaltiesPage />)} />

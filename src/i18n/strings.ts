@@ -81,6 +81,64 @@ export type Strings = {
   sectionRights: string;
   coverHint: string;
   working: string;
+  navAccount: string;
+  accountLead: string;
+  noPublisher: string;
+  sectionTeam: string;
+  sectionContract: string;
+  sectionPayout: string;
+  sectionDocuments: string;
+  role: string;
+  invite: string;
+  inviteHint: string;
+  revoke: string;
+  sign: string;
+  signatureName: string;
+  contractIntro: string;
+  contractAgree: string;
+  contractSigned: string;
+  contractTermPool: string;
+  contractTermPage: string;
+  contractTermCap: string;
+  contractTermProvisional: string;
+  payoutMethod: string;
+  payoutReference: string;
+  payoutHint: string;
+  payoutRestricted: string;
+  bankTransfer: string;
+  currency: string;
+  taxId: string;
+  taxRegime: string;
+  saved: string;
+  docIdentity: string;
+  docLegal: string;
+  docRights: string;
+  docHint: string;
+  docPrivacy: string;
+  docPending: string;
+  docAccepted: string;
+  docRejected: string;
+  termsTitle: string;
+  termsIntro: string;
+  termsAuthoritative: string;
+  backHome: string;
+  bulkTitle: string;
+  bulkPick: string;
+  bulkHint: string;
+  bulkReady: string;
+  bulkCreated: string;
+  bulkImport: string;
+  bulkTemplate: string;
+  bulkNote: string;
+  sectionSecurity: string;
+  mfaIntro: string;
+  mfaEnable: string;
+  mfaScan: string;
+  mfaCode: string;
+  mfaConfirm: string;
+  mfaActive: string;
+  mfaRemove: string;
+  cancel: string;
 };
 
 const fr: Strings = {
@@ -151,6 +209,44 @@ const fr: Strings = {
   sectionFiles: 'Fichiers', sectionRights: 'Droits',
   coverHint: 'JPG ou PNG, format portrait de préférence.',
   working: 'Envoi en cours…',
+  navAccount: 'Compte', accountLead: 'Votre structure, votre équipe, votre contrat et vos coordonnées de versement.',
+  noPublisher: 'Aucun espace éditeur n’est rattaché à ce compte.',
+  sectionTeam: 'Équipe et rôles', sectionContract: 'Contrat', sectionPayout: 'Versements',
+  sectionDocuments: 'Pièces justificatives',
+  role: 'Rôle', invite: 'Inviter', revoke: 'Révoquer',
+  inviteHint: 'La personne doit déjà avoir un compte WCL : nous ne créons jamais de compte au nom d’un tiers.',
+  sign: 'Signer électroniquement', signatureName: 'Nom et prénom du signataire',
+  contractIntro: 'En signant, vous acceptez les règles de rémunération du portail. Elles sont publiées et identiques pour tous les éditeurs.',
+  contractAgree: 'Je déclare détenir les droits de distribution numérique des ouvrages que je dépose, et j’accepte les termes ci-dessus.',
+  contractSigned: 'Contrat signé',
+  contractTermPool: 'Le pool vaut 30 % de la recette nette des abonnements de la période.',
+  contractTermPage: 'Une page rémunérée = 1 800 signes de texte courant, mesurés par WCL sur le fichier déposé. La rémunération porte sur les pages effectivement parcourues, jamais sur la longueur totale de l’ouvrage.',
+  contractTermCap: 'Aucun éditeur ne peut dépasser 25 % du pool d’une période sans revue manuelle.',
+  contractTermProvisional: 'Les plafonds de lecture sont provisoires et seront recalibrés à l’issue de la période d’observation, à la hausse comme à la baisse.',
+  payoutMethod: 'Moyen de versement', payoutReference: 'Référence (numéro ou IBAN)',
+  bankTransfer: 'Virement bancaire', currency: 'Devise',
+  taxId: 'Identifiant fiscal', taxRegime: 'Régime fiscal', saved: 'Enregistré.',
+  payoutHint: 'Ces informations ne sont visibles que des rôles administrateur et comptable.',
+  payoutRestricted: 'Réservé aux rôles administrateur et comptable.',
+  docIdentity: 'Pièce d’identité du responsable', docLegal: 'Existence légale de la structure',
+  docRights: 'Attestation de détention des droits',
+  docHint: 'PDF ou image.', docPending: 'En attente', docAccepted: 'Acceptée', docRejected: 'Refusée',
+  docPrivacy: 'Ces pièces sont déposées dans un espace privé et ne sont jamais re-servies par l’API. Seule l’équipe WCL les consulte.',
+  termsTitle: 'Conditions générales',
+  termsIntro: 'Les règles applicables à tout auteur ou éditeur qui dépose un ouvrage sur WCL. Elles sont publiques, et identiques pour tous.',
+  termsAuthoritative: 'La version française fait foi.',
+  backHome: 'Retour à l’accueil',
+  bulkTitle: 'Import en masse', bulkPick: 'Fichier CSV ou XLSX',
+  bulkHint: 'Colonnes : titre, sous-titre, auteurs, langue, isbn, edition, description, categories, mots-cles.',
+  bulkReady: 'lignes lues — prêtes à importer.', bulkCreated: 'brouillons créés.',
+  bulkImport: 'Importer', bulkTemplate: 'Télécharger le modèle',
+  bulkNote: 'L’import crée des brouillons de métadonnées. Chaque ouvrage a besoin de son propre fichier : attachez-les ensuite, un à un.',
+  sectionSecurity: 'Sécurité',
+  mfaIntro: 'La double authentification protège votre catalogue et vos coordonnées de versement. Elle est exigée par le cahier des charges pour les comptes éditeurs.',
+  mfaEnable: 'Activer la double authentification',
+  mfaScan: 'Scannez ce code avec votre application d’authentification, puis saisissez le code à six chiffres. Conservez la clé ci-dessous : elle permet de reconfigurer un nouvel appareil.',
+  mfaCode: 'Code à six chiffres', mfaConfirm: 'Confirmer', mfaActive: 'Active',
+  mfaRemove: 'Désactiver', cancel: 'Annuler',
 };
 
 const en: Strings = {
@@ -217,6 +313,44 @@ const en: Strings = {
   sectionFiles: 'Files', sectionRights: 'Rights',
   coverHint: 'JPG or PNG, portrait format preferred.',
   working: 'Sending…',
+  navAccount: 'Account', accountLead: 'Your organisation, your team, your contract and your payout details.',
+  noPublisher: 'No publisher workspace is attached to this account.',
+  sectionTeam: 'Team and roles', sectionContract: 'Contract', sectionPayout: 'Payouts',
+  sectionDocuments: 'Supporting documents',
+  role: 'Role', invite: 'Invite', revoke: 'Revoke',
+  inviteHint: 'The person must already have a WCL account: we never create an account on someone else’s behalf.',
+  sign: 'Sign electronically', signatureName: 'Signatory’s full name',
+  contractIntro: 'By signing you accept the portal’s remuneration rules. They are published and identical for every publisher.',
+  contractAgree: 'I declare that I hold the digital distribution rights to the works I submit, and I accept the terms above.',
+  contractSigned: 'Contract signed',
+  contractTermPool: 'The pool equals 30% of the period’s net subscription revenue.',
+  contractTermPage: 'One paid page = 1,800 characters of running text, measured by WCL on the submitted file. Payment covers pages actually traversed, never the work’s total length.',
+  contractTermCap: 'No publisher may exceed 25% of a period’s pool without manual review.',
+  contractTermProvisional: 'Reading caps are provisional and will be recalibrated after the observation period, upwards or downwards.',
+  payoutMethod: 'Payout method', payoutReference: 'Reference (number or IBAN)',
+  bankTransfer: 'Bank transfer', currency: 'Currency',
+  taxId: 'Tax identifier', taxRegime: 'Tax regime', saved: 'Saved.',
+  payoutHint: 'These details are visible only to the admin and finance roles.',
+  payoutRestricted: 'Restricted to the admin and finance roles.',
+  docIdentity: 'Identity document of the responsible person', docLegal: 'Legal existence of the organisation',
+  docRights: 'Rights-holding attestation',
+  docHint: 'PDF or image.', docPending: 'Pending', docAccepted: 'Accepted', docRejected: 'Rejected',
+  docPrivacy: 'These documents are stored privately and are never re-served by the API. Only the WCL team reviews them.',
+  termsTitle: 'Terms and conditions',
+  termsIntro: 'The rules applying to any author or publisher who submits a work to WCL. They are public, and identical for everyone.',
+  termsAuthoritative: 'The French version is authoritative.',
+  backHome: 'Back to home',
+  bulkTitle: 'Bulk import', bulkPick: 'CSV or XLSX file',
+  bulkHint: 'Columns: title, subtitle, authors, language, isbn, edition, description, categories, keywords.',
+  bulkReady: 'rows read — ready to import.', bulkCreated: 'drafts created.',
+  bulkImport: 'Import', bulkTemplate: 'Download template',
+  bulkNote: 'Bulk import creates metadata drafts. Each work needs its own file: attach them afterwards, one by one.',
+  sectionSecurity: 'Security',
+  mfaIntro: 'Two-factor authentication protects your catalogue and your payout details. The specification requires it for publisher accounts.',
+  mfaEnable: 'Enable two-factor authentication',
+  mfaScan: 'Scan this code with your authenticator app, then enter the six-digit code. Keep the key below: it lets you set up a new device.',
+  mfaCode: 'Six-digit code', mfaConfirm: 'Confirm', mfaActive: 'Active',
+  mfaRemove: 'Disable', cancel: 'Cancel',
 };
 
 const es: Strings = {
@@ -285,6 +419,44 @@ const es: Strings = {
   sectionFiles: 'Archivos', sectionRights: 'Derechos',
   coverHint: 'JPG o PNG, preferiblemente en formato vertical.',
   working: 'Enviando…',
+  navAccount: 'Cuenta', accountLead: 'Su estructura, su equipo, su contrato y sus datos de pago.',
+  noPublisher: 'Ningún espacio de editor está vinculado a esta cuenta.',
+  sectionTeam: 'Equipo y roles', sectionContract: 'Contrato', sectionPayout: 'Pagos',
+  sectionDocuments: 'Documentos justificativos',
+  role: 'Rol', invite: 'Invitar', revoke: 'Revocar',
+  inviteHint: 'La persona debe tener ya una cuenta WCL: nunca creamos una cuenta en nombre de un tercero.',
+  sign: 'Firmar electrónicamente', signatureName: 'Nombre completo del firmante',
+  contractIntro: 'Al firmar acepta las reglas de remuneración del portal. Son públicas e idénticas para todos los editores.',
+  contractAgree: 'Declaro poseer los derechos de distribución digital de las obras que deposito y acepto los términos anteriores.',
+  contractSigned: 'Contrato firmado',
+  contractTermPool: 'El fondo equivale al 30 % de los ingresos netos por suscripción del período.',
+  contractTermPage: 'Una página remunerada = 1 800 caracteres de texto corrido, medidos por WCL sobre el archivo depositado. Se paga por páginas realmente recorridas, nunca por la longitud total.',
+  contractTermCap: 'Ningún editor puede superar el 25 % del fondo de un período sin revisión manual.',
+  contractTermProvisional: 'Los límites de lectura son provisionales y se recalibrarán tras el período de observación.',
+  payoutMethod: 'Medio de pago', payoutReference: 'Referencia (número o IBAN)',
+  bankTransfer: 'Transferencia bancaria', currency: 'Moneda',
+  taxId: 'Identificador fiscal', taxRegime: 'Régimen fiscal', saved: 'Guardado.',
+  payoutHint: 'Estos datos solo son visibles para los roles de administrador y contable.',
+  payoutRestricted: 'Reservado a los roles de administrador y contable.',
+  docIdentity: 'Documento de identidad del responsable', docLegal: 'Existencia legal de la estructura',
+  docRights: 'Certificado de titularidad de derechos',
+  docHint: 'PDF o imagen.', docPending: 'Pendiente', docAccepted: 'Aceptado', docRejected: 'Rechazado',
+  docPrivacy: 'Estos documentos se guardan en un espacio privado y nunca son re-servidos por la API.',
+  termsTitle: 'Condiciones generales',
+  termsIntro: 'Las reglas aplicables a todo autor o editor que deposite una obra en WCL. Son públicas e idénticas para todos.',
+  termsAuthoritative: 'La versión francesa es la que da fe.',
+  backHome: 'Volver al inicio',
+  bulkTitle: 'Importación masiva', bulkPick: 'Archivo CSV o XLSX',
+  bulkHint: 'Columnas: título, subtítulo, autores, idioma, isbn, edición, descripción, categorías, palabras clave.',
+  bulkReady: 'filas leídas — listas para importar.', bulkCreated: 'borradores creados.',
+  bulkImport: 'Importar', bulkTemplate: 'Descargar plantilla',
+  bulkNote: 'La importación crea borradores de metadatos. Cada obra necesita su propio archivo.',
+  sectionSecurity: 'Seguridad',
+  mfaIntro: 'La doble autenticación protege su catálogo y sus datos de pago. El pliego la exige para las cuentas de editor.',
+  mfaEnable: 'Activar la doble autenticación',
+  mfaScan: 'Escanee este código con su aplicación de autenticación y escriba el código de seis dígitos. Conserve la clave: permite configurar un nuevo dispositivo.',
+  mfaCode: 'Código de seis dígitos', mfaConfirm: 'Confirmar', mfaActive: 'Activa',
+  mfaRemove: 'Desactivar', cancel: 'Cancelar',
 };
 
 export const STRINGS: Record<Locale, Strings> = { fr, en, es };

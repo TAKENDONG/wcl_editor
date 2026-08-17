@@ -16,6 +16,7 @@ export type PublisherOverview = {
   kind: PublisherKind;
   status: PublisherStatus;
   my_role: PublisherRole;
+  contract_signed_at: string | null;
   drafts: number;
   in_review: number;
   published: number;

@@ -61,7 +61,9 @@ export default function VitrinePage() {
         </div>
       </div>
 
-      <footer className="site-footer">{strings.footerNote}</footer>
+      <footer className="site-footer">
+        <Link to="/conditions">{strings.termsTitle}</Link> · {strings.footerNote}
+      </footer>
     </>
   );
 }
