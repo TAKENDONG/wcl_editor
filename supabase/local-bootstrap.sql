@@ -34,6 +34,14 @@ create table if not exists public.book_details (
   statut_droits  text
 );
 
+-- `profiles` porte l'etat d'abonnement : c'est lui qui decide si une page est
+-- payable. Absent en local, l'ouverture de session echouait.
+create table if not exists public.profiles (
+  id                       uuid primary key references auth.users(id) on delete cascade,
+  subscription_status      text default 'explorer',
+  subscription_expires_at  timestamptz
+);
+
 -- Table des administrateurs WCL, et le is_admin() qui garde la file de
 -- validation (module D). Forme identique à la production.
 create table if not exists public.admin_users (
@@ -54,5 +62,13 @@ $$;
 
 revoke all on function public.is_admin() from public, anon;
 grant execute on function public.is_admin() to authenticated;
+
+-- Les droits par defaut de Supabase ne s'appliquent pas aux tables creees par
+-- un script joue en tant que `postgres` : sans ces GRANT, les fonctions edge
+-- (qui s'authentifient en service_role) recoivent « not found » sur des lignes
+-- qui existent.
+grant select, insert, update on public.content, public.book_details, public.profiles
+  to service_role;
+grant select on public.content, public.book_details to anon, authenticated;
 
 notify pgrst, 'reload schema';
