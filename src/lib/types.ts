@@ -121,3 +121,62 @@ export type AnalyticsCountryRow = {
   pages: number;
   unique_readers: number;
 };
+
+export type PayoutState =
+  | 'pending' | 'below_threshold' | 'processing' | 'paid' | 'failed';
+
+/// Une ligne de versement. Elle porte le DETAIL DU REPORT et pas seulement le
+/// montant verse : un editeur paye zero doit voir que sa somme n'est pas
+/// perdue, mais reportee.
+export type PayoutRow = {
+  period_start: string;
+  currency: string;
+  earned: number;
+  carried_in: number;
+  due: number;
+  threshold: number;
+  paid_amount: number;
+  carried_out: number;
+  state: PayoutState;
+  method: string | null;
+  receipt_no: string | null;
+  settled_at: string | null;
+};
+
+/// Une version de fichier deposee (C7), avec sa mesure : c'est l'ecart de
+/// pagination entre versions qui compte, pas la liste des depots.
+export type FileVersion = {
+  version_no: number;
+  file_format: string;
+  file_sha256: string;
+  normalized_pages: number | null;
+  visible_chars: number | null;
+  algo_version: string | null;
+  is_current: boolean;
+  created_at: string;
+};
+
+export type AdminPeriodRow = {
+  period_start: string;
+  state: RoyaltyPeriodState;
+  currency: string;
+  gross_revenue: number | null;
+  provider_fees: number | null;
+  net_revenue: number | null;
+  pool_basis: 'gross' | 'net';
+  pool_amount: number | null;
+  total_pages: number | null;
+  rate_per_page: number | null;
+  distributed: number;
+  undistributed: number | null;
+  publishers: number;
+  consolidated_at: string | null;
+};
+
+export type ConcentrationRow = {
+  publisher_id: string;
+  publisher_name: string;
+  amount: number;
+  share_of_pool: number;
+  over_cap: boolean;
+};

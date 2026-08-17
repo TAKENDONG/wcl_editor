@@ -8,6 +8,7 @@ import AccountPage from '../features/account/AccountPage.tsx';
 import TermsPage from '../features/legal/TermsPage.tsx';
 import CatalogPage from '../features/catalog/CatalogPage.tsx';
 import ReviewQueuePage from '../features/review/ReviewQueuePage.tsx';
+import PeriodsPage from '../features/admin/PeriodsPage.tsx';
 import AnalyticsPage from '../features/analytics/AnalyticsPage.tsx';
 import RoyaltiesPage from '../features/royalties/RoyaltiesPage.tsx';
 import PayoutsPage from '../features/payouts/PayoutsPage.tsx';
@@ -37,6 +38,7 @@ export function App() {
         <Route path="/redevances" element={guard(<RoyaltiesPage />)} />
         <Route path="/versements" element={guard(<PayoutsPage />)} />
         <Route path="/validation" element={guard(<ReviewQueuePage />)} />
+        <Route path="/periodes" element={guard(<PeriodsPage />)} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

@@ -350,3 +350,111 @@ tbody tr:hover td { background: rgba(255, 255, 255, 0.02); }
   .topbar { padding: 0.75rem 1.1rem; gap: 1rem; }
   .topbar nav { gap: 0.9rem; width: 100%; order: 3; }
 }
+
+/* ── Modules E et F : tableaux, statistiques, exports ───────────────────── */
+
+.grid--4 { grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); }
+
+.row--between { justify-content: space-between; align-items: flex-end; }
+
+.field--inline { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0; }
+.field--inline span { margin: 0; white-space: nowrap; }
+.field--inline input { width: auto; }
+
+.stat { display: flex; flex-direction: column; gap: 0.35rem; }
+.stat__label {
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-muted);
+}
+.stat strong {
+  font-family: var(--display);
+  font-size: 1.45rem;
+  font-weight: 600;
+  color: var(--gold-light);
+  /* Les chiffres alignes verticalement se comparent d'une carte a l'autre ;
+     en chasse proportionnelle, un « 1 » etroit fausse la lecture d'une colonne. */
+  font-variant-numeric: tabular-nums;
+}
+
+/* Un tableau large defile DANS son conteneur : sans cela c'est la page entiere
+   qui defile lateralement sur telephone, et l'en-tete disparait. */
+.table-scroll {
+  overflow-x: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  margin-bottom: 0.6rem;
+}
+
+.table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+.table th, .table td {
+  padding: 0.62rem 0.85rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border);
+  white-space: nowrap;
+}
+.table th {
+  font-family: var(--display);
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: var(--bg-surface);
+  position: sticky;
+  top: 0;
+}
+.table tbody tr:last-child td { border-bottom: 0; }
+.table tbody tr:hover td { background: var(--bg-card); }
+.table .num { text-align: right; font-variant-numeric: tabular-nums; }
+
+.export-bar {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+  margin-bottom: 1.6rem;
+  font-size: 0.85rem;
+}
+
+.btn--sm { padding: 0.32rem 0.75rem; font-size: 0.8rem; }
+.btn--ghost {
+  background: transparent;
+  border: 1px solid var(--border-strong);
+  color: var(--text-secondary);
+}
+.btn--ghost:hover { border-color: var(--gold); color: var(--gold-light); }
+
+.segmented { display: inline-flex; border: 1px solid var(--border-strong); border-radius: var(--radius-sm); overflow: hidden; }
+.segmented button {
+  padding: 0.36rem 0.8rem;
+  background: transparent;
+  border: 0;
+  border-right: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+.segmented button:last-child { border-right: 0; }
+.segmented button.is-active { background: var(--gold); color: var(--gold-ink); font-weight: 600; }
+
+.period-picker { display: flex; gap: 0.6rem; align-items: center; flex-wrap: wrap; }
+.period-picker input {
+  padding: 0.34rem 0.55rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--body);
+}
+
+/* Un avertissement, pas une erreur : une estimation non consolidee est un
+   etat normal, mais qui doit se distinguer d'un chiffre arrete. */
+.notice {
+  padding: 0.6rem 0.85rem;
+  border-left: 3px solid var(--warn);
+  background: var(--warn-bg);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}

@@ -11,6 +11,7 @@ export type Strings = {
   navRoyalties: string;
   navPayouts: string;
   navReview: string;
+  navPeriods: string;
   navSignOut: string;
   heroTitle: string;
   heroLead: string;
@@ -145,6 +146,7 @@ const fr: Strings = {
   brand: 'WCL — Portail éditeurs',
   navVitrine: 'Accueil', navCatalog: 'Catalogue', navAnalytics: 'Statistiques',
   navRoyalties: 'Redevances', navPayouts: 'Versements', navReview: 'Validation',
+  navPeriods: 'Périodes',
   navSignOut: 'Se déconnecter',
   heroTitle: 'Publiez vos ouvrages. Soyez payé aux pages réellement lues.',
   heroLead:
@@ -254,6 +256,7 @@ const en: Strings = {
   brand: 'WCL — Publisher portal',
   navVitrine: 'Home', navCatalog: 'Catalogue', navAnalytics: 'Statistics',
   navRoyalties: 'Royalties', navPayouts: 'Payouts', navReview: 'Review',
+  navPeriods: 'Periods',
   navSignOut: 'Sign out',
   heroTitle: 'Publish your works. Get paid for pages actually read.',
   heroLead:
@@ -358,6 +361,7 @@ const es: Strings = {
   brand: 'WCL — Portal de editores',
   navVitrine: 'Inicio', navCatalog: 'Catálogo', navAnalytics: 'Estadísticas',
   navRoyalties: 'Regalías', navPayouts: 'Pagos', navReview: 'Validación',
+  navPeriods: 'Periodos',
   navSignOut: 'Cerrar sesión',
   heroTitle: 'Publique sus obras. Cobre por las páginas realmente leídas.',
   heroLead:

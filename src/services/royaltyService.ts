@@ -1,7 +1,7 @@
 import { supabase } from '../lib/supabase.ts';
 import type {
   AnalyticsCountryRow, AnalyticsOverview, AnalyticsTitleRow,
-  RoyaltyHistoryRow, RoyaltyStatementLine,
+  PayoutRow, RoyaltyHistoryRow, RoyaltyStatementLine,
 } from '../lib/types.ts';
 
 // Modules E et F. Toutes les RPC filtrent cote serveur sur les editeurs de
@@ -54,4 +54,10 @@ export async function fetchByCountry(
   });
   if (error) throw new Error(error.message);
   return (data ?? []) as AnalyticsCountryRow[];
+}
+
+export async function fetchPayouts(): Promise<PayoutRow[]> {
+  const { data, error } = await supabase.rpc('publisher_payouts');
+  if (error) throw new Error(error.message);
+  return (data ?? []) as PayoutRow[];
 }

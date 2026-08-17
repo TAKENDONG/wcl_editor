@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { Fragment, useState } from 'react';
 import { useSubmissions } from '../../hooks/useSubmissions.ts';
 import { usePublishers } from '../../hooks/usePublishers.ts';
 import { withdrawSubmission } from '../../services/submissionService.ts';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { StateBadge } from '../../components/ui/StateBadge.tsx';
+import { FileHistory } from './FileHistory.tsx';
 import { SubmissionForm } from './SubmissionForm.tsx';
 import { BulkImport } from './BulkImport.tsx';
 
@@ -13,6 +14,10 @@ export default function CatalogPage() {
   const { strings } = useLocale();
   const { publishers, loading: loadingPublishers, reload: reloadPublishers } = usePublishers(true);
   const [selected, setSelected] = useState<string | null>(null);
+  // Exigence C7 : l'historique des versions est deplie a la demande. L'ouvrir
+  // pour toutes les lignes lancerait une requete par ouvrage a l'affichage du
+  // catalogue, pour une information consultee rarement.
+  const [openHistory, setOpenHistory] = useState<string | null>(null);
   const publisherId = selected ?? publishers[0]?.publisher_id ?? null;
   const { submissions, error, reload } = useSubmissions(publisherId);
 
@@ -55,14 +60,21 @@ export default function CatalogPage() {
 
       <table>
         <thead>
-          <tr><th>{strings.title}</th><th>{strings.authors}</th><th>État</th><th /></tr>
+          <tr><th>{strings.title}</th><th>{strings.authors}</th><th>État</th><th /><th /></tr>
         </thead>
         <tbody>
           {submissions.map((s) => (
-            <tr key={s.id}>
+            <Fragment key={s.id}>
+            <tr>
               <td>{s.title}{s.review_notes && <><br /><span className="muted" style={{ fontSize: '0.82rem' }}>{s.review_notes}</span></>}</td>
               <td>{s.authors}</td>
               <td><StateBadge state={s.state} /></td>
+              <td>
+                <button type="button" className="btn btn--ghost btn--sm"
+                        onClick={() => setOpenHistory(openHistory === s.id ? null : s.id)}>
+                  {openHistory === s.id ? 'Masquer les versions' : 'Versions'}
+                </button>
+              </td>
               <td>
                 {(s.state === 'draft' || s.state === 'submitted') && (
                   <button type="button" className="danger"
@@ -70,9 +82,15 @@ export default function CatalogPage() {
                 )}
               </td>
             </tr>
+            {openHistory === s.id && (
+              <tr>
+                <td colSpan={5}><FileHistory submissionId={s.id} /></td>
+              </tr>
+            )}
+            </Fragment>
           ))}
           {submissions.length === 0 && (
-            <tr><td colSpan={4} className="muted">{strings.noData}</td></tr>
+            <tr><td colSpan={5} className="muted">{strings.noData}</td></tr>
           )}
         </tbody>
       </table>

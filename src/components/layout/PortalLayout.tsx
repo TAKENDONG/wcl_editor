@@ -21,6 +21,10 @@ export function PortalLayout({ signedIn }: { signedIn: boolean }) {
           {signedIn && <NavLink to="/redevances" className={cls}>{strings.navRoyalties}</NavLink>}
           {signedIn && <NavLink to="/versements" className={cls}>{strings.navPayouts}</NavLink>}
           {signedIn && <NavLink to="/validation" className={cls}>{strings.navReview}</NavLink>}
+          {/* Pilotage des periodes : visible pour tous les connectes, mais les
+              RPC levent 'forbidden' pour un non-administrateur. Le cloisonnement
+              est cote serveur ; masquer le lien ne serait qu'un habillage. */}
+          {signedIn && <NavLink to="/periodes" className={cls}>{strings.navPeriods}</NavLink>}
         </nav>
         <div className="topbar__spacer" />
         <LanguageSwitch />
