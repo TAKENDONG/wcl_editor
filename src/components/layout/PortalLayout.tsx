@@ -2,7 +2,7 @@ import { NavLink, Outlet } from 'react-router-dom';
 import { supabase } from '../../lib/supabase.ts';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { LanguageSwitch } from './LanguageSwitch.tsx';
-import type { Capabilities } from '../../hooks/useCapabilities.ts';
+import { useCapabilitiesContext } from '../../hooks/CapabilitiesContext.tsx';
 
 // Coquille commune. Aucune logique metier ici : la navigation ne fait que
 // refleter les droits que lui passe App.
@@ -12,10 +12,9 @@ import type { Capabilities } from '../../hooks/useCapabilities.ts';
 // refus du serveur. Les liens sont donc filtres par capacite — ce qui reste de
 // l'ergonomie : le cloisonnement reel est cote base, et forcer l'URL rend
 // « forbidden ».
-export function PortalLayout(
-  { signedIn, caps }: { signedIn: boolean; caps: Capabilities },
-) {
+export function PortalLayout({ signedIn }: { signedIn: boolean }) {
   const { strings } = useLocale();
+  const { caps } = useCapabilitiesContext();
   const cls = ({ isActive }: { isActive: boolean }) => (isActive ? 'is-active' : '');
 
   return (

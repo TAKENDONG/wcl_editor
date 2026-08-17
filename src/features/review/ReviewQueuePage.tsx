@@ -4,6 +4,7 @@ import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { StateBadge } from '../../components/ui/StateBadge.tsx';
 import { RightsLabel } from '../../components/ui/RightsLabel.tsx';
 import type { DuplicateHint, ReviewDecision, ReviewItem } from '../../lib/types.ts';
+import { humaniseServerError } from '../../lib/serverError.ts';
 
 // Module D — file de validation WCL. Reservee aux membres d'admin_users : la
 // RPC leve 'forbidden', l'interface ne fait que l'afficher.
@@ -19,14 +20,13 @@ export default function ReviewQueuePage() {
     try {
       setItems(await fetchReviewQueue());
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Erreur inconnue');
+      setError(cause instanceof Error ? cause.message : 'unknown');
     }
   }, []);
 
   useEffect(() => { void reload(); }, [reload]);
 
   async function inspect(id: string) {
-    setDuplicates((current) => ({ ...current, [id]: [] }));
     setDuplicates((current) => ({ ...current, [id]: [] }));
     const hints = await fetchDuplicates(id);
     setDuplicates((current) => ({ ...current, [id]: hints }));
@@ -38,17 +38,17 @@ export default function ReviewQueuePage() {
       await decideReview(id, decision, notes[id] ?? '');
       await reload();
     } catch (cause) {
-      setError(cause instanceof Error ? cause.message : 'Erreur inconnue');
+      setError(cause instanceof Error ? cause.message : 'unknown');
     }
   }
 
-  if (error === 'forbidden') {
+  // Un refus de DROIT occupe tout l'ecran : il n'y a rien d'autre a montrer.
+  // Les autres refus s'affichent au-dessus de la file, qui reste utilisable.
+  if (error?.includes('forbidden')) {
     return (
       <>
         <h1>{strings.reviewTitle}</h1>
-        <div className="notice">
-          Cet écran est réservé à l’équipe WCL. Votre compte n’est pas dans <code>admin_users</code>.
-        </div>
+        <div className="notice">{strings.serverErrors.forbidden}</div>
       </>
     );
   }
@@ -60,7 +60,9 @@ export default function ReviewQueuePage() {
         Les dossiers sont classés du plus ancien au plus récent : un dossier ne doit jamais être
         doublé par un plus récent. Un refus ou une demande de correction exige un motif.
       </p>
-      {error && <p className="error">{error}</p>}
+      {error && (
+        <p className="error">{humaniseServerError(error, strings.serverErrors)}</p>
+      )}
 
       {items.length === 0 && <p className="muted">{strings.noData}</p>}
 

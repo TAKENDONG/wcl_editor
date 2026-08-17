@@ -1,8 +1,9 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { PortalLayout } from '../components/layout/PortalLayout.tsx';
 import { useAuth } from '../hooks/useAuth.ts';
-import { usePublishers } from '../hooks/usePublishers.ts';
-import { useCapabilities } from '../hooks/useCapabilities.ts';
+import {
+  CapabilitiesProvider, useCapabilitiesContext,
+} from '../hooks/CapabilitiesContext.tsx';
 import VitrinePage from '../features/vitrine/VitrinePage.tsx';
 import SignInPage from '../features/auth/SignInPage.tsx';
 import RegisterPage from '../features/account/RegisterPage.tsx';
@@ -22,10 +23,18 @@ import PayoutsPage from '../features/payouts/PayoutsPage.tsx';
 export function App() {
   const { session, loading } = useAuth();
   const signedIn = Boolean(session);
-  const { publishers, loading: publishersLoading } = usePublishers(signedIn);
-  const caps = useCapabilities(signedIn, publishers, publishersLoading);
 
   if (loading) return <p style={{ padding: '2rem' }}>…</p>;
+
+  return (
+    <CapabilitiesProvider signedIn={signedIn}>
+      <PortalRoutes signedIn={signedIn} />
+    </CapabilitiesProvider>
+  );
+}
+
+function PortalRoutes({ signedIn }: { signedIn: boolean }) {
+  const { caps } = useCapabilitiesContext();
 
   const guard = (element: JSX.Element) =>
     signedIn ? element : <Navigate to="/connexion" replace />;
@@ -45,7 +54,7 @@ export function App() {
 
   return (
     <Routes>
-      <Route element={<PortalLayout signedIn={signedIn} caps={caps} />}>
+      <Route element={<PortalLayout signedIn={signedIn} />}>
         <Route index element={<VitrinePage signedIn={signedIn} />} />
         <Route path="/conditions" element={<TermsPage />} />
         <Route path="/confidentialite" element={<PrivacyPage />} />

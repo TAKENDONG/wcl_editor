@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
+import { humaniseServerError } from '../../lib/serverError.ts';
 import {
   closePeriod, fetchConcentration, fetchPeriods, preparePayouts,
 } from '../../services/adminRoyaltyService.ts';
@@ -8,15 +9,6 @@ import { currentPeriod, formatMoney } from '../royalties/format.ts';
 import { MonthPicker } from '../../components/ui/MonthPicker.tsx';
 import { PeriodTable } from './PeriodTable.tsx';
 import { ConcentrationTable } from './ConcentrationTable.tsx';
-
-/// Les RPC d'administration levent `forbidden`. Le mot brut ne dit rien a un
-/// utilisateur : il faut nommer la cause, sinon un editeur croira a une panne
-/// et ecrira au support.
-function humanise(message: string): string {
-  return message.includes('forbidden')
-    ? 'Cet écran est réservé aux administrateurs WCL.'
-    : message;
-}
 
 // F1 / F5 et indicateurs internes (§ 7). Reserve aux administrateurs WCL.
 //
@@ -44,7 +36,8 @@ export default function PeriodsPage() {
     } catch (cause) {
       setPeriods([]);
       setConcentration([]);
-      setError(humanise(cause instanceof Error ? cause.message : 'Erreur inconnue'));
+      setError(humaniseServerError(
+        cause instanceof Error ? cause.message : 'unknown', strings.serverErrors));
     }
   }, []);
 
@@ -58,7 +51,8 @@ export default function PeriodsPage() {
       setError('');
       await load(period);
     } catch (cause) {
-      setError(humanise(cause instanceof Error ? cause.message : 'Erreur inconnue'));
+      setError(humaniseServerError(
+        cause instanceof Error ? cause.message : 'unknown', strings.serverErrors));
     } finally {
       setBusy(false);
     }
