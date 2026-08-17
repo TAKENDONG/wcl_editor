@@ -5,6 +5,7 @@ import { withdrawSubmission } from '../../services/submissionService.ts';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { StateBadge } from '../../components/ui/StateBadge.tsx';
 import { FileHistory } from './FileHistory.tsx';
+import { ConversionPanel } from './ConversionPanel.tsx';
 import { SubmissionForm } from './SubmissionForm.tsx';
 import { BulkImport } from './BulkImport.tsx';
 
@@ -84,7 +85,10 @@ export default function CatalogPage() {
             </tr>
             {openHistory === s.id && (
               <tr>
-                <td colSpan={5}><FileHistory submissionId={s.id} /></td>
+                <td colSpan={5}>
+                  <FileHistory submissionId={s.id} />
+                  {s.state === 'draft' && <ConversionPanel submissionId={s.id} />}
+                </td>
               </tr>
             )}
             </Fragment>

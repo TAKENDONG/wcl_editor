@@ -180,3 +180,18 @@ export type ConcentrationRow = {
   share_of_pool: number;
   over_cap: boolean;
 };
+
+export type ConversionWarningKind =
+  | 'image' | 'table' | 'footnote' | 'columns' | 'header';
+
+/// Rapport d'une conversion assistee (C2). Les avertissements sont la RAISON
+/// d'etre de l'ecran : une conversion muette laisserait publier un ouvrage dont
+/// les tableaux ont disparu, et la pagination — donc la redevance — serait
+/// calculee sur ce texte ampute.
+export type ConversionReport = {
+  file_key: string;
+  sections: number;
+  visible_chars: number;
+  estimated_pages: number;
+  warnings: { kind: ConversionWarningKind; count: number }[];
+};
