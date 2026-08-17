@@ -66,3 +66,58 @@ export type DuplicateHint = {
 };
 
 export type ReviewDecision = 'approve' | 'changes' | 'reject';
+
+// ── Modules E et F : analytique et redevances ───────────────────────────────
+
+export type RoyaltyPeriodState = 'open' | 'consolidated' | 'paid';
+
+/// Une ligne de releve. Elle porte les AGREGATS DE PLATEFORME en plus du
+/// montant : sans eux l'editeur ne peut pas refaire le calcul, et la promesse
+/// de verifiabilite du module F resterait un slogan.
+export type RoyaltyStatementLine = {
+  period_start: string;
+  state: RoyaltyPeriodState;
+  currency: string;
+  pool_amount: number;
+  total_pages: number;
+  rate_per_page: number;
+  undistributed: number;
+  content_id: string;
+  title: string;
+  validated_pages: number;
+  unique_readers: number;
+  amount: number;
+};
+
+export type RoyaltyHistoryRow = {
+  period_start: string;
+  state: RoyaltyPeriodState;
+  currency: string;
+  rate_per_page: number;
+  pages: number;
+  amount: number;
+};
+
+export type AnalyticsOverview = {
+  sessions: number;
+  pages: number;
+  unique_readers: number;
+  titles: number;
+  is_consolidated: boolean;
+};
+
+export type AnalyticsTitleRow = {
+  content_id: string;
+  title: string;
+  pages: number;
+  unique_readers: number;
+  sessions: number;
+  avg_dwell_ms: number;
+  completion: number | null;
+};
+
+export type AnalyticsCountryRow = {
+  country: string | null;
+  pages: number;
+  unique_readers: number;
+};
