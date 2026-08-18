@@ -88,7 +88,7 @@ ok "amorce WCL minimale"
 #   5. Versements    : apres les redevances, dont ils lisent les lignes.
 #   6. Gouvernance   : la conservation a besoin de `royalty_periods` ; la
 #                      planification a besoin des trois fonctions ci-dessus.
-for f in publishers_schema publishers_helpers publishers_rls publishers_rpc \
+for f in portal_prerequisites publishers_schema publishers_helpers publishers_rls publishers_rpc \
          publishers_rpc_metadata publishers_account publishers_admin_rpc \
          publishers_publication publishers_storage publishers_file_history \
          payment_audit_logs \
