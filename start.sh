@@ -96,6 +96,7 @@ for f in publishers_schema publishers_helpers publishers_rls publishers_rpc \
          reading_country \
          royalties_schema royalties_engine royalties_reporting royalties_admin \
          payouts_schema payouts_engine \
+         payouts_tax review_editorial \
          reading_retention royalties_schedule; do
   [ -f "$SQL_DIR/$f.sql" ] || die "$f.sql introuvable dans $SQL_DIR"
   psql_run < "$SQL_DIR/$f.sql" 2>&1 | grep -v '^NOTICE' || true
