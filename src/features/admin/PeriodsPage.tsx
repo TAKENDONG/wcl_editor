@@ -1,20 +1,14 @@
 import { useCallback, useEffect, useState } from 'react';
+import { useLocale } from '../../i18n/LocaleContext.tsx';
+import { humaniseServerError } from '../../lib/serverError.ts';
 import {
   closePeriod, fetchConcentration, fetchPeriods, preparePayouts,
 } from '../../services/adminRoyaltyService.ts';
 import type { AdminPeriodRow, ConcentrationRow } from '../../lib/types.ts';
 import { currentPeriod, formatMoney } from '../royalties/format.ts';
+import { MonthPicker } from '../../components/ui/MonthPicker.tsx';
 import { PeriodTable } from './PeriodTable.tsx';
 import { ConcentrationTable } from './ConcentrationTable.tsx';
-
-/// Les RPC d'administration levent `forbidden`. Le mot brut ne dit rien a un
-/// utilisateur : il faut nommer la cause, sinon un editeur croira a une panne
-/// et ecrira au support.
-function humanise(message: string): string {
-  return message.includes('forbidden')
-    ? 'Cet écran est réservé aux administrateurs WCL.'
-    : message;
-}
 
 // F1 / F5 et indicateurs internes (§ 7). Reserve aux administrateurs WCL.
 //
@@ -22,6 +16,7 @@ function humanise(message: string): string {
 // periode consolidee est definitivement gelee en base, et decouvrir une donnee
 // fausse apres coup n'offrirait aucun recours.
 export default function PeriodsPage() {
+  const { strings } = useLocale();
   const [periods, setPeriods] = useState<AdminPeriodRow[]>([]);
   const [concentration, setConcentration] = useState<ConcentrationRow[]>([]);
   const [period, setPeriod] = useState(currentPeriod());
@@ -41,7 +36,8 @@ export default function PeriodsPage() {
     } catch (cause) {
       setPeriods([]);
       setConcentration([]);
-      setError(humanise(cause instanceof Error ? cause.message : 'Erreur inconnue'));
+      setError(humaniseServerError(
+        cause instanceof Error ? cause.message : 'unknown', strings.serverErrors));
     }
   }, []);
 
@@ -55,7 +51,8 @@ export default function PeriodsPage() {
       setError('');
       await load(period);
     } catch (cause) {
-      setError(humanise(cause instanceof Error ? cause.message : 'Erreur inconnue'));
+      setError(humaniseServerError(
+        cause instanceof Error ? cause.message : 'unknown', strings.serverErrors));
     } finally {
       setBusy(false);
     }
@@ -68,15 +65,12 @@ export default function PeriodsPage() {
       <h1>Périodes de redevances</h1>
 
       <div className="row row--between">
-        <label className="field field--inline">
-          <span>Période</span>
-          <input
-            type="month"
-            value={period}
-            max={currentPeriod()}
-            onChange={(event) => setPeriod(event.target.value)}
-          />
-        </label>
+        <MonthPicker
+          label={strings.periodLabel}
+          value={period}
+          max={currentPeriod()}
+          onChange={setPeriod}
+        />
         <div className="row">
           <button
             type="button"

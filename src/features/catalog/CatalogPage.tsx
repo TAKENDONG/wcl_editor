@@ -6,6 +6,7 @@ import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { StateBadge } from '../../components/ui/StateBadge.tsx';
 import { FileHistory } from './FileHistory.tsx';
 import { ConversionPanel } from './ConversionPanel.tsx';
+import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
 import { SubmissionForm } from './SubmissionForm.tsx';
 import { BulkImport } from './BulkImport.tsx';
 
@@ -98,6 +99,23 @@ export default function CatalogPage() {
           )}
         </tbody>
       </table>
+
+      <ExportButtons
+        basename="catalogue"
+        title="Catalogue"
+        columns={[
+          { key: 'title', label: strings.title },
+          { key: 'authors', label: strings.authors },
+          { key: 'state', label: 'État' },
+          { key: 'notes', label: 'Notes de validation' },
+        ]}
+        rows={submissions.map((s) => ({
+          title: s.title,
+          authors: s.authors,
+          state: s.state,
+          notes: s.review_notes ?? '',
+        }))}
+      />
 
       <h2>{strings.newWork}</h2>
       {publisherId && (

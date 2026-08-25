@@ -13,6 +13,14 @@ export type Strings = {
   navReview: string;
   navPeriods: string;
   privacyTitle: string;
+  heroCtaSignedIn: string;
+  rangeFrom: string;
+  rangeTo: string;
+  periodLabel: string;
+  dayLabel: string;
+  monthLabel: string;
+  yearLabel: string;
+  range: { day: string; month: string; year: string; custom: string };
   navSignOut: string;
   heroTitle: string;
   heroLead: string;
@@ -25,6 +33,13 @@ export type Strings = {
   modelPublicDomain: string;
   faqTitle: string;
   signInTitle: string;
+  /// Messages des refus leves par la validation et le pilotage des periodes.
+  /// Un code brut ne dit rien : le valideur doit savoir QUOI FAIRE.
+  serverErrors: Record<string, string>;
+  forgotPassword: string;
+  resetSent: string;
+  emailRequiredForReset: string;
+  confirmEmail: string;
   email: string;
   password: string;
   signIn: string;
@@ -149,6 +164,11 @@ const fr: Strings = {
   navRoyalties: 'Redevances', navPayouts: 'Versements', navReview: 'Validation',
   navPeriods: 'Périodes',
   privacyTitle: 'Données de lecture',
+  heroCtaSignedIn: 'Accéder à mon espace',
+  rangeFrom: 'Du', rangeTo: 'Au',
+  periodLabel: 'Période',
+  dayLabel: 'jour', monthLabel: 'mois', yearLabel: 'année',
+  range: { day: 'Jour', month: 'Mois', year: 'Année', custom: 'Personnalisé' },
   navSignOut: 'Se déconnecter',
   heroTitle: 'Publiez vos ouvrages. Soyez payé aux pages réellement lues.',
   heroLead:
@@ -163,7 +183,21 @@ const fr: Strings = {
   modelRate: 'Taux par page = pool ÷ total des pages validées. Votre part = vos pages validées × ce taux.',
   modelPublicDomain: 'Les titres du domaine public ne perçoivent rien, mais comptent dans le total.',
   faqTitle: 'Questions fréquentes',
+  serverErrors: {
+    forbidden: 'Cet écran est réservé aux administrateurs WCL.',
+    file_required: 'Aucun fichier mesuré sur ce dossier. L’éditeur doit déposer un EPUB — ou convertir son fichier Word — avant que l’ouvrage puisse être publié.',
+    normalization_missing: 'La pagination normalisée n’a pas été calculée. Le fichier doit être mesuré avant approbation : c’est elle qui détermine la redevance.',
+    rights_declaration_required: 'L’éditeur n’a pas déclaré ses droits. Une publication sans déclaration exposerait WCL.',
+    notes_required: 'Un refus ou une demande de correction exige un motif : l’éditeur doit savoir quoi reprendre.',
+    not_reviewable: 'Ce dossier n’est plus en attente de décision — il a déjà été traité.',
+    not_found: 'Ce dossier n’existe plus.',
+    unknown_decision: 'Décision inconnue.',
+  },
   signInTitle: 'Accéder à votre espace',
+  forgotPassword: 'Mot de passe oublié ?',
+  resetSent: 'Si un compte existe pour cette adresse, un lien de réinitialisation vient d’être envoyé.',
+  emailRequiredForReset: 'Saisissez d’abord votre adresse électronique.',
+  confirmEmail: 'Compte créé. Confirmez votre adresse électronique, puis revenez vous connecter.',
   email: 'Adresse électronique', password: 'Mot de passe',
   signIn: 'Se connecter', signUp: 'Créer un compte',
   registerTitle: 'Créer votre espace éditeur',
@@ -260,6 +294,11 @@ const en: Strings = {
   navRoyalties: 'Royalties', navPayouts: 'Payouts', navReview: 'Review',
   navPeriods: 'Periods',
   privacyTitle: 'Reading data',
+  heroCtaSignedIn: 'Go to my space',
+  rangeFrom: 'From', rangeTo: 'To',
+  periodLabel: 'Period',
+  dayLabel: 'day', monthLabel: 'month', yearLabel: 'year',
+  range: { day: 'Day', month: 'Month', year: 'Year', custom: 'Custom' },
   navSignOut: 'Sign out',
   heroTitle: 'Publish your works. Get paid for pages actually read.',
   heroLead:
@@ -274,7 +313,21 @@ const en: Strings = {
   modelRate: 'Rate per page = pool ÷ total validated pages. Your share = your validated pages × that rate.',
   modelPublicDomain: 'Public-domain titles earn nothing, but they count in the total.',
   faqTitle: 'Frequently asked questions',
-  signInTitle: 'Access your workspace', email: 'Email address', password: 'Password',
+  serverErrors: {
+    forbidden: 'This screen is reserved for WCL administrators.',
+    file_required: 'No measured file on this submission. The publisher must upload an EPUB — or convert their Word file — before the work can be published.',
+    normalization_missing: 'Normalised pagination has not been computed. The file must be measured before approval: it determines the royalty.',
+    rights_declaration_required: 'The publisher has not declared their rights. Publishing without a declaration would expose WCL.',
+    notes_required: 'A rejection or correction request requires a reason: the publisher must know what to fix.',
+    not_reviewable: 'This submission is no longer awaiting a decision — it has already been handled.',
+    not_found: 'This submission no longer exists.',
+    unknown_decision: 'Unknown decision.',
+  },
+  signInTitle: 'Access your workspace',
+  forgotPassword: 'Forgotten password?',
+  resetSent: 'If an account exists for this address, a reset link has just been sent.',
+  emailRequiredForReset: 'Enter your email address first.',
+  confirmEmail: 'Account created. Confirm your email address, then come back and sign in.', email: 'Email address', password: 'Password',
   signIn: 'Sign in', signUp: 'Create an account',
   registerTitle: 'Create your publisher workspace',
   kindAuthor: 'Independent author', kindPublisher: 'Publishing house',
@@ -366,6 +419,11 @@ const es: Strings = {
   navRoyalties: 'Regalías', navPayouts: 'Pagos', navReview: 'Validación',
   navPeriods: 'Periodos',
   privacyTitle: 'Datos de lectura',
+  heroCtaSignedIn: 'Ir a mi espacio',
+  rangeFrom: 'Desde', rangeTo: 'Hasta',
+  periodLabel: 'Periodo',
+  dayLabel: 'día', monthLabel: 'mes', yearLabel: 'año',
+  range: { day: 'Día', month: 'Mes', year: 'Año', custom: 'Personalizado' },
   navSignOut: 'Cerrar sesión',
   heroTitle: 'Publique sus obras. Cobre por las páginas realmente leídas.',
   heroLead:
@@ -380,7 +438,21 @@ const es: Strings = {
   modelRate: 'Tasa por página = fondo ÷ total de páginas validadas. Su parte = sus páginas × esa tasa.',
   modelPublicDomain: 'Los títulos de dominio público no cobran, pero cuentan en el total.',
   faqTitle: 'Preguntas frecuentes',
+  serverErrors: {
+    forbidden: 'Esta pantalla está reservada a los administradores de WCL.',
+    file_required: 'No hay archivo medido en este expediente. El editor debe depositar un EPUB —o convertir su archivo Word— antes de poder publicar la obra.',
+    normalization_missing: 'No se ha calculado la paginación normalizada. El archivo debe medirse antes de la aprobación: de ella depende la regalía.',
+    rights_declaration_required: 'El editor no ha declarado sus derechos. Publicar sin declaración expondría a WCL.',
+    notes_required: 'Un rechazo o una petición de corrección exige un motivo: el editor debe saber qué corregir.',
+    not_reviewable: 'Este expediente ya no espera decisión — ya fue tratado.',
+    not_found: 'Este expediente ya no existe.',
+    unknown_decision: 'Decisión desconocida.',
+  },
   signInTitle: 'Acceder a su espacio', email: 'Correo electrónico', password: 'Contraseña',
+  forgotPassword: '¿Contraseña olvidada?',
+  resetSent: 'Si existe una cuenta para esta dirección, acaba de enviarse un enlace de restablecimiento.',
+  emailRequiredForReset: 'Introduzca primero su correo electrónico.',
+  confirmEmail: 'Cuenta creada. Confirme su correo electrónico y vuelva a iniciar sesión.',
   signIn: 'Iniciar sesión', signUp: 'Crear una cuenta',
   registerTitle: 'Cree su espacio de editor',
   kindAuthor: 'Autor independiente', kindPublisher: 'Editorial',

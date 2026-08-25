@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { supabase } from '../../lib/supabase.ts';
 import type { FileVersion } from '../../lib/types.ts';
+import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
 
 // Exigence C7 — gestion des versions de fichier.
 //
@@ -38,6 +39,7 @@ export function FileHistory({ submissionId }: { submissionId: string }) {
   const pagesOf = (v: FileVersion): number | null => v.normalized_pages;
 
   return (
+    <>
     <div className="table-scroll">
       <table className="table">
         <thead>
@@ -79,5 +81,24 @@ export function FileHistory({ submissionId }: { submissionId: string }) {
         </tbody>
       </table>
     </div>
+    <ExportButtons
+      basename="versions-fichier"
+      title="Historique des versions"
+      columns={[
+        { key: 'version', label: 'Version' },
+        { key: 'format', label: 'Format' },
+        { key: 'pages', label: 'Pages normalisées' },
+        { key: 'sha', label: 'Empreinte' },
+        { key: 'date', label: 'Déposée le' },
+      ]}
+      rows={versions.map((v) => ({
+        version: `v${v.version_no}${v.is_current ? ' (actuelle)' : ''}`,
+        format: v.file_format.toUpperCase(),
+        pages: v.normalized_pages === null ? 'non mesurée' : String(v.normalized_pages),
+        sha: v.file_sha256,
+        date: new Date(v.created_at).toISOString().slice(0, 10),
+      }))}
+    />
+    </>
   );
 }

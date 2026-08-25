@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState, type FormEvent } from 'react';
+import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
 import { fetchTeam, inviteMember, revokeMember, type TeamMember } from '../../services/accountService.ts';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { SelectField, TextField } from '../../components/ui/Field.tsx';
@@ -66,6 +67,15 @@ export function TeamSection({ publisherId }: { publisherId: string }) {
           ))}
         </tbody>
       </table>
+      <ExportButtons
+        basename="equipe"
+        title="Equipe"
+        columns={[
+          { key: 'email', label: strings.email },
+          { key: 'role', label: strings.role },
+        ]}
+        rows={team.map((m) => ({ email: m.email, role: m.role }))}
+      />
 
       <form className="card card--form" style={{ marginTop: '1rem' }}
             onSubmit={(e: FormEvent) => {

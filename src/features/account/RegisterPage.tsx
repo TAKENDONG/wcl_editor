@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { registerPublisher } from '../../services/publisherService.ts';
+import { useCapabilitiesContext } from '../../hooks/CapabilitiesContext.tsx';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { SelectField, TextField } from '../../components/ui/Field.tsx';
 import type { PublisherKind } from '../../lib/types.ts';
@@ -11,6 +12,7 @@ import type { PublisherKind } from '../../lib/types.ts';
 export default function RegisterPage() {
   const { strings } = useLocale();
   const navigate = useNavigate();
+  const { refresh } = useCapabilitiesContext();
   const [kind, setKind] = useState<PublisherKind>('author');
   const [displayName, setDisplayName] = useState('');
   const [legalName, setLegalName] = useState('');
@@ -28,6 +30,12 @@ export default function RegisterPage() {
         kind, displayName, countryCode: country, contactEmail: email,
         legalName: kind === 'publisher' ? legalName : undefined,
       });
+      // LES DROITS SONT RELUS AVANT DE NAVIGUER. Ils avaient ete etablis au
+      // demarrage, quand l'utilisateur n'etait membre d'aucun editeur : sans
+      // cette relecture, « Catalogue » restait absent de la navigation et la
+      // route le renvoyait aussitot — il fallait recharger la page pour que le
+      // portail reconnaisse l'editeur qu'il venait de creer.
+      await refresh();
       navigate('/catalogue');
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue');
@@ -36,8 +44,11 @@ export default function RegisterPage() {
     }
   }
 
+  // Meme presentation que l'ecran de connexion : un formulaire seul, colle au
+  // bord gauche d'un ecran large, se lit comme une page inachevee.
   return (
-    <form onSubmit={(event) => void submit(event)} style={{ maxWidth: '30rem' }}>
+    <div className="auth">
+      <form className="card card--auth" onSubmit={(event) => void submit(event)}>
       <h1>{strings.registerTitle}</h1>
       <SelectField label="Type de compte" value={kind}
                    onChange={(next) => setKind(next as PublisherKind)}>
@@ -52,6 +63,7 @@ export default function RegisterPage() {
       <TextField label={strings.email} type="email" value={email} onChange={setEmail} required />
       {error && <p className="error">{error}</p>}
       <button type="submit" disabled={busy}>{strings.create}</button>
-    </form>
+      </form>
+    </div>
   );
 }

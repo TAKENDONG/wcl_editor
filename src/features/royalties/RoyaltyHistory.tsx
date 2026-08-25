@@ -1,6 +1,6 @@
 import type { RoyaltyHistoryRow } from '../../lib/types.ts';
 import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
-import { formatMoney } from './format.ts';
+import { formatMoney, RATE_DISPLAY_DIGITS } from './format.ts';
 
 const LABELS: Record<RoyaltyHistoryRow['state'], string> = {
   open: 'En cours',
@@ -32,7 +32,7 @@ export function RoyaltyHistory({ rows }: { rows: RoyaltyHistoryRow[] }) {
                 <td>{row.period_start.slice(0, 7)}</td>
                 <td>{LABELS[row.state]}</td>
                 <td className="num">{Number(row.pages).toLocaleString('fr-FR')}</td>
-                <td className="num">{formatMoney(row.rate_per_page, row.currency, 6)}</td>
+                <td className="num">{formatMoney(row.rate_per_page, row.currency, RATE_DISPLAY_DIGITS)}</td>
                 <td className="num"><strong>{formatMoney(row.amount, row.currency)}</strong></td>
               </tr>
             ))}

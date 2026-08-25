@@ -1,6 +1,7 @@
 import type { PayoutRow, PayoutState } from '../../lib/types.ts';
 import { formatMoney } from '../royalties/format.ts';
 import { canIssueReceipt, receiptPdf } from './receipt.ts';
+import { downloadBytes } from '../../services/downloadTable.ts';
 
 export const STATE_LABELS: Record<PayoutState, string> = {
   pending: 'À verser',
@@ -17,20 +18,6 @@ const STATE_CLASS: Record<PayoutState, string> = {
   paid: 'badge badge--ok',
   failed: 'badge badge--danger',
 };
-
-/// Telecharge le recu. L'effet est ici et non dans `receipt.ts`, qui reste une
-/// fonction pure et donc verifiable sans navigateur.
-function download(row: PayoutRow, publisher: string): void {
-  const bytes = receiptPdf(row, publisher);
-  const buffer = new ArrayBuffer(bytes.byteLength);
-  new Uint8Array(buffer).set(bytes);
-  const url = URL.createObjectURL(new Blob([buffer], { type: 'application/pdf' }));
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `recu-${row.receipt_no}.pdf`;
-  link.click();
-  URL.revokeObjectURL(url);
-}
 
 // Une ligne de versement. Les six colonnes de montants sont affichees ensemble
 // pour que l'egalite « gagne + report entrant = du = verse + report sortant »
@@ -54,7 +41,11 @@ export function PayoutRowDetail(
           <button
             type="button"
             className="btn btn--ghost btn--sm"
-            onClick={() => download(row, publisher)}
+            onClick={() => downloadBytes(
+              receiptPdf(row, publisher),
+              'application/pdf',
+              `recu-${row.receipt_no}.pdf`,
+            )}
           >
             {row.receipt_no}
           </button>
