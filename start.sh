@@ -38,7 +38,6 @@ find_sql() {
   local candidates=(
     "${WCLPLAY_SQL:-}"
     "$HERE/../wclplay/supabase"
-    "$HERE/../wclplay/.claude/worktrees/portal-schema/supabase"
   )
   for dir in "${candidates[@]}"; do
     [ -n "$dir" ] && [ -f "$dir/publishers_schema.sql" ] && { echo "$dir"; return; }
@@ -46,7 +45,9 @@ find_sql() {
   return 1
 }
 SQL_DIR="$(find_sql)" || die "publishers_schema.sql introuvable.
-Indiquez son répertoire :  WCLPLAY_SQL=/chemin/vers/wclplay/supabase ./start.sh"
+Le schéma du portail vit dans wclplay, sur la branche feat/publisher-tenancy.
+Placez un clone à côté de ce dépôt (../wclplay) sur cette branche, ou indiquez
+son répertoire :  WCLPLAY_SQL=/chemin/vers/wclplay/supabase ./start.sh"
 ok "SQL du portail : ${SQL_DIR/#$HOME/~}"
 
 # ── 1. Backend local ────────────────────────────────────────────────────────
@@ -166,7 +167,7 @@ fi
 say "5/6  Portail"
 printf 'VITE_SUPABASE_URL=%s\nVITE_SUPABASE_ANON_KEY=%s\n' "$API_URL" "$ANON_KEY" > "$HERE/.env"
 ok ".env"
-[ -d "$HERE/node_modules" ] || (cd "$HERE" && npm install --silent)
+[ -d "$HERE/node_modules" ] || (cd "$HERE" && npm ci --silent)
 ok "dépendances"
 
 say "6/6  Prêt"
@@ -179,8 +180,9 @@ cat <<EOF
     bob@auteur.fr             auteur indépendant — pour tester le cloisonnement
     valideur@cmci.cm          validateur WCL, accès à l'onglet Validation
 
-  Les onglets Statistiques / Redevances / Versements sont VIDES à dessein :
-  ils dépendent de la sonde de lecture, qui n'est pas livrée.
+  Les onglets Statistiques / Redevances / Versements n'affichent aucun chiffre
+  tant qu'aucune période n'a été mesurée en production et consolidée : voir
+  TUTORIEL.md §7.
 
   Ctrl+C pour arrêter le portail. « supabase stop » pour arrêter le backend.
 

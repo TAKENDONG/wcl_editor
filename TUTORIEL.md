@@ -12,6 +12,11 @@ qui suit ne touche la production.
 | Docker | démarré |
 | Supabase CLI | `supabase --version` ≥ 2.x |
 | Node | ≥ 18 |
+| **Un clone de `wclplay`** | sur la branche `feat/publisher-tenancy`, **à côté de ce dépôt** (`../wclplay`) ou indiqué via `WCLPLAY_SQL=` |
+
+Le dernier point n'est pas facultatif : le schéma du portail (26 fichiers SQL)
+est canonique dans `wclplay`, jamais dupliqué ici. Sans lui, `./start.sh`
+s'arrête au premier fichier, avec un message qui dit exactement quoi faire.
 
 ---
 
@@ -79,17 +84,14 @@ Deux refus **volontaires**, à constater :
 | Envoyer sans fichier déposé | `file_required` |
 | Envoyer avec droits « inconnu » | `rights_declaration_required` |
 
-En local, le dépôt de fichier n'est pas branché sur R2. Pour poursuivre, simulez-le :
-
-```bash
-docker exec "$(docker ps --filter name=supabase_db_ --format '{{.Names}}')" \
-  psql -U postgres -d postgres -c \
-  "update publisher_submissions set file_key='submissions/x.epub',
-     file_format='epub', file_sha256='deadbeef' where state='draft';"
-```
-
-5. Renvoyer : l'état passe à **Soumis**.
-6. Tenter de le modifier → `not_editable`. **Un dossier envoyé ne bouge plus** :
+5. Déposer un fichier **EPUB** réel dans le formulaire. Il part dans le
+   compartiment privé `submissions`, puis le **serveur** le mesure (fonction
+   edge `submission-file`) et renvoie le nombre de pages normalisées — ce
+   nombre n'est jamais calculé par le navigateur, c'est l'assiette de la
+   rémunération. Un **PDF** est accepté au dépôt mais refusé à cette étape :
+   ses pages ne peuvent pas encore être comptées.
+6. Renvoyer : l'état passe à **Soumis**.
+7. Tenter de le modifier → `not_editable`. **Un dossier envoyé ne bouge plus** :
    c'est exactement ce que WCL examine.
 
 ---
@@ -120,25 +122,38 @@ Connecté comme validateur, aller dans **Validation** :
 
 ---
 
-## 7. Parcours 5 — Modules E, F, G : ce qui est vide, et pourquoi
+## 7. Parcours 5 — Modules E, F, G : ce qui tourne, et ce qui reste vide
 
 **Statistiques**, **Redevances** et **Versements** s'ouvrent, mais **ne montrent
-aucun chiffre**. C'est délibéré.
+aucun chiffre**. Ce n'est plus faute de calcul — la sonde de lecture, le moteur
+de redevances et les versements existent et sont testés — c'est parce
+qu'**aucune période n'a encore tourné en production**.
 
-Ces écrans se nourrissent de la **sonde de lecture**, qui n'existe pas encore : à ce
-jour, l'application ne conserve qu'une position de reprise, pas un journal de pages
-horodaté. Afficher un graphique de démonstration serait la première chose qu'un
-éditeur prendrait pour un engagement chiffré.
+La sonde (application Flutter) mesure chaque page lue et l'envoie au serveur ;
+`royalty_close_period()` consolide une période en pool réparti au prorata des
+pages validées ; `payout_prepare_period()` construit les versements avec seuil
+et report. Chaque étage est testé (`royalties.test.sql`, `payouts.test.sql`,
+`payouts_tax.test.sql`, `reading_retention.test.sql`) — mais tester le calcul
+et l'avoir vu tourner sur de vraies lectures sont deux choses différentes, et
+seule la seconde peut remplir ces écrans.
 
-Ce qui **est** déjà là, sur l'écran Redevances : **la formule**.
+Ce qui **est** déjà vérifiable ici, sans attendre une seule lecture : **la
+formule**, publiée sur l'écran Redevances —
 
 ```
 taux_par_page = pool ÷ total_pages_validées_de_la_plateforme
 votre_part    = vos_pages_validées × taux_par_page
 ```
 
-C'est elle que le cahier promet de rendre vérifiable, et elle ne dépend d'aucune
-donnée pour être publiée.
+— et deux règles qui s'écartent délibérément du cahier, ratifiées : les titres
+du domaine public **comptent au dénominateur** sans jamais rien toucher, et il
+n'y a **pas de seuil à 60 %** — chaque page traversée est comptée, jamais la
+longueur totale d'un titre.
+
+Sur l'écran Versements, deux refus **volontaires**, pas des bugs : régler un
+versement dont la fiscalité n'a pas été appréciée est refusé
+(`not_assessed` n'est pas une exonération), et aucun prestataire de paiement
+réel n'est branché derrière — les versements se préparent, ils ne partent pas.
 
 ---
 
@@ -236,11 +251,9 @@ Pour que ce tutoriel ne laisse rien supposer de faux :
 
 | Manque | Conséquence |
 |---|---|
-| **Sonde de lecture** | Modules E et F vides. C'est le chemin critique : livraison applicative, puis un mois d'accumulation, puis deux périodes à blanc. |
 | **Conversion assistée des PDF** | Le PDF est accepté au dépôt mais **refusé à la mesure** : ses pages ne peuvent pas être comptées en l'état. |
-| **Historique des versions de fichier** | La table existe et est alimentée à chaque dépôt ; aucun écran ne l'affiche encore. |
-| **Conformité à la ligne éditoriale** | Aucun outillage : c'est un jugement humain, la file de validation le permet mais ne l'assiste pas. |
-| **Versements réels** | Aucun rail branché. Ils n'ouvriront qu'après deux périodes calculées à blanc. |
+| **Critères éditoriaux dans l'écran de validation** | La table et la fonction existent (`editorial_criteria`, `editorial_blocking_gaps`, qui rend `NULL` — pas zéro — tant qu'aucun critère n'est défini), mais rien dans l'écran **Validation** ne les affiche encore : la conformité à la ligne éditoriale reste un jugement humain non assisté. |
+| **Versements réels** | Seuils, report et reçus sont livrés (`payouts_engine.sql`), mais aucun prestataire de paiement n'est branché derrière : rien ne part encore. Ils n'ouvriront qu'après deux périodes calculées à blanc. |
 
 ---
 
