@@ -24,6 +24,32 @@ et la construction se vérifient en local (`npm run test`, `npm run build`).
 La vérification du schéma, des fonctions edge et de l'application mobile vit
 dans `wclplay` (`.github/workflows/verification.yml`).
 
+## Mise en ligne (depuis le 06/10/2026)
+
+**En ligne : https://editor.worldconquestlibrary.org** — projet Cloudflare
+Pages `wcl-editor` (adresse technique `wcl-editor.pages.dev`), enregistrement
+DNS `editor` → `wcl-editor.pages.dev` (proxifié), comme `account` pour la
+console. Pousser ne déploie RIEN : la publication se fait depuis le poste.
+
+```bash
+npm ci
+npm run test
+npm run build      # lit .env.production.local (non versionné)
+npx wrangler pages deploy dist --project-name=wcl-editor --branch=main
+```
+
+`.env.production.local` porte `VITE_SUPABASE_URL` et `VITE_SUPABASE_ANON_KEY`
+du projet de production (`anjqdvrniawarrueztva`), les mêmes que le site et la
+console ; la clé anonyme est publique par nature, les droits viennent des RPC.
+
+**Deux dépôts, comme les autres** : `origin` lit `5GIS/wcl_editor` (privé) et
+pousse à la fois vers `5GIS/wcl_editor` et `TAKENDONG/wcl_editor`. Vérifier les
+deux têtes après chaque poussée. Branche de travail : `master`.
+
+**À vérifier avant d'annoncer le portail** : le schéma `publishers_*.sql` (dans
+`wclplay/supabase/`) doit être collé en production ; sans lui, la vitrine
+s'affiche mais l'inscription et le dépôt échouent.
+
 ## Ce qui est couvert
 
 | Module du cahier | État |
