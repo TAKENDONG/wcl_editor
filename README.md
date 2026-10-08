@@ -46,9 +46,55 @@ console ; la clé anonyme est publique par nature, les droits viennent des RPC.
 pousse à la fois vers `5GIS/wcl_editor` et `TAKENDONG/wcl_editor`. Vérifier les
 deux têtes après chaque poussée. Branche de travail : `master`.
 
-**À vérifier avant d'annoncer le portail** : le schéma `publishers_*.sql` (dans
-`wclplay/supabase/`) doit être collé en production ; sans lui, la vitrine
-s'affiche mais l'inscription et le dépôt échouent.
+**Base de données** : le cœur (modules A–D) est en production
+(`wclplay/supabase/migrations/20261006120000_portail_editeurs_coeur.sql`,
+vérifié le 06/10). Vérification, accords, territoires, redevances et versements
+viennent de `20261009100000_editeurs_verification_et_redevances.sql` — **à
+coller** ; tant qu'il ne l'est pas, ces écrans affichent une erreur et la
+vitrine montre les valeurs par défaut.
+
+## Fonctionnement (depuis le 09/10/2026)
+
+On commence par de **grands éditeurs, sous contrat** ; l'inscription libre
+d'auteurs indépendants reste ouverte, avec la même vérification.
+
+1. **Compte** : un compte WCL (le même que l'application). Créé ici, il se
+   confirme avec le **code** reçu par e-mail (champ sur `/connexion`).
+2. **Éditeur** : `/inscription` crée la maison ou l'auteur, `pending`.
+3. **Vérification** par WCL (`/editeurs`, personnel) : pièces déposées dans
+   « Mon compte », acceptées ou refusées avec motif, puis « Vérifier ». Tant
+   que le réglage `editeurs_verification_obligatoire` est vrai, un éditeur non
+   vérifié ne peut ni soumettre, ni être publié, ni être payé.
+4. **Accord-cadre** (`/editeurs`) : part propre, minimum garanti par mois,
+   avance récupérée sur les redevances, pays ouverts par défaut.
+5. **Dépôt** (`/catalogue`, un par un ou en masse), droits et pays déclarés.
+6. **Validation** (`/validation`) : l'approbation passe par la fonction
+   `submission-publish`, qui copie le fichier et la couverture sur R2 (d'où
+   l'application lit les livres) avant de publier. Le titre porte ses
+   territoires : il n'est ni listé ni ouvert hors des pays déclarés.
+7. **Redevances au TEMPS DE LECTURE** des abonnés payants (séances de
+   l'application). Deux modèles au choix (`redevances_modele`) :
+   `par_abonne` — l'argent de chaque abonné va aux livres qu'il a lus — ou
+   `fonds_commun`. Calcul provisoire le 1er de chaque mois ; consolidation par
+   WCL dans `/periodes` (ou le 15 si `redevances_consolidation_auto`).
+8. **Versements** (`/periodes`, panneau du bas) : préparés après
+   consolidation, avec seuil, fréquence, report, minimum garanti, avance,
+   retenue à la source par pays (une règle par pays est OBLIGATOIRE avant de
+   régler). Le virement se fait hors du portail ; on saisit sa référence, un
+   reçu est émis.
+
+**Toutes les décisions sont des réglages** (`/reglages`, personnel) : part des
+éditeurs (défaut 60 %), modèle, assiette nette ou brute, devise de référence
+(USD), lecture minimale (2 min) et maximale par jour (6 h), recettes comptées,
+frais par prestataire, seuil (10) et fréquence (trimestre) des versements,
+vérification obligatoire, consolidation automatique. La vitrine, le contrat et
+les conditions générales se composent de ces réglages (`i18n/modele.ts`).
+
+Test de la base : `wclplay/supabase/tests/editeurs_redevances.test.sql`
+(48 / 48 sur un PostgreSQL jetable).
+
+**Avant les vrais versements** : saisir les règles de retenue à la source des
+pays des éditeurs (avis fiscal), et décider des réglages.
 
 ## Ce qui est couvert
 
@@ -58,26 +104,15 @@ s'affiche mais l'inscription et le dépôt échouent.
 | B — Inscription auteur / éditeur, équipe, signature | ✅ |
 | C — Dépôt d'ouvrage (fichier compris), droits, états | ✅ |
 | D — File de validation WCL, doublons | ✅ |
-| E — Statistiques | ✅ écran et calculs livrés ; sans chiffre tant qu'aucune période n'a tourné |
-| F — Redevances | ✅ moteur, fiscalité et formule livrés ; sans chiffre tant qu'aucune période n'a tourné |
-| G — Versements | ✅ seuils, report et reçus livrés ; **aucun rail de paiement réel branché** |
+| E — Statistiques | ✅ en direct sur les séances de lecture de l'application |
+| F — Redevances | ✅ au temps de lecture, deux modèles, réglages (migration 20261009100000) |
+| G — Versements | ✅ seuil, fréquence, report, minimum garanti, avance, retenue fiscale, reçus ; virement fait hors du portail |
 
-**E et F affichent zéro tant qu'aucune période n'a été mesurée en production et
-consolidée**, pas parce que le calcul manque : le moteur existe et est testé
-(26 fichiers SQL, 4 suites de tests). C'est une distinction volontaire — un
-graphique de démonstration serait la première chose qu'un éditeur prendrait
-pour un engagement chiffré, alors qu'un écran vide décrit honnêtement
-« mesuré, mais pas encore de données ».
-
-**Deux règles de calcul s'écartent délibérément du cahier, et sont ratifiées :**
-les titres du domaine public **comptent au dénominateur** de la répartition
-(sans jamais rien toucher), et il n'y a **pas de seuil à 60 %** — chaque page
-traversée est comptée, jamais la longueur totale d'un titre.
-
-**G reste bloqué sur un point réel** : `payout_mark_settled` refuse tout
-règlement dont la fiscalité n'a pas été appréciée (`not_assessed` n'est pas une
-exonération), et aucun prestataire de paiement n'est branché derrière — les
-versements se préparent, ils ne partent pas encore.
+Les anciens fichiers `royalties_*.sql`, `payouts_*.sql` et `reading_*.sql` de
+`wclplay/supabase/` (comptage par PAGES, télémétrie jamais livrée, table
+`reading_sessions` homonyme de celle de l'application) ne sont **pas** en
+production et ne doivent pas y être collés : la migration 20261009100000 les
+remplace.
 
 ## Architecture
 

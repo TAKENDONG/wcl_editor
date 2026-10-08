@@ -6,6 +6,7 @@ import { ContractSection } from './ContractSection.tsx';
 import { PayoutSection } from './PayoutSection.tsx';
 import { DocumentsSection } from './DocumentsSection.tsx';
 import { SecuritySection } from './SecuritySection.tsx';
+import { VerificationBanner } from './VerificationBanner.tsx';
 
 // Module B — l'espace du compte éditeur. La page ne fait qu'assembler : chaque
 // section porte sa propre logique et son propre appel de service.
@@ -42,6 +43,7 @@ export default function AccountPage() {
         </div>
       )}
 
+      <VerificationBanner publisherId={current.publisher_id} />
       <ContractSection publisherId={current.publisher_id}
                        signedAt={current.contract_signed_at ?? null} onSigned={reload} />
       <TeamSection publisherId={current.publisher_id} />

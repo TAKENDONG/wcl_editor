@@ -20,7 +20,7 @@ export function ConcentrationTable(
       {flagged.length > 0 && (
         <p className="notice">
           {flagged.length === 1 ? 'Un éditeur dépasse' : `${flagged.length} éditeurs dépassent`}
-          {' '}25 % du pool. À ce niveau, leur départ déstabiliserait le catalogue :
+          {' '}25 % des redevances de la période. À ce niveau, leur départ déstabiliserait le catalogue :
           le plafond contractuel recommandé doit être vérifié avant mise en paiement.
         </p>
       )}
@@ -30,7 +30,7 @@ export function ConcentrationTable(
             <tr>
               <th>Éditeur</th>
               <th className="num">Montant</th>
-              <th className="num">Part du pool</th>
+              <th className="num">Part des redevances</th>
             </tr>
           </thead>
           <tbody>
@@ -53,7 +53,7 @@ export function ConcentrationTable(
         columns={[
           { key: 'publisher', label: 'Éditeur' },
           { key: 'amount', label: 'Montant' },
-          { key: 'share', label: 'Part du pool' },
+          { key: 'share', label: 'Part des redevances' },
           { key: 'over', label: 'Au-delà de 25 %' },
         ]}
         rows={rows.map((row) => ({

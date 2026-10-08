@@ -11,7 +11,7 @@ import { ExportButtons } from '../../components/ui/ExportButtons.tsx';
 export function CountryTable({ rows }: { rows: AnalyticsCountryRow[] }) {
   if (rows.length === 0) return null;
   const names = new Intl.DisplayNames(['fr'], { type: 'region' });
-  const total = rows.reduce((sum, row) => sum + Number(row.pages), 0);
+  const total = rows.reduce((sum, row) => sum + Number(row.minutes), 0);
   const label = (code: string | null): string => {
     if (!code) return 'Pays non déterminé';
     try {
@@ -28,7 +28,7 @@ export function CountryTable({ rows }: { rows: AnalyticsCountryRow[] }) {
           <thead>
             <tr>
               <th>Pays</th>
-              <th className="num">Pages lues</th>
+              <th className="num">Minutes lues</th>
               <th className="num">Part</th>
               <th className="num">Lecteurs uniques</th>
             </tr>
@@ -37,9 +37,9 @@ export function CountryTable({ rows }: { rows: AnalyticsCountryRow[] }) {
             {rows.map((row) => (
               <tr key={row.country ?? 'inconnu'}>
                 <td>{label(row.country)}</td>
-                <td className="num">{Number(row.pages).toLocaleString('fr-FR')}</td>
+                <td className="num">{Number(row.minutes).toLocaleString('fr-FR')}</td>
                 <td className="num">
-                  {total > 0 ? `${((Number(row.pages) / total) * 100).toFixed(1)} %` : '—'}
+                  {total > 0 ? `${((Number(row.minutes) / total) * 100).toFixed(1)} %` : '—'}
                 </td>
                 <td className="num">{Number(row.unique_readers).toLocaleString('fr-FR')}</td>
               </tr>
@@ -52,12 +52,12 @@ export function CountryTable({ rows }: { rows: AnalyticsCountryRow[] }) {
         title="Lectures par pays"
         columns={[
           { key: 'country', label: 'Pays' },
-          { key: 'pages', label: 'Pages lues' },
+          { key: 'minutes', label: 'Minutes lues' },
           { key: 'readers', label: 'Lecteurs uniques' },
         ]}
         rows={rows.map((row) => ({
           country: label(row.country),
-          pages: row.pages,
+          minutes: row.minutes,
           readers: row.unique_readers,
         }))}
       />

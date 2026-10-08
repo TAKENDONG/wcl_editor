@@ -78,14 +78,17 @@ export type RoyaltyStatementLine = {
   period_start: string;
   state: RoyaltyPeriodState;
   currency: string;
+  model: RoyaltyModel;
   pool_amount: number;
-  total_pages: number;
-  rate_per_page: number;
+  total_minutes: number;
   undistributed: number;
   content_id: string;
   title: string;
-  validated_pages: number;
+  minutes: number;
   unique_readers: number;
+  /** Recette des abonnés attribuée à ce titre, avant application de la part. */
+  attributed_revenue: number;
+  part_rate: number;
   amount: number;
 };
 
@@ -93,14 +96,13 @@ export type RoyaltyHistoryRow = {
   period_start: string;
   state: RoyaltyPeriodState;
   currency: string;
-  rate_per_page: number;
-  pages: number;
+  minutes: number;
   amount: number;
 };
 
 export type AnalyticsOverview = {
   sessions: number;
-  pages: number;
+  minutes: number;
   unique_readers: number;
   titles: number;
   is_consolidated: boolean;
@@ -109,21 +111,23 @@ export type AnalyticsOverview = {
 export type AnalyticsTitleRow = {
   content_id: string;
   title: string;
-  pages: number;
+  minutes: number;
   unique_readers: number;
   sessions: number;
-  avg_dwell_ms: number;
+  avg_session_minutes: number;
   completion: number | null;
 };
 
 export type AnalyticsCountryRow = {
   country: string | null;
-  pages: number;
+  minutes: number;
   unique_readers: number;
 };
 
 export type PayoutState =
-  | 'pending' | 'below_threshold' | 'processing' | 'paid' | 'failed';
+  | 'pending' | 'below_threshold' | 'carried' | 'processing' | 'paid' | 'failed';
+
+export type RoyaltyModel = 'par_abonne' | 'fonds_commun';
 
 /// Une ligne de versement. Elle porte le DETAIL DU REPORT et pas seulement le
 /// montant verse : un editeur paye zero doit voir que sa somme n'est pas
@@ -132,13 +136,21 @@ export type PayoutRow = {
   period_start: string;
   currency: string;
   earned: number;
+  /** Complément du minimum garanti de l'accord. */
+  minimum_topup: number;
+  /** Part de l'avance récupérée sur ce mois. */
+  recouped: number;
   carried_in: number;
   due: number;
   threshold: number;
   paid_amount: number;
   carried_out: number;
   state: PayoutState;
+  /** `editeur_non_verifie` | `periode_intermediaire` quand `state = carried`. */
+  hold_reason: string | null;
   method: string | null;
+  withheld_amount: number;
+  net_paid: number | null;
   receipt_no: string | null;
   settled_at: string | null;
 };
@@ -160,14 +172,17 @@ export type AdminPeriodRow = {
   period_start: string;
   state: RoyaltyPeriodState;
   currency: string;
+  model: RoyaltyModel;
+  pool_basis: 'net' | 'brut';
+  part_rate: number;
   gross_revenue: number | null;
   provider_fees: number | null;
   net_revenue: number | null;
-  pool_basis: 'gross' | 'net';
   pool_amount: number | null;
-  total_pages: number | null;
-  rate_per_page: number | null;
-  distributed: number;
+  total_minutes: number | null;
+  subscribers: number | null;
+  paying_readers: number | null;
+  distributed: number | null;
   undistributed: number | null;
   publishers: number;
   consolidated_at: string | null;

@@ -11,10 +11,11 @@ import { PeriodPicker, rangeOf, type RangeKey } from './PeriodPicker.tsx';
 import { TitleTable } from './TitleTable.tsx';
 import { CountryTable } from './CountryTable.tsx';
 
-// Module E. Alimente par la sonde de lecture : tant qu'aucune page n'a ete
-// mesuree, les tableaux restent VIDES plutot que remplis d'un jeu de
-// demonstration — un graphique de demonstration serait la premiere chose qu'un
-// editeur prendrait pour un engagement chiffre.
+// Module E. Lu EN DIRECT sur les seances de lecture de l'application (temps de
+// lecture actif, depuis le 09/10/2026) : tant qu'aucun de vos titres n'a ete
+// lu, les tableaux restent VIDES plutot que remplis d'un jeu de demonstration
+// — un graphique de demonstration serait la premiere chose qu'un editeur
+// prendrait pour un engagement chiffre.
 export default function AnalyticsPage() {
   const { strings } = useLocale();
   const [range, setRange] = useState<RangeKey>('month');
@@ -50,7 +51,7 @@ export default function AnalyticsPage() {
     void load(range, custom.from, custom.to);
   }, [load, range, custom.from, custom.to]);
 
-  const hasData = (overview?.pages ?? 0) > 0;
+  const hasData = Number(overview?.minutes ?? 0) > 0;
 
   return (
     <>
@@ -75,8 +76,8 @@ export default function AnalyticsPage() {
         <>
           <div className="grid grid--4">
             <div className="card stat">
-              <span className="stat__label">Pages normalisées lues</span>
-              <strong>{Number(overview.pages).toLocaleString('fr-FR')}</strong>
+              <span className="stat__label">Minutes de lecture</span>
+              <strong>{Number(overview.minutes).toLocaleString('fr-FR')}</strong>
             </div>
             <div className="card stat">
               <span className="stat__label">Lecteurs uniques</span>
@@ -98,8 +99,8 @@ export default function AnalyticsPage() {
           <p className={overview.is_consolidated ? 'muted' : 'notice'}>
             {overview.is_consolidated
               ? 'Chiffres consolidés sur toute la période affichée.'
-              : 'Estimation en temps réel : la période n’est pas encore consolidée '
-                + 'et ces chiffres peuvent encore varier.'}
+              : 'Lecture en temps réel, abonnés et lecteurs à l’essai confondus. Seul '
+                + 'le temps lu par les abonnés payants entre dans les redevances.'}
           </p>
 
           <TitleTable rows={titles} />

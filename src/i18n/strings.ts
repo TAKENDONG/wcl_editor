@@ -22,15 +22,7 @@ export type Strings = {
   yearLabel: string;
   range: { day: string; month: string; year: string; custom: string };
   navSignOut: string;
-  heroTitle: string;
-  heroLead: string;
   heroCta: string;
-  modelTitle: string;
-  modelPool: string;
-  modelPage: string;
-  modelValidated: string;
-  modelRate: string;
-  modelPublicDomain: string;
   faqTitle: string;
   signInTitle: string;
   /// Messages des refus leves par la validation et le pilotage des periodes.
@@ -71,15 +63,9 @@ export type Strings = {
   reject: string;
   reviewNotes: string;
   duplicates: string;
-  faqVerifyQ: string;
-  faqVerifyA: string;
   faqProtectQ: string;
   faqProtectA: string;
-  heroPanelTitle: string;
-  heroPanelNote: string;
   footerNote: string;
-  formulaRate: string;
-  formulaShare: string;
   subtitle: string;
   edition: string;
   categories: string;
@@ -114,10 +100,6 @@ export type Strings = {
   contractIntro: string;
   contractAgree: string;
   contractSigned: string;
-  contractTermPool: string;
-  contractTermPage: string;
-  contractTermCap: string;
-  contractTermProvisional: string;
   payoutMethod: string;
   payoutReference: string;
   payoutHint: string;
@@ -155,6 +137,19 @@ export type Strings = {
   mfaConfirm: string;
   mfaActive: string;
   mfaRemove: string;
+  navPublishers: string;
+  navSettings: string;
+  /// Vérification du compte par WCL (09/10/2026).
+  verifTitle: string;
+  verifPending: string;
+  verifVerified: string;
+  verifSuspended: string;
+  verifClosed: string;
+  verifLastNote: string;
+  /// Inscription : le code reçu par e-mail.
+  codeLabel: string;
+  codeConfirm: string;
+  codeSent: string;
   cancel: string;
 };
 
@@ -163,6 +158,7 @@ const fr: Strings = {
   navVitrine: 'Accueil', navCatalog: 'Catalogue', navAnalytics: 'Statistiques',
   navRoyalties: 'Redevances', navPayouts: 'Versements', navReview: 'Validation',
   navPeriods: 'Périodes',
+  navPublishers: 'Éditeurs', navSettings: 'Réglages',
   privacyTitle: 'Données de lecture',
   heroCtaSignedIn: 'Accéder à mon espace',
   rangeFrom: 'Du', rangeTo: 'Au',
@@ -170,18 +166,7 @@ const fr: Strings = {
   dayLabel: 'jour', monthLabel: 'mois', yearLabel: 'année',
   range: { day: 'Jour', month: 'Mois', year: 'Année', custom: 'Personnalisé' },
   navSignOut: 'Se déconnecter',
-  heroTitle: 'Publiez vos ouvrages. Soyez payé aux pages réellement lues.',
-  heroLead:
-    "World Conquest Library est la bibliothèque numérique de la CMCI. Les éditeurs et auteurs " +
-    "y publient leurs ouvrages et perçoivent une redevance calculée sur les pages effectivement " +
-    "lues, selon une formule publiée que chacun peut recalculer.",
   heroCta: 'Devenir auteur ou éditeur',
-  modelTitle: 'Le modèle de rémunération, en cinq lignes',
-  modelPool: 'Un pool égal à 30 % de la recette nette des abonnements de la période.',
-  modelPage: 'Une page rémunérée = 1 800 signes de texte courant, mesurés par WCL sur le fichier déposé.',
-  modelValidated: 'Une page est validée lorsqu’elle a été réellement parcourue, avec un temps de lecture cohérent.',
-  modelRate: 'Taux par page = pool ÷ total des pages validées. Votre part = vos pages validées × ce taux.',
-  modelPublicDomain: 'Les titres du domaine public ne perçoivent rien, mais comptent dans le total.',
   faqTitle: 'Questions fréquentes',
   serverErrors: {
     forbidden: 'Cet écran est réservé aux administrateurs WCL.',
@@ -192,6 +177,10 @@ const fr: Strings = {
     not_reviewable: 'Ce dossier n’est plus en attente de décision — il a déjà été traité.',
     not_found: 'Ce dossier n’existe plus.',
     unknown_decision: 'Décision inconnue.',
+    publisher_not_verified: 'Ce compte éditeur n’est pas encore vérifié par WCL : la soumission et la publication attendent la vérification.',
+    tax_not_assessed: 'Aucune règle de retenue à la source pour le pays de cet éditeur : ajoutez-la avant de régler.',
+    valeur_invalide: 'Valeur refusée pour ce réglage.',
+    periode_future: 'Cette période n’a pas encore commencé.',
   },
   signInTitle: 'Accéder à votre espace',
   forgotPassword: 'Mot de passe oublié ?',
@@ -211,30 +200,18 @@ const fr: Strings = {
   rightsDeclaration: 'Déclaration de droits', territories: 'Territoires couverts',
   noData: 'Aucune donnée pour l’instant.',
   pendingProbe:
-    "Ces chiffres seront alimentés par la sonde de lecture, qui n’est pas encore livrée. " +
-    "Aucune donnée n’est inventée : tant que la sonde n’a pas tourné un mois complet, " +
-    "cet écran reste vide.",
+    'Les chiffres apparaissent dès que vos titres publiés sont lus dans l’application. ' +
+    'Aucune donnée n’est inventée : tant que rien n’a été lu, cet écran reste vide.',
   reviewTitle: 'File de validation',
   approve: 'Approuver', requestChanges: 'Demander une correction', reject: 'Rejeter',
   reviewNotes: 'Motif (obligatoire sauf approbation)', duplicates: 'Doublons probables',
-  faqVerifyQ: 'Comment vérifier mon relevé ?',
-  faqVerifyA:
-    'Chaque période publie le montant du pool, le total des pages validées de la plateforme et ' +
-    'le taux par page. Multipliez vos pages validées par ce taux : vous devez retrouver votre ' +
-    'part, au centime près.',
   faqProtectQ: 'Que protège exactement WCL ?',
   faqProtectA:
     'Vos fichiers sont stockés dans un espace privé, servis par des liens qui expirent en quinze ' +
     'minutes, tronqués à un aperçu pour les non-abonnés, et chiffrés sur l’appareil de chaque ' +
     'lecteur. Il n’y a en revanche ni DRM industriel, ni filigrane par lecteur, ni effacement à ' +
     'distance : nous préférons l’écrire ici plutôt que de le laisser supposer.',
-  heroPanelTitle: 'La formule, publiée',
-  heroPanelNote:
-    'Ni barème négocié, ni part discrétionnaire. Le même calcul pour tous, recalculable par ' +
-    'chacun à partir des chiffres publiés.',
   footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
-  formulaRate:  'taux_par_page = pool ÷ pages_validées_totales',
-  formulaShare: 'votre_part    = vos_pages_validées × taux_par_page',
   subtitle: 'Sous-titre', edition: 'Édition', categories: 'Thèmes et catégories',
   keywords: 'Mots-clés',
   bookFile: 'Fichier de l’ouvrage', coverFile: 'Couverture',
@@ -257,10 +234,6 @@ const fr: Strings = {
   contractIntro: 'En signant, vous acceptez les règles de rémunération du portail. Elles sont publiées et identiques pour tous les éditeurs.',
   contractAgree: 'Je déclare détenir les droits de distribution numérique des ouvrages que je dépose, et j’accepte les termes ci-dessus.',
   contractSigned: 'Contrat signé',
-  contractTermPool: 'Le pool vaut 30 % de la recette nette des abonnements de la période.',
-  contractTermPage: 'Une page rémunérée = 1 800 signes de texte courant, mesurés par WCL sur le fichier déposé. La rémunération porte sur les pages effectivement parcourues, jamais sur la longueur totale de l’ouvrage.',
-  contractTermCap: 'Aucun éditeur ne peut dépasser 25 % du pool d’une période sans revue manuelle.',
-  contractTermProvisional: 'Les plafonds de lecture sont provisoires et seront recalibrés à l’issue de la période d’observation, à la hausse comme à la baisse.',
   payoutMethod: 'Moyen de versement', payoutReference: 'Référence (numéro ou IBAN)',
   bankTransfer: 'Virement bancaire', currency: 'Devise',
   taxId: 'Identifiant fiscal', taxRegime: 'Régime fiscal', saved: 'Enregistré.',
@@ -284,6 +257,18 @@ const fr: Strings = {
   mfaEnable: 'Activer la double authentification',
   mfaScan: 'Scannez ce code avec votre application d’authentification, puis saisissez le code à six chiffres. Conservez la clé ci-dessous : elle permet de reconfigurer un nouvel appareil.',
   mfaCode: 'Code à six chiffres', mfaConfirm: 'Confirmer', mfaActive: 'Active',
+  verifTitle: 'Vérification du compte',
+  verifPending:
+    'Votre compte attend la vérification de WCL. Déposez vos pièces ci-dessous (identité ou ' +
+    'existence légale, attestation de droits) : vous pourrez soumettre vos ouvrages et être payé ' +
+    'dès qu’il sera vérifié.',
+  verifVerified: 'Compte vérifié par WCL.',
+  verifSuspended: 'Compte suspendu par WCL. Les soumissions et les versements sont arrêtés.',
+  verifClosed: 'Compte fermé.',
+  verifLastNote: 'Message de WCL :',
+  codeLabel: 'Code reçu par e-mail',
+  codeConfirm: 'Confirmer mon adresse',
+  codeSent: 'Compte créé. Saisissez le code envoyé à votre adresse électronique.',
   mfaRemove: 'Désactiver', cancel: 'Annuler',
 };
 
@@ -293,6 +278,7 @@ const en: Strings = {
   navVitrine: 'Home', navCatalog: 'Catalogue', navAnalytics: 'Statistics',
   navRoyalties: 'Royalties', navPayouts: 'Payouts', navReview: 'Review',
   navPeriods: 'Periods',
+  navPublishers: 'Publishers', navSettings: 'Settings',
   privacyTitle: 'Reading data',
   heroCtaSignedIn: 'Go to my space',
   rangeFrom: 'From', rangeTo: 'To',
@@ -300,18 +286,7 @@ const en: Strings = {
   dayLabel: 'day', monthLabel: 'month', yearLabel: 'year',
   range: { day: 'Day', month: 'Month', year: 'Year', custom: 'Custom' },
   navSignOut: 'Sign out',
-  heroTitle: 'Publish your works. Get paid for pages actually read.',
-  heroLead:
-    'World Conquest Library is CMCI’s digital library. Publishers and authors publish their ' +
-    'works here and earn a royalty computed on pages actually read, using a published formula ' +
-    'anyone can recompute.',
   heroCta: 'Become an author or publisher',
-  modelTitle: 'The remuneration model, in five lines',
-  modelPool: 'A pool equal to 30% of the period’s net subscription revenue.',
-  modelPage: 'One paid page = 1,800 characters of running text, measured by WCL on the file you submit.',
-  modelValidated: 'A page counts once genuinely traversed, with a coherent reading time.',
-  modelRate: 'Rate per page = pool ÷ total validated pages. Your share = your validated pages × that rate.',
-  modelPublicDomain: 'Public-domain titles earn nothing, but they count in the total.',
   faqTitle: 'Frequently asked questions',
   serverErrors: {
     forbidden: 'This screen is reserved for WCL administrators.',
@@ -322,6 +297,10 @@ const en: Strings = {
     not_reviewable: 'This submission is no longer awaiting a decision — it has already been handled.',
     not_found: 'This submission no longer exists.',
     unknown_decision: 'Unknown decision.',
+    publisher_not_verified: 'This publisher account is not yet verified by WCL: submission and publication wait for the verification.',
+    tax_not_assessed: 'No withholding tax rule for this publisher’s country: add it before settling.',
+    valeur_invalide: 'Value refused for this setting.',
+    periode_future: 'This period has not started yet.',
   },
   signInTitle: 'Access your workspace',
   forgotPassword: 'Forgotten password?',
@@ -338,28 +317,18 @@ const en: Strings = {
   rightsDeclaration: 'Rights declaration', territories: 'Territories covered',
   noData: 'No data yet.',
   pendingProbe:
-    'These figures will be fed by the reading probe, which has not shipped yet. Nothing is ' +
-    'fabricated: until the probe has run for a full month, this screen stays empty.',
+    'Figures appear as soon as your published titles are read in the app. ' +
+    'Nothing is made up: until something has been read, this screen stays empty.',
   reviewTitle: 'Review queue',
   approve: 'Approve', requestChanges: 'Request changes', reject: 'Reject',
   reviewNotes: 'Reason (required unless approving)', duplicates: 'Likely duplicates',
-  faqVerifyQ: 'How do I verify my statement?',
-  faqVerifyA:
-    'Every period publishes the pool amount, the platform’s total validated pages and the rate ' +
-    'per page. Multiply your validated pages by that rate: you must find your share, to the cent.',
   faqProtectQ: 'What exactly does WCL protect?',
   faqProtectA:
     'Your files sit in private storage, are served through links that expire in fifteen minutes, ' +
     'are truncated to a preview for non-subscribers, and are encrypted on each reader’s device. ' +
     'There is however no industrial DRM, no per-reader watermark and no remote wipe: we would ' +
     'rather write that here than let it be assumed.',
-  heroPanelTitle: 'The formula, published',
-  heroPanelNote:
-    'No negotiated rate, no discretionary share. The same calculation for everyone, recomputable ' +
-    'by anyone from the published figures.',
   footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
-  formulaRate:  'rate_per_page = pool ÷ total_validated_pages',
-  formulaShare: 'your_share    = your_validated_pages × rate_per_page',
   subtitle: 'Subtitle', edition: 'Edition', categories: 'Themes and categories',
   keywords: 'Keywords',
   bookFile: 'Work file', coverFile: 'Cover',
@@ -382,10 +351,6 @@ const en: Strings = {
   contractIntro: 'By signing you accept the portal’s remuneration rules. They are published and identical for every publisher.',
   contractAgree: 'I declare that I hold the digital distribution rights to the works I submit, and I accept the terms above.',
   contractSigned: 'Contract signed',
-  contractTermPool: 'The pool equals 30% of the period’s net subscription revenue.',
-  contractTermPage: 'One paid page = 1,800 characters of running text, measured by WCL on the submitted file. Payment covers pages actually traversed, never the work’s total length.',
-  contractTermCap: 'No publisher may exceed 25% of a period’s pool without manual review.',
-  contractTermProvisional: 'Reading caps are provisional and will be recalibrated after the observation period, upwards or downwards.',
   payoutMethod: 'Payout method', payoutReference: 'Reference (number or IBAN)',
   bankTransfer: 'Bank transfer', currency: 'Currency',
   taxId: 'Tax identifier', taxRegime: 'Tax regime', saved: 'Saved.',
@@ -409,6 +374,18 @@ const en: Strings = {
   mfaEnable: 'Enable two-factor authentication',
   mfaScan: 'Scan this code with your authenticator app, then enter the six-digit code. Keep the key below: it lets you set up a new device.',
   mfaCode: 'Six-digit code', mfaConfirm: 'Confirm', mfaActive: 'Active',
+  verifTitle: 'Account verification',
+  verifPending:
+    'Your account is awaiting verification by WCL. Upload your documents below (identity or ' +
+    'legal existence, rights attestation): you will be able to submit books and be paid as ' +
+    'soon as it is verified.',
+  verifVerified: 'Account verified by WCL.',
+  verifSuspended: 'Account suspended by WCL. Submissions and payments are stopped.',
+  verifClosed: 'Account closed.',
+  verifLastNote: 'Message from WCL:',
+  codeLabel: 'Code received by email',
+  codeConfirm: 'Confirm my address',
+  codeSent: 'Account created. Enter the code sent to your email address.',
   mfaRemove: 'Disable', cancel: 'Cancel',
 };
 
@@ -418,6 +395,7 @@ const es: Strings = {
   navVitrine: 'Inicio', navCatalog: 'Catálogo', navAnalytics: 'Estadísticas',
   navRoyalties: 'Regalías', navPayouts: 'Pagos', navReview: 'Validación',
   navPeriods: 'Periodos',
+  navPublishers: 'Editores', navSettings: 'Ajustes',
   privacyTitle: 'Datos de lectura',
   heroCtaSignedIn: 'Ir a mi espacio',
   rangeFrom: 'Desde', rangeTo: 'Hasta',
@@ -425,18 +403,7 @@ const es: Strings = {
   dayLabel: 'día', monthLabel: 'mes', yearLabel: 'año',
   range: { day: 'Día', month: 'Mes', year: 'Año', custom: 'Personalizado' },
   navSignOut: 'Cerrar sesión',
-  heroTitle: 'Publique sus obras. Cobre por las páginas realmente leídas.',
-  heroLead:
-    'World Conquest Library es la biblioteca digital de la CMCI. Editores y autores publican ' +
-    'aquí sus obras y perciben una regalía calculada sobre las páginas realmente leídas, según ' +
-    'una fórmula publicada que cualquiera puede recalcular.',
   heroCta: 'Ser autor o editor',
-  modelTitle: 'El modelo de remuneración, en cinco líneas',
-  modelPool: 'Un fondo igual al 30 % de los ingresos netos por suscripción del período.',
-  modelPage: 'Una página remunerada = 1 800 caracteres de texto corrido, medidos por WCL.',
-  modelValidated: 'Una página se valida cuando ha sido realmente recorrida, con un tiempo coherente.',
-  modelRate: 'Tasa por página = fondo ÷ total de páginas validadas. Su parte = sus páginas × esa tasa.',
-  modelPublicDomain: 'Los títulos de dominio público no cobran, pero cuentan en el total.',
   faqTitle: 'Preguntas frecuentes',
   serverErrors: {
     forbidden: 'Esta pantalla está reservada a los administradores de WCL.',
@@ -447,6 +414,10 @@ const es: Strings = {
     not_reviewable: 'Este expediente ya no espera decisión — ya fue tratado.',
     not_found: 'Este expediente ya no existe.',
     unknown_decision: 'Decisión desconocida.',
+    publisher_not_verified: 'Esta cuenta de editor aún no está verificada por WCL: el envío y la publicación esperan la verificación.',
+    tax_not_assessed: 'No hay regla de retención para el país de este editor: añádala antes de pagar.',
+    valeur_invalide: 'Valor rechazado para este ajuste.',
+    periode_future: 'Este periodo aún no ha comenzado.',
   },
   signInTitle: 'Acceder a su espacio', email: 'Correo electrónico', password: 'Contraseña',
   forgotPassword: '¿Contraseña olvidada?',
@@ -464,29 +435,18 @@ const es: Strings = {
   rightsDeclaration: 'Declaración de derechos', territories: 'Territorios cubiertos',
   noData: 'Todavía no hay datos.',
   pendingProbe:
-    'Estas cifras se alimentarán de la sonda de lectura, que aún no se ha entregado. No se ' +
-    'inventa ningún dato: hasta que la sonda funcione un mes completo, esta pantalla queda vacía.',
+    'Las cifras aparecen en cuanto sus títulos publicados se leen en la aplicación. ' +
+    'No se inventa nada: mientras no se haya leído nada, esta pantalla queda vacía.',
   reviewTitle: 'Cola de validación',
   approve: 'Aprobar', requestChanges: 'Solicitar corrección', reject: 'Rechazar',
   reviewNotes: 'Motivo (obligatorio salvo aprobación)', duplicates: 'Duplicados probables',
-  faqVerifyQ: '¿Cómo verificar mi liquidación?',
-  faqVerifyA:
-    'Cada período publica el importe del fondo, el total de páginas validadas de la plataforma y ' +
-    'la tasa por página. Multiplique sus páginas validadas por esa tasa: debe encontrar su parte, ' +
-    'al céntimo.',
   faqProtectQ: '¿Qué protege exactamente WCL?',
   faqProtectA:
     'Sus archivos se guardan en un espacio privado, se sirven mediante enlaces que caducan en ' +
     'quince minutos, se truncan a una vista previa para los no suscriptores y se cifran en el ' +
     'dispositivo de cada lector. En cambio no hay DRM industrial, ni marca de agua por lector, ni ' +
     'borrado remoto: preferimos escribirlo aquí antes que dejarlo suponer.',
-  heroPanelTitle: 'La fórmula, publicada',
-  heroPanelNote:
-    'Ni tarifa negociada, ni parte discrecional. El mismo cálculo para todos, recalculable por ' +
-    'cualquiera a partir de las cifras publicadas.',
   footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
-  formulaRate:  'tasa_por_pagina = fondo ÷ paginas_validadas_totales',
-  formulaShare: 'su_parte        = sus_paginas_validadas × tasa_por_pagina',
   subtitle: 'Subtítulo', edition: 'Edición', categories: 'Temas y categorías',
   keywords: 'Palabras clave',
   bookFile: 'Archivo de la obra', coverFile: 'Portada',
@@ -509,10 +469,6 @@ const es: Strings = {
   contractIntro: 'Al firmar acepta las reglas de remuneración del portal. Son públicas e idénticas para todos los editores.',
   contractAgree: 'Declaro poseer los derechos de distribución digital de las obras que deposito y acepto los términos anteriores.',
   contractSigned: 'Contrato firmado',
-  contractTermPool: 'El fondo equivale al 30 % de los ingresos netos por suscripción del período.',
-  contractTermPage: 'Una página remunerada = 1 800 caracteres de texto corrido, medidos por WCL sobre el archivo depositado. Se paga por páginas realmente recorridas, nunca por la longitud total.',
-  contractTermCap: 'Ningún editor puede superar el 25 % del fondo de un período sin revisión manual.',
-  contractTermProvisional: 'Los límites de lectura son provisionales y se recalibrarán tras el período de observación.',
   payoutMethod: 'Medio de pago', payoutReference: 'Referencia (número o IBAN)',
   bankTransfer: 'Transferencia bancaria', currency: 'Moneda',
   taxId: 'Identificador fiscal', taxRegime: 'Régimen fiscal', saved: 'Guardado.',
@@ -536,6 +492,17 @@ const es: Strings = {
   mfaEnable: 'Activar la doble autenticación',
   mfaScan: 'Escanee este código con su aplicación de autenticación y escriba el código de seis dígitos. Conserve la clave: permite configurar un nuevo dispositivo.',
   mfaCode: 'Código de seis dígitos', mfaConfirm: 'Confirmar', mfaActive: 'Activa',
+  verifTitle: 'Verificación de la cuenta',
+  verifPending:
+    'Su cuenta espera la verificación de WCL. Suba sus documentos abajo (identidad o existencia ' +
+    'legal, certificación de derechos): podrá enviar sus obras y cobrar en cuanto esté verificada.',
+  verifVerified: 'Cuenta verificada por WCL.',
+  verifSuspended: 'Cuenta suspendida por WCL. Los envíos y los pagos están detenidos.',
+  verifClosed: 'Cuenta cerrada.',
+  verifLastNote: 'Mensaje de WCL:',
+  codeLabel: 'Código recibido por correo',
+  codeConfirm: 'Confirmar mi dirección',
+  codeSent: 'Cuenta creada. Introduzca el código enviado a su correo electrónico.',
   mfaRemove: 'Desactivar', cancel: 'Cancelar',
 };
 

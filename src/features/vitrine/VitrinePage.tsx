@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
+import { textesModele } from '../../i18n/modele.ts';
+import { useModele } from '../../hooks/useModele.ts';
 
 // Module A — vitrine publique, accessible sans compte, en FR / EN / ES.
 //
@@ -8,22 +10,16 @@ import { useLocale } from '../../i18n/LocaleContext.tsx';
 // l'inscription vaut mieux que de la promettre, et elle occupe une largeur qui
 // resterait sinon vide.
 export default function VitrinePage({ signedIn }: { signedIn: boolean }) {
-  const { strings } = useLocale();
-
-  const model = [
-    strings.modelPool,
-    strings.modelPage,
-    strings.modelValidated,
-    strings.modelRate,
-    strings.modelPublicDomain,
-  ];
+  const { strings, locale } = useLocale();
+  // Le modèle affiché est celui que le calcul applique (réglages WCL).
+  const t = textesModele(locale, useModele());
 
   return (
     <>
       <section className="hero">
         <div>
-          <h1>{strings.heroTitle}</h1>
-          <p className="lead">{strings.heroLead}</p>
+          <h1>{t.heroTitle}</h1>
+          <p className="lead">{t.heroLead}</p>
           {/* Un visiteur connecte n'a rien a faire de « Se connecter », et
               « Devenir editeur » lui propose une inscription qu'il a deja
               faite. Les deux appels a l'action changent donc ensemble : les
@@ -45,27 +41,26 @@ export default function VitrinePage({ signedIn }: { signedIn: boolean }) {
         </div>
 
         <aside className="hero__panel">
-          <span className="hero__panel-label">{strings.heroPanelTitle}</span>
-          <pre className="formula" style={{ margin: '0.75rem 0 0' }}>
-{strings.formulaRate}
-{'\n'}{strings.formulaShare}
+          <span className="hero__panel-label">{t.panelTitle}</span>
+          <pre className="formula" style={{ margin: '0.75rem 0 0', whiteSpace: 'pre-wrap' }}>
+{t.formula.join('\n')}
           </pre>
           <p className="muted" style={{ fontSize: '0.85rem', margin: '0.9rem 0 0', lineHeight: 1.6 }}>
-            {strings.heroPanelNote}
+            {t.panelNote}
           </p>
         </aside>
       </section>
 
-      <h2>{strings.modelTitle}</h2>
+      <h2>{t.modelTitle}</h2>
       <ol className="steps">
-        {model.map((line) => <li key={line} className="steps__item">{line}</li>)}
+        {t.lines.map((line) => <li key={line} className="steps__item">{line}</li>)}
       </ol>
 
       <h2>{strings.faqTitle}</h2>
       <div className="faq">
         <div className="faq__item">
-          <h3>{strings.faqVerifyQ}</h3>
-          <p>{strings.faqVerifyA}</p>
+          <h3>{t.faqVerifyQ}</h3>
+          <p>{t.faqVerifyA}</p>
         </div>
         <div className="faq__item">
           <h3>{strings.faqProtectQ}</h3>

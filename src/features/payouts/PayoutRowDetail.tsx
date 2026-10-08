@@ -6,6 +6,7 @@ import { downloadBytes } from '../../services/downloadTable.ts';
 export const STATE_LABELS: Record<PayoutState, string> = {
   pending: 'À verser',
   below_threshold: 'Sous le seuil — reporté',
+  carried: 'Reporté',
   processing: 'En cours',
   paid: 'Versé',
   failed: 'Échec',
@@ -14,14 +15,15 @@ export const STATE_LABELS: Record<PayoutState, string> = {
 const STATE_CLASS: Record<PayoutState, string> = {
   pending: 'badge badge--warn',
   below_threshold: 'badge',
+  carried: 'badge',
   processing: 'badge badge--warn',
   paid: 'badge badge--ok',
   failed: 'badge badge--danger',
 };
 
-// Une ligne de versement. Les six colonnes de montants sont affichees ensemble
-// pour que l'egalite « gagne + report entrant = du = verse + report sortant »
-// se verifie a l'oeil : c'est la seule facon qu'un editeur constate qu'aucun
+// Une ligne de versement. Les colonnes de montants sont affichees ensemble pour
+// que l'egalite « gagne + minimum + report entrant − avance = du = verse +
+// report sortant » se verifie a l'oeil : c'est la seule facon qu'un editeur constate qu'aucun
 // franc n'a disparu entre deux periodes.
 export function PayoutRowDetail(
   { row, publisher }: { row: PayoutRow; publisher: string },
@@ -30,6 +32,8 @@ export function PayoutRowDetail(
     <tr>
       <td>{row.period_start.slice(0, 7)}</td>
       <td className="num">{formatMoney(row.earned, row.currency)}</td>
+      <td className="num">{formatMoney(row.minimum_topup, row.currency)}</td>
+      <td className="num">−{formatMoney(row.recouped, row.currency)}</td>
       <td className="num">{formatMoney(row.carried_in, row.currency)}</td>
       <td className="num"><strong>{formatMoney(row.due, row.currency)}</strong></td>
       <td className="num muted">{formatMoney(row.threshold, row.currency)}</td>

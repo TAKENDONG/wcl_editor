@@ -16,6 +16,8 @@ import PeriodsPage from '../features/admin/PeriodsPage.tsx';
 import AnalyticsPage from '../features/analytics/AnalyticsPage.tsx';
 import RoyaltiesPage from '../features/royalties/RoyaltiesPage.tsx';
 import PayoutsPage from '../features/payouts/PayoutsPage.tsx';
+import PublishersPage from '../features/staff/PublishersPage.tsx';
+import SettingsPage from '../features/staff/SettingsPage.tsx';
 
 // Table de routes unique, comme dans wclAdmin. La vitrine (module A) est
 // PUBLIQUE : le cahier veut qu'un editeur decouvre le modele avant de creer un
@@ -67,6 +69,8 @@ function PortalRoutes({ signedIn }: { signedIn: boolean }) {
         <Route path="/versements" element={allow(caps.canViewFinance, <PayoutsPage />)} />
         <Route path="/validation" element={allow(caps.isWclStaff, <ReviewQueuePage />)} />
         <Route path="/periodes" element={allow(caps.isWclStaff, <PeriodsPage />)} />
+        <Route path="/editeurs" element={allow(caps.isWclStaff, <PublishersPage />)} />
+        <Route path="/reglages" element={allow(caps.isWclStaff, <SettingsPage />)} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>

@@ -42,6 +42,12 @@ export function PortalLayout({ signedIn }: { signedIn: boolean }) {
           {caps.isWclStaff && (
             <NavLink to="/periodes" className={cls}>{strings.navPeriods}</NavLink>
           )}
+          {caps.isWclStaff && (
+            <NavLink to="/editeurs" className={cls}>{strings.navPublishers}</NavLink>
+          )}
+          {caps.isWclStaff && (
+            <NavLink to="/reglages" className={cls}>{strings.navSettings}</NavLink>
+          )}
         </nav>
         <div className="topbar__spacer" />
         <LanguageSwitch />

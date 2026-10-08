@@ -34,10 +34,12 @@ export default function PayoutsPage() {
 
   useEffect(() => { void load(); }, [load]);
 
-  const carried = rows
-    .filter((row) => row.state === 'below_threshold')
-    .reduce((sum, row) => sum + Number(row.carried_out), 0);
-  const currency = rows[0]?.currency ?? 'XAF';
+  // Le report en cours est celui du DERNIER versement : chaque ligne porte déjà
+  // tout ce qui restait dû avant elle. Additionner les reports de toutes les
+  // lignes compterait plusieurs fois le même argent.
+  const latest = rows[0];
+  const carried = latest && latest.state !== 'paid' ? Number(latest.carried_out) : 0;
+  const currency = latest?.currency ?? 'USD';
 
   return (
     <>
@@ -51,7 +53,7 @@ export default function PayoutsPage() {
           title={strings.noData}
           explanation={
             'Aucun versement préparé. Les ordres sont constitués après la '
-            + 'consolidation d’une période, vers le 15 du mois suivant.'
+            + 'consolidation d’une période par WCL.'
           }
         />
       )}
@@ -60,10 +62,12 @@ export default function PayoutsPage() {
         <>
           {carried > 0 && (
             <p className="notice">
-              <strong>{formatMoney(carried, currency)}</strong> sont en report : ce montant
-              n’a pas atteint le seuil minimal de versement. Il n’est pas perdu — il
-              s’ajoutera à votre prochaine période et partira dès que le cumul franchira
-              le seuil.
+              <strong>{formatMoney(carried, currency)}</strong> sont en report
+              {latest?.hold_reason === 'editeur_non_verifie'
+                ? ' : votre compte n’est pas encore vérifié par WCL. Déposez vos pièces dans « Mon compte » ; le montant partira au premier versement qui suit la vérification.'
+                : latest?.hold_reason === 'periode_intermediaire'
+                  ? ' : ce mois n’est pas un mois de versement. Le montant partira au prochain.'
+                  : ' : ce montant n’a pas atteint le seuil minimal de versement. Il n’est pas perdu — il partira dès que le cumul franchira le seuil.'}
             </p>
           )}
 
@@ -73,6 +77,8 @@ export default function PayoutsPage() {
                 <tr>
                   <th>Période</th>
                   <th className="num">Gagné</th>
+                  <th className="num">Minimum garanti</th>
+                  <th className="num">Avance récupérée</th>
                   <th className="num">Report entrant</th>
                   <th className="num">Dû</th>
                   <th className="num">Seuil</th>

@@ -9,6 +9,7 @@ import { currentPeriod, formatMoney } from '../royalties/format.ts';
 import { MonthPicker } from '../../components/ui/MonthPicker.tsx';
 import { PeriodTable } from './PeriodTable.tsx';
 import { ConcentrationTable } from './ConcentrationTable.tsx';
+import { PayoutsPanel } from './PayoutsPanel.tsx';
 
 // F1 / F5 et indicateurs internes (§ 7). Reserve aux administrateurs WCL.
 //
@@ -23,6 +24,7 @@ export default function PeriodsPage() {
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
+  const [refreshKey, setRefreshKey] = useState(0);
 
   const load = useCallback(async (month: string) => {
     try {
@@ -50,6 +52,7 @@ export default function PeriodsPage() {
       setMessage(await action());
       setError('');
       await load(period);
+      setRefreshKey((n) => n + 1);
     } catch (cause) {
       setError(humaniseServerError(
         cause instanceof Error ? cause.message : 'unknown', strings.serverErrors));
@@ -113,19 +116,23 @@ export default function PeriodsPage() {
 
       {current && (
         <p className="muted">
-          Assiette du pool : <strong>{current.pool_basis === 'net' ? 'net des frais' : 'brut encaissé'}</strong>.
+          Modèle <strong>{current.model === 'par_abonne' ? 'par abonné' : 'fonds commun'}</strong>,
+          {' '}assiette <strong>{current.pool_basis === 'net' ? 'nette des frais' : 'brute'}</strong>,
+          {' '}part éditeurs <strong>{(Number(current.part_rate) * 100).toLocaleString('fr-FR')} %</strong>
+          {' '}(réglages en vigueur au calcul ; ils se changent dans « Réglages »).
           {' '}Brut {formatMoney(current.gross_revenue ?? 0, current.currency)},
           {' '}frais {formatMoney(current.provider_fees ?? 0, current.currency)},
           {' '}net {formatMoney(current.net_revenue ?? 0, current.currency)}.
-          {' '}Non distribué (domaine public) :{' '}
+          {' '}Non distribué (titres sans ayant droit, abonnés qui n’ont rien lu) :{' '}
           <strong>{formatMoney(current.undistributed ?? 0, current.currency)}</strong>.
         </p>
       )}
 
       {!error && (
         <>
-          <ConcentrationTable rows={concentration} currency={current?.currency ?? 'XAF'} />
+          <ConcentrationTable rows={concentration} currency={current?.currency ?? 'USD'} />
           <PeriodTable rows={periods} />
+          <PayoutsPanel period={period} refreshKey={refreshKey} />
         </>
       )}
     </>

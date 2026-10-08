@@ -24,6 +24,11 @@ export default function SignInPage() {
   const [error, setError] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+  // LE CODE DE CONFIRMATION (09/10/2026). L'e-mail d'inscription de WCL ne
+  // contient qu'un CODE, pas de lien (même projet Supabase que l'application) :
+  // sans ce champ, un compte créé ici restait à jamais non confirmé.
+  const [code, setCode] = useState('');
+  const [attenteCode, setAttenteCode] = useState(false);
 
   async function run(mode: 'in' | 'up', event: FormEvent) {
     event.preventDefault();
@@ -35,16 +40,61 @@ export default function SignInPage() {
       : await supabase.auth.signUp({ email, password });
     setBusy(false);
     if (authError) {
+      // Compte créé mais jamais confirmé : on renvoie un code plutôt que de
+      // laisser la personne bloquée devant « Email not confirmed ».
+      if (mode === 'in' && /not confirmed/i.test(authError.message)) {
+        await supabase.auth.resend({ type: 'signup', email });
+        setAttenteCode(true);
+        setNotice(strings.codeSent);
+        return;
+      }
       setError(authError.message);
       return;
     }
     // Sans session, l'adresse doit etre confirmee : naviguer renverrait
     // aussitot vers cet ecran, ce que l'utilisateur lirait comme un echec.
     if (!data.session) {
-      setNotice(strings.confirmEmail);
+      setAttenteCode(true);
+      setNotice(strings.codeSent);
       return;
     }
     navigate(mode === 'in' ? '/compte' : '/inscription');
+  }
+
+  async function confirmer(event: FormEvent) {
+    event.preventDefault();
+    setBusy(true);
+    setError(null);
+    const { data, error: otpError } = await supabase.auth.verifyOtp({
+      email, token: code.replace(/\s+/g, ''), type: 'signup',
+    });
+    setBusy(false);
+    if (otpError || !data.session) {
+      setError(otpError?.message ?? strings.confirmEmail);
+      return;
+    }
+    navigate('/inscription');
+  }
+
+  if (attenteCode) {
+    return (
+      <div className="auth">
+        <form className="card card--auth" onSubmit={(event) => void confirmer(event)}>
+          <h1>{strings.signInTitle}</h1>
+          {notice && <p className="notice">{notice}</p>}
+          <TextField label={strings.email} type="email" value={email} onChange={setEmail} required />
+          <TextField label={strings.codeLabel} value={code} onChange={setCode} required />
+          {error && <p className="error">{error}</p>}
+          <div className="row">
+            <button type="submit" disabled={busy || code.trim().length < 6}>{strings.codeConfirm}</button>
+            <button type="button" className="secondary" disabled={busy}
+                    onClick={() => { setAttenteCode(false); setNotice(null); setError(null); }}>
+              {strings.cancel}
+            </button>
+          </div>
+        </form>
+      </div>
+    );
   }
 
   async function resetPassword() {
