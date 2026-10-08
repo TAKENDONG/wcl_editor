@@ -55,20 +55,28 @@ vitrine montre les valeurs par défaut.
 
 ## Fonctionnement (depuis le 09/10/2026)
 
+**L'ADMINISTRATION SE FAIT DANS LA CONSOLE WCL** (consigne du 09/10/2026 :
+« on administre tout dans la console admin ») — page **Éditeurs** de
+https://account.worldconquestlibrary.org et de l'application admin, cinq
+onglets : Éditeurs, Validation, Redevances, Versements, Réglages. Le portail
+est l'espace DES ÉDITEURS ; un membre du personnel y voit un lien « Console
+WCL », et les anciennes adresses `/validation`, `/periodes`, `/editeurs`,
+`/reglages` y renvoient.
+
 On commence par de **grands éditeurs, sous contrat** ; l'inscription libre
 d'auteurs indépendants reste ouverte, avec la même vérification.
 
 1. **Compte** : un compte WCL (le même que l'application). Créé ici, il se
    confirme avec le **code** reçu par e-mail (champ sur `/connexion`).
 2. **Éditeur** : `/inscription` crée la maison ou l'auteur, `pending`.
-3. **Vérification** par WCL (`/editeurs`, personnel) : pièces déposées dans
+3. **Vérification** par WCL (console, Éditeurs → onglet Éditeurs) : pièces déposées dans
    « Mon compte », acceptées ou refusées avec motif, puis « Vérifier ». Tant
    que le réglage `editeurs_verification_obligatoire` est vrai, un éditeur non
    vérifié ne peut ni soumettre, ni être publié, ni être payé.
-4. **Accord-cadre** (`/editeurs`) : part propre, minimum garanti par mois,
+4. **Accord-cadre** (console, onglet Éditeurs) : part propre, minimum garanti par mois,
    avance récupérée sur les redevances, pays ouverts par défaut.
 5. **Dépôt** (`/catalogue`, un par un ou en masse), droits et pays déclarés.
-6. **Validation** (`/validation`) : l'approbation passe par la fonction
+6. **Validation** (console, onglet Validation) : l'approbation passe par la fonction
    `submission-publish`, qui copie le fichier et la couverture sur R2 (d'où
    l'application lit les livres) avant de publier. Le titre porte ses
    territoires : il n'est ni listé ni ouvert hors des pays déclarés.
@@ -76,14 +84,14 @@ d'auteurs indépendants reste ouverte, avec la même vérification.
    l'application). Deux modèles au choix (`redevances_modele`) :
    `par_abonne` — l'argent de chaque abonné va aux livres qu'il a lus — ou
    `fonds_commun`. Calcul provisoire le 1er de chaque mois ; consolidation par
-   WCL dans `/periodes` (ou le 15 si `redevances_consolidation_auto`).
-8. **Versements** (`/periodes`, panneau du bas) : préparés après
+   WCL dans la console, onglet Redevances (ou le 15 si `redevances_consolidation_auto`).
+8. **Versements** (console, onglet Versements) : préparés après
    consolidation, avec seuil, fréquence, report, minimum garanti, avance,
    retenue à la source par pays (une règle par pays est OBLIGATOIRE avant de
    régler). Le virement se fait hors du portail ; on saisit sa référence, un
    reçu est émis.
 
-**Toutes les décisions sont des réglages** (`/reglages`, personnel) : part des
+**Toutes les décisions sont des réglages** (console, onglet Réglages) : part des
 éditeurs (défaut 60 %), modèle, assiette nette ou brute, devise de référence
 (USD), lecture minimale (2 min) et maximale par jour (6 h), recettes comptées,
 frais par prestataire, seuil (10) et fréquence (trimestre) des versements,

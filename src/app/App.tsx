@@ -11,13 +11,9 @@ import AccountPage from '../features/account/AccountPage.tsx';
 import TermsPage from '../features/legal/TermsPage.tsx';
 import PrivacyPage from '../features/legal/PrivacyPage.tsx';
 import CatalogPage from '../features/catalog/CatalogPage.tsx';
-import ReviewQueuePage from '../features/review/ReviewQueuePage.tsx';
-import PeriodsPage from '../features/admin/PeriodsPage.tsx';
 import AnalyticsPage from '../features/analytics/AnalyticsPage.tsx';
 import RoyaltiesPage from '../features/royalties/RoyaltiesPage.tsx';
 import PayoutsPage from '../features/payouts/PayoutsPage.tsx';
-import PublishersPage from '../features/staff/PublishersPage.tsx';
-import SettingsPage from '../features/staff/SettingsPage.tsx';
 
 // Table de routes unique, comme dans wclAdmin. La vitrine (module A) est
 // PUBLIQUE : le cahier veut qu'un editeur decouvre le modele avant de creer un
@@ -67,12 +63,18 @@ function PortalRoutes({ signedIn }: { signedIn: boolean }) {
         <Route path="/statistiques" element={allow(caps.isPublisherMember, <AnalyticsPage />)} />
         <Route path="/redevances" element={allow(caps.canViewFinance, <RoyaltiesPage />)} />
         <Route path="/versements" element={allow(caps.canViewFinance, <PayoutsPage />)} />
-        <Route path="/validation" element={allow(caps.isWclStaff, <ReviewQueuePage />)} />
-        <Route path="/periodes" element={allow(caps.isWclStaff, <PeriodsPage />)} />
-        <Route path="/editeurs" element={allow(caps.isWclStaff, <PublishersPage />)} />
-        <Route path="/reglages" element={allow(caps.isWclStaff, <SettingsPage />)} />
+        {/* Anciennes adresses du personnel : l'administration est passée dans
+            la console WCL (09/10/2026). */}
+        {['/validation', '/periodes', '/editeurs', '/reglages'].map((chemin) => (
+          <Route key={chemin} path={chemin} element={<VersLaConsole />} />
+        ))}
         <Route path="*" element={<Navigate to="/" replace />} />
       </Route>
     </Routes>
   );
+}
+
+function VersLaConsole() {
+  window.location.replace('https://account.worldconquestlibrary.org/editeurs');
+  return <p className="muted" style={{ padding: '2rem' }}>…</p>;
 }

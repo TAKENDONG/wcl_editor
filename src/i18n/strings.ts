@@ -10,8 +10,6 @@ export type Strings = {
   navAnalytics: string;
   navRoyalties: string;
   navPayouts: string;
-  navReview: string;
-  navPeriods: string;
   privacyTitle: string;
   heroCtaSignedIn: string;
   rangeFrom: string;
@@ -137,8 +135,7 @@ export type Strings = {
   mfaConfirm: string;
   mfaActive: string;
   mfaRemove: string;
-  navPublishers: string;
-  navSettings: string;
+  navConsole: string;
   /// Vérification du compte par WCL (09/10/2026).
   verifTitle: string;
   verifPending: string;
@@ -156,9 +153,9 @@ export type Strings = {
 const fr: Strings = {
   brand: 'WCL — Portail éditeurs',
   navVitrine: 'Accueil', navCatalog: 'Catalogue', navAnalytics: 'Statistiques',
-  navRoyalties: 'Redevances', navPayouts: 'Versements', navReview: 'Validation',
-  navPeriods: 'Périodes',
-  navPublishers: 'Éditeurs', navSettings: 'Réglages',
+  navRoyalties: 'Redevances', navPayouts: 'Versements',
+
+  navConsole: 'Console WCL',
   privacyTitle: 'Données de lecture',
   heroCtaSignedIn: 'Accéder à mon espace',
   rangeFrom: 'Du', rangeTo: 'Au',
@@ -276,9 +273,9 @@ const en: Strings = {
   ...fr,
   brand: 'WCL — Publisher portal',
   navVitrine: 'Home', navCatalog: 'Catalogue', navAnalytics: 'Statistics',
-  navRoyalties: 'Royalties', navPayouts: 'Payouts', navReview: 'Review',
-  navPeriods: 'Periods',
-  navPublishers: 'Publishers', navSettings: 'Settings',
+  navRoyalties: 'Royalties', navPayouts: 'Payouts',
+
+  navConsole: 'WCL console',
   privacyTitle: 'Reading data',
   heroCtaSignedIn: 'Go to my space',
   rangeFrom: 'From', rangeTo: 'To',
@@ -393,9 +390,9 @@ const es: Strings = {
   ...fr,
   brand: 'WCL — Portal de editores',
   navVitrine: 'Inicio', navCatalog: 'Catálogo', navAnalytics: 'Estadísticas',
-  navRoyalties: 'Regalías', navPayouts: 'Pagos', navReview: 'Validación',
-  navPeriods: 'Periodos',
-  navPublishers: 'Editores', navSettings: 'Ajustes',
+  navRoyalties: 'Regalías', navPayouts: 'Pagos',
+
+  navConsole: 'Consola WCL',
   privacyTitle: 'Datos de lectura',
   heroCtaSignedIn: 'Ir a mi espacio',
   rangeFrom: 'Desde', rangeTo: 'Hasta',

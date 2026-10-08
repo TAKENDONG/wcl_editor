@@ -42,31 +42,6 @@ export type Submission = {
   updated_at: string;
 };
 
-export type ReviewItem = {
-  id: string;
-  publisher_id: string;
-  publisher_name: string;
-  state: SubmissionState;
-  title: string;
-  authors: string;
-  language: string;
-  isbn: string | null;
-  declared_rights: RightsStatus;
-  file_format: string | null;
-  file_sha256: string | null;
-  submitted_at: string | null;
-};
-
-export type DuplicateHint = {
-  id: string;
-  title: string;
-  publisher_name: string;
-  state: SubmissionState;
-  reason: string;
-};
-
-export type ReviewDecision = 'approve' | 'changes' | 'reject';
-
 // ── Modules E et F : analytique et redevances ───────────────────────────────
 
 export type RoyaltyPeriodState = 'open' | 'consolidated' | 'paid';
@@ -166,34 +141,6 @@ export type FileVersion = {
   algo_version: string | null;
   is_current: boolean;
   created_at: string;
-};
-
-export type AdminPeriodRow = {
-  period_start: string;
-  state: RoyaltyPeriodState;
-  currency: string;
-  model: RoyaltyModel;
-  pool_basis: 'net' | 'brut';
-  part_rate: number;
-  gross_revenue: number | null;
-  provider_fees: number | null;
-  net_revenue: number | null;
-  pool_amount: number | null;
-  total_minutes: number | null;
-  subscribers: number | null;
-  paying_readers: number | null;
-  distributed: number | null;
-  undistributed: number | null;
-  publishers: number;
-  consolidated_at: string | null;
-};
-
-export type ConcentrationRow = {
-  publisher_id: string;
-  publisher_name: string;
-  amount: number;
-  share_of_pool: number;
-  over_cap: boolean;
 };
 
 export type ConversionWarningKind =

@@ -12,6 +12,8 @@ import { useCapabilitiesContext } from '../../hooks/CapabilitiesContext.tsx';
 // refus du serveur. Les liens sont donc filtres par capacite — ce qui reste de
 // l'ergonomie : le cloisonnement reel est cote base, et forcer l'URL rend
 // « forbidden ».
+const CONSOLE_EDITEURS = 'https://account.worldconquestlibrary.org/editeurs';
+
 export function PortalLayout({ signedIn }: { signedIn: boolean }) {
   const { strings } = useLocale();
   const { caps } = useCapabilitiesContext();
@@ -36,17 +38,10 @@ export function PortalLayout({ signedIn }: { signedIn: boolean }) {
           {caps.canViewFinance && (
             <NavLink to="/versements" className={cls}>{strings.navPayouts}</NavLink>
           )}
+          {/* L'administration WCL se fait dans la console (09/10/2026) : le
+              portail est l'espace DES ÉDITEURS. */}
           {caps.isWclStaff && (
-            <NavLink to="/validation" className={cls}>{strings.navReview}</NavLink>
-          )}
-          {caps.isWclStaff && (
-            <NavLink to="/periodes" className={cls}>{strings.navPeriods}</NavLink>
-          )}
-          {caps.isWclStaff && (
-            <NavLink to="/editeurs" className={cls}>{strings.navPublishers}</NavLink>
-          )}
-          {caps.isWclStaff && (
-            <NavLink to="/reglages" className={cls}>{strings.navSettings}</NavLink>
+            <a href={CONSOLE_EDITEURS}>{strings.navConsole}</a>
           )}
         </nav>
         <div className="topbar__spacer" />
