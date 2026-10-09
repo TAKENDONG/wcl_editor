@@ -1,4 +1,9 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { supabase } from '../../lib/supabase.ts';
+import { registerPublisher } from '../../services/publisherService.ts';
+import { useCapabilitiesContext } from '../../hooks/CapabilitiesContext.tsx';
+import { lireInscription, oublierInscription } from '../auth/inscriptionEnAttente.ts';
 import { usePublishers } from '../../hooks/usePublishers.ts';
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { TeamSection } from './TeamSection.tsx';
@@ -15,13 +20,53 @@ export default function AccountPage() {
   const { publishers, loading, reload } = usePublishers(true);
   const [selected, setSelected] = useState<string | null>(null);
   const current = publishers.find((p) => p.publisher_id === selected) ?? publishers[0];
+  const { refresh } = useCapabilitiesContext();
+  const [creation, setCreation] = useState(false);
+  const [erreurCreation, setErreurCreation] = useState<string | null>(null);
+  const tente = useRef(false);
 
-  if (loading) return <p className="muted">…</p>;
+  // L'INSCRIPTION SAISIE SUR « CRÉER UN COMPTE ÉDITEUR » se termine ici, dès
+  // que la personne est connectée : après son code, ou à la connexion si son
+  // adresse avait déjà un compte WCL App. Une seule tentative par visite.
+  useEffect(() => {
+    if (loading || publishers.length > 0 || tente.current) return;
+    tente.current = true;
+    void (async () => {
+      const { data } = await supabase.auth.getUser();
+      const enAttente = lireInscription(data.user?.email);
+      if (!enAttente) return;
+      setCreation(true);
+      try {
+        await registerPublisher({
+          kind: enAttente.kind,
+          displayName: enAttente.displayName,
+          countryCode: enAttente.country,
+          contactEmail: enAttente.contactEmail,
+          legalName: enAttente.kind === 'publisher' ? enAttente.legalName : undefined,
+        });
+        oublierInscription();
+        await refresh();
+        reload();
+      } catch (cause) {
+        setErreurCreation(cause instanceof Error ? cause.message : 'Erreur inconnue');
+      } finally {
+        setCreation(false);
+      }
+    })();
+  }, [loading, publishers.length, refresh, reload]);
+
+  if (loading || creation) {
+    return <p className="muted">{creation ? strings.finishingRegistration : '…'}</p>;
+  }
   if (!current) {
     return (
       <>
         <h1>{strings.navAccount}</h1>
+        {erreurCreation && <p className="error">{erreurCreation}</p>}
         <div className="notice">{strings.noPublisher}</div>
+        <p style={{ marginTop: '1rem' }}>
+          <Link to="/inscription"><button type="button">{strings.signUpPublisher}</button></Link>
+        </p>
       </>
     );
   }

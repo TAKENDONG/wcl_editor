@@ -70,8 +70,8 @@ export function textesModele(locale: Locale, m: Modele): TextesModele {
     return {
       heroTitle: 'Publish your books. Get paid for the time readers actually spend in them.',
       heroLead:
-        'World Conquest Library is the digital library of the CMCI. Publishers and authors publish ' +
-        'their books here and receive royalties calculated on real reading time, with a published ' +
+        'WCL App is a Christian digital library by subscription. Publishers and authors publish ' +
+        'their books in it and receive royalties calculated on real reading time, with a published ' +
         'formula anyone can recompute.',
       panelTitle: 'The formula, published',
       formula: parAbonne
@@ -116,8 +116,8 @@ export function textesModele(locale: Locale, m: Modele): TextesModele {
     return {
       heroTitle: 'Publique sus libros. Cobre por el tiempo que los lectores pasan en ellos.',
       heroLead:
-        'World Conquest Library es la biblioteca digital de la CMCI. Editores y autores publican ' +
-        'aquí sus obras y reciben regalías calculadas sobre el tiempo de lectura real, con una ' +
+        'WCL App es una biblioteca digital cristiana por suscripción. Editores y autores publican ' +
+        'en ella sus obras y reciben regalías calculadas sobre el tiempo de lectura real, con una ' +
         'fórmula publicada que cualquiera puede recalcular.',
       panelTitle: 'La fórmula, publicada',
       formula: parAbonne
@@ -161,7 +161,7 @@ export function textesModele(locale: Locale, m: Modele): TextesModele {
   return {
     heroTitle: 'Publiez vos ouvrages. Soyez payé au temps réellement passé à les lire.',
     heroLead:
-      'World Conquest Library est la bibliothèque numérique de la CMCI. Les éditeurs et auteurs ' +
+      'WCL App est une bibliothèque numérique chrétienne par abonnement. Les éditeurs et auteurs ' +
       'y publient leurs ouvrages et perçoivent une redevance calculée sur le temps de lecture ' +
       'réel, selon une formule publiée que chacun peut recalculer.',
     panelTitle: 'La formule, publiée',

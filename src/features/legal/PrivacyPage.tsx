@@ -22,7 +22,7 @@ export default function PrivacyPage() {
 
       <h2>Ce qui est mesuré</h2>
       <ul>
-        <li>L’ouvrage ouvert dans l’application.</li>
+        <li>L’ouvrage ouvert dans WCL App.</li>
         <li>Le temps de lecture actif de chaque séance (l’ouvrage au premier plan).</li>
         <li>La date de la lecture, dans le fuseau du lecteur.</li>
         <li>La progression atteinte en fin de séance.</li>

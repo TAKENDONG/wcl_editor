@@ -4,7 +4,7 @@ import { useModele } from '../../hooks/useModele.ts';
 import { textesModele } from '../../i18n/modele.ts';
 
 // Module A — conditions générales. Le corps reste en français : c'est la langue
-// du contrat éditeur et celle de la CMCI. Les intitulés sont traduits et la
+// du contrat éditeur. Les intitulés sont traduits et la
 // page dit explicitement quelle version fait foi, comme le fait tout texte
 // juridique multilingue.
 //
@@ -24,9 +24,9 @@ export default function TermsPage() {
 
       <h2>1. Objet</h2>
       <div className="card">
-        Les présentes conditions régissent l’usage du portail éditeurs de World Conquest
-        Library (WCL), édité par la Communauté Missionnaire Chrétienne Internationale (CMCI).
-        Elles s’appliquent à tout auteur ou maison d’édition qui y dépose un ouvrage.
+        Les présentes conditions régissent l’usage du portail éditeurs de WCL App (World
+        Conquest Library). Elles s’appliquent à tout auteur ou maison d’édition qui y dépose
+        un ouvrage pour qu’il soit lu dans WCL App.
       </div>
 
       <h2>2. Rémunération</h2>
@@ -35,7 +35,7 @@ export default function TermsPage() {
           {fr.contractTerms.map((terme) => <li key={terme}>{terme}</li>)}
         </ul>
         <p style={{ marginBottom: 0 }}>
-          Le temps de lecture est celui que l’application mesure lorsque l’ouvrage est
+          Le temps de lecture est celui que WCL App mesure lorsque l’ouvrage est
           réellement ouvert au premier plan. Les titres sans ayant droit comptent dans le
           partage et ne perçoivent rien : la part correspondante n’est redistribuée à personne.
         </p>
@@ -60,7 +60,7 @@ export default function TermsPage() {
       <h2>5. Protection des fichiers — ce qui est garanti, et ce qui ne l’est pas</h2>
       <div className="card">
         <p style={{ marginTop: 0 }}>
-          <strong>Garanti :</strong> stockage dans un espace privé, lecture dans l’application
+          <strong>Garanti :</strong> stockage dans un espace privé, lecture dans WCL App
           seulement (aucune lecture en ligne sur le site), liens de service à courte durée de vie,
           aperçu tronqué pour les non-abonnés, chiffrement du fichier téléchargé sur l’appareil de
           chaque lecteur.

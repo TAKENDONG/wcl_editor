@@ -1,4 +1,6 @@
-import { useState, type FormEvent } from 'react';
+import { useEffect, useState, type FormEvent } from 'react';
+import { supabase } from '../../lib/supabase.ts';
+import { CountryField } from '../../components/ui/CountryField.tsx';
 import { useNavigate } from 'react-router-dom';
 import { registerPublisher } from '../../services/publisherService.ts';
 import { useCapabilitiesContext } from '../../hooks/CapabilitiesContext.tsx';
@@ -10,19 +12,27 @@ import type { PublisherKind } from '../../lib/types.ts';
 // coherence de saisie ; la regle metier (raison sociale obligatoire pour une
 // maison d'edition) est appliquee par la RPC, qui est la seule autorite.
 export default function RegisterPage() {
-  const { strings } = useLocale();
+  const { strings, locale } = useLocale();
   const navigate = useNavigate();
   const { refresh } = useCapabilitiesContext();
-  const [kind, setKind] = useState<PublisherKind>('author');
+  const [kind, setKind] = useState<PublisherKind>('publisher');
   const [displayName, setDisplayName] = useState('');
   const [legalName, setLegalName] = useState('');
-  const [country, setCountry] = useState('CM');
+  const [country, setCountry] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
+  // L'adresse de contact part de celle du compte : rien à ressaisir.
+  useEffect(() => {
+    void supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.email) setEmail((courant) => courant || data.user?.email || '');
+    });
+  }, []);
+
   async function submit(event: FormEvent) {
     event.preventDefault();
+    if (!country) { setError(strings.countryRequired); return; }
     setBusy(true);
     setError(null);
     try {
@@ -36,7 +46,7 @@ export default function RegisterPage() {
       // route le renvoyait aussitot — il fallait recharger la page pour que le
       // portail reconnaisse l'editeur qu'il venait de creer.
       await refresh();
-      navigate('/catalogue');
+      navigate('/compte');
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : 'Erreur inconnue');
     } finally {
@@ -50,17 +60,17 @@ export default function RegisterPage() {
     <div className="auth">
       <form className="card card--auth" onSubmit={(event) => void submit(event)}>
       <h1>{strings.registerTitle}</h1>
-      <SelectField label="Type de compte" value={kind}
+      <SelectField label={strings.accountKind} value={kind}
                    onChange={(next) => setKind(next as PublisherKind)}>
-        <option value="author">{strings.kindAuthor}</option>
         <option value="publisher">{strings.kindPublisher}</option>
+        <option value="author">{strings.kindAuthor}</option>
       </SelectField>
       <TextField label={strings.displayName} value={displayName} onChange={setDisplayName} required />
       {kind === 'publisher' && (
         <TextField label={strings.legalName} value={legalName} onChange={setLegalName} required />
       )}
-      <TextField label={strings.country} value={country} onChange={setCountry} placeholder="CM" required />
-      <TextField label={strings.email} type="email" value={email} onChange={setEmail} required />
+      <CountryField label={strings.country} value={country} onChange={setCountry} locale={locale} required />
+      <TextField label={strings.contactEmail} type="email" value={email} onChange={setEmail} required />
       {error && <p className="error">{error}</p>}
       <button type="submit" disabled={busy}>{strings.create}</button>
       </form>

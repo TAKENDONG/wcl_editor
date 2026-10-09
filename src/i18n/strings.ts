@@ -1,5 +1,5 @@
 // Le cahier exige FR / EN / ES (module A). Le francais fait foi : c'est la
-// langue du cahier des charges et celle de la CMCI.
+// langue du cahier des charges.
 
 export type Locale = 'fr' | 'en' | 'es';
 
@@ -147,11 +147,23 @@ export type Strings = {
   codeLabel: string;
   codeConfirm: string;
   codeSent: string;
+  /// Formulaire d'inscription complet (10/10/2026).
+  signUpPublisher: string;
+  registerLead: string;
+  accountKind: string;
+  contactEmail: string;
+  passwordConfirm: string;
+  passwordMismatch: string;
+  passwordTooShort: string;
+  countryRequired: string;
+  acceptTerms: string;
+  alreadyAccount: string;
+  finishingRegistration: string;
   cancel: string;
 };
 
 const fr: Strings = {
-  brand: 'WCL — Portail éditeurs',
+  brand: 'WCL App — Portail éditeurs',
   navVitrine: 'Accueil', navCatalog: 'Catalogue', navAnalytics: 'Statistiques',
   navRoyalties: 'Redevances', navPayouts: 'Versements',
 
@@ -197,7 +209,7 @@ const fr: Strings = {
   rightsDeclaration: 'Déclaration de droits', territories: 'Territoires couverts',
   noData: 'Aucune donnée pour l’instant.',
   pendingProbe:
-    'Les chiffres apparaissent dès que vos titres publiés sont lus dans l’application. ' +
+    'Les chiffres apparaissent dès que vos titres publiés sont lus dans WCL App. ' +
     'Aucune donnée n’est inventée : tant que rien n’a été lu, cet écran reste vide.',
   reviewTitle: 'File de validation',
   approve: 'Approuver', requestChanges: 'Demander une correction', reject: 'Rejeter',
@@ -208,7 +220,7 @@ const fr: Strings = {
     'minutes, tronqués à un aperçu pour les non-abonnés, et chiffrés sur l’appareil de chaque ' +
     'lecteur. Il n’y a en revanche ni DRM industriel, ni filigrane par lecteur, ni effacement à ' +
     'distance : nous préférons l’écrire ici plutôt que de le laisser supposer.',
-  footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
+  footerNote: 'WCL App — World Conquest Library',
   subtitle: 'Sous-titre', edition: 'Édition', categories: 'Thèmes et catégories',
   keywords: 'Mots-clés',
   bookFile: 'Fichier de l’ouvrage', coverFile: 'Couverture',
@@ -266,12 +278,23 @@ const fr: Strings = {
   codeLabel: 'Code reçu par e-mail',
   codeConfirm: 'Confirmer mon adresse',
   codeSent: 'Compte créé. Saisissez le code envoyé à votre adresse électronique.',
+  signUpPublisher: 'Créer un compte éditeur',
+  registerLead: 'Vous avez déjà un compte WCL App ? Utilisez la même adresse et le même mot de passe.',
+  accountKind: 'Type de compte',
+  contactEmail: 'E-mail de contact (si différent)',
+  passwordConfirm: 'Confirmer le mot de passe',
+  passwordMismatch: 'Les deux mots de passe ne sont pas identiques.',
+  passwordTooShort: 'Le mot de passe doit compter au moins 8 caractères.',
+  countryRequired: 'Choisissez votre pays.',
+  acceptTerms: 'J’accepte les',
+  alreadyAccount: 'Cette adresse a déjà un compte WCL App. Connectez-vous avec son mot de passe : votre compte éditeur sera créé automatiquement.',
+  finishingRegistration: 'Création de votre compte éditeur…',
   mfaRemove: 'Désactiver', cancel: 'Annuler',
 };
 
 const en: Strings = {
   ...fr,
-  brand: 'WCL — Publisher portal',
+  brand: 'WCL App — Publisher portal',
   navVitrine: 'Home', navCatalog: 'Catalogue', navAnalytics: 'Statistics',
   navRoyalties: 'Royalties', navPayouts: 'Payouts',
 
@@ -314,7 +337,7 @@ const en: Strings = {
   rightsDeclaration: 'Rights declaration', territories: 'Territories covered',
   noData: 'No data yet.',
   pendingProbe:
-    'Figures appear as soon as your published titles are read in the app. ' +
+    'Figures appear as soon as your published titles are read in WCL App. ' +
     'Nothing is made up: until something has been read, this screen stays empty.',
   reviewTitle: 'Review queue',
   approve: 'Approve', requestChanges: 'Request changes', reject: 'Reject',
@@ -325,7 +348,7 @@ const en: Strings = {
     'are truncated to a preview for non-subscribers, and are encrypted on each reader’s device. ' +
     'There is however no industrial DRM, no per-reader watermark and no remote wipe: we would ' +
     'rather write that here than let it be assumed.',
-  footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
+  footerNote: 'WCL App — World Conquest Library',
   subtitle: 'Subtitle', edition: 'Edition', categories: 'Themes and categories',
   keywords: 'Keywords',
   bookFile: 'Work file', coverFile: 'Cover',
@@ -383,12 +406,23 @@ const en: Strings = {
   codeLabel: 'Code received by email',
   codeConfirm: 'Confirm my address',
   codeSent: 'Account created. Enter the code sent to your email address.',
+  signUpPublisher: 'Create a publisher account',
+  registerLead: 'Already have a WCL App account? Use the same email address and password.',
+  accountKind: 'Account type',
+  contactEmail: 'Contact email (if different)',
+  passwordConfirm: 'Confirm password',
+  passwordMismatch: 'The two passwords do not match.',
+  passwordTooShort: 'The password must be at least 8 characters long.',
+  countryRequired: 'Choose your country.',
+  acceptTerms: 'I accept the',
+  alreadyAccount: 'This address already has a WCL App account. Sign in with its password: your publisher account will be created automatically.',
+  finishingRegistration: 'Creating your publisher account…',
   mfaRemove: 'Disable', cancel: 'Cancel',
 };
 
 const es: Strings = {
   ...fr,
-  brand: 'WCL — Portal de editores',
+  brand: 'WCL App — Portal de editores',
   navVitrine: 'Inicio', navCatalog: 'Catálogo', navAnalytics: 'Estadísticas',
   navRoyalties: 'Regalías', navPayouts: 'Pagos',
 
@@ -432,7 +466,7 @@ const es: Strings = {
   rightsDeclaration: 'Declaración de derechos', territories: 'Territorios cubiertos',
   noData: 'Todavía no hay datos.',
   pendingProbe:
-    'Las cifras aparecen en cuanto sus títulos publicados se leen en la aplicación. ' +
+    'Las cifras aparecen en cuanto sus títulos publicados se leen en WCL App. ' +
     'No se inventa nada: mientras no se haya leído nada, esta pantalla queda vacía.',
   reviewTitle: 'Cola de validación',
   approve: 'Aprobar', requestChanges: 'Solicitar corrección', reject: 'Rechazar',
@@ -443,7 +477,7 @@ const es: Strings = {
     'quince minutos, se truncan a una vista previa para los no suscriptores y se cifran en el ' +
     'dispositivo de cada lector. En cambio no hay DRM industrial, ni marca de agua por lector, ni ' +
     'borrado remoto: preferimos escribirlo aquí antes que dejarlo suponer.',
-  footerNote: 'World Conquest Library — Communauté Missionnaire Chrétienne Internationale',
+  footerNote: 'WCL App — World Conquest Library',
   subtitle: 'Subtítulo', edition: 'Edición', categories: 'Temas y categorías',
   keywords: 'Palabras clave',
   bookFile: 'Archivo de la obra', coverFile: 'Portada',
@@ -500,6 +534,17 @@ const es: Strings = {
   codeLabel: 'Código recibido por correo',
   codeConfirm: 'Confirmar mi dirección',
   codeSent: 'Cuenta creada. Introduzca el código enviado a su correo electrónico.',
+  signUpPublisher: 'Crear una cuenta de editor',
+  registerLead: '¿Ya tiene una cuenta de WCL App? Use la misma dirección y la misma contraseña.',
+  accountKind: 'Tipo de cuenta',
+  contactEmail: 'Correo de contacto (si es diferente)',
+  passwordConfirm: 'Confirmar la contraseña',
+  passwordMismatch: 'Las dos contraseñas no coinciden.',
+  passwordTooShort: 'La contraseña debe tener al menos 8 caracteres.',
+  countryRequired: 'Elija su país.',
+  acceptTerms: 'Acepto las',
+  alreadyAccount: 'Esta dirección ya tiene una cuenta de WCL App. Inicie sesión con su contraseña: su cuenta de editor se creará automáticamente.',
+  finishingRegistration: 'Creando su cuenta de editor…',
   mfaRemove: 'Desactivar', cancel: 'Cancelar',
 };
 

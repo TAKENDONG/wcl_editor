@@ -12,7 +12,7 @@ const cell = (value: string | number | null): string =>
   value === null || value === undefined ? '' : String(value);
 
 /// CSV RFC 4180. Le separateur est le POINT-VIRGULE : Excel en locale
-/// francaise — celle de CMCI et de ses editeurs — ouvre un CSV virgule sur une
+/// francaise — celle de la plupart des editeurs — ouvre un CSV virgule sur une
 /// seule colonne, et le destinataire conclut que l'export est casse.
 export function toCsv(columns: Column[], rows: Row[]): string {
   const escape = (raw: string): string =>
