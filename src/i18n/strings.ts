@@ -159,6 +159,7 @@ export type Strings = {
   acceptTerms: string;
   alreadyAccount: string;
   finishingRegistration: string;
+  completeDraft: string;
   cancel: string;
 };
 
@@ -289,6 +290,7 @@ const fr: Strings = {
   acceptTerms: 'J’accepte les',
   alreadyAccount: 'Cette adresse a déjà un compte WCL App. Connectez-vous avec son mot de passe : votre compte éditeur sera créé automatiquement.',
   finishingRegistration: 'Création de votre compte éditeur…',
+  completeDraft: 'Compléter',
   mfaRemove: 'Désactiver', cancel: 'Annuler',
 };
 
@@ -417,6 +419,7 @@ const en: Strings = {
   acceptTerms: 'I accept the',
   alreadyAccount: 'This address already has a WCL App account. Sign in with its password: your publisher account will be created automatically.',
   finishingRegistration: 'Creating your publisher account…',
+  completeDraft: 'Complete',
   mfaRemove: 'Disable', cancel: 'Cancel',
 };
 
@@ -545,6 +548,7 @@ const es: Strings = {
   acceptTerms: 'Acepto las',
   alreadyAccount: 'Esta dirección ya tiene una cuenta de WCL App. Inicie sesión con su contraseña: su cuenta de editor se creará automáticamente.',
   finishingRegistration: 'Creando su cuenta de editor…',
+  completeDraft: 'Completar',
   mfaRemove: 'Desactivar', cancel: 'Cancelar',
 };
 

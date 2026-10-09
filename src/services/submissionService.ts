@@ -92,11 +92,15 @@ export async function uploadSubmissionFile(
   file: File,
 ): Promise<MeasuredFile> {
   const format = file.name.split('.').pop()?.toLowerCase() ?? '';
-  const objectPath = `${publisherId}/${submissionId}/${file.name}`;
+  // UN NOM NEUF À CHAQUE ENVOI, sans « remplacer » (10/10/2026) : le
+  // remplacement exige une règle de LECTURE sur le seau, et le seau n'en a
+  // volontairement aucune (garantie donnée aux éditeurs). Le serveur garde de
+  // toute façon l'historique des versions.
+  const objectPath = `${publisherId}/${submissionId}/${Date.now()}-${file.name}`;
 
   const { error: uploadError } = await supabase.storage
     .from('submissions')
-    .upload(objectPath, file, { upsert: true });
+    .upload(objectPath, file);
   if (uploadError) throw new Error(uploadError.message);
 
   const { data, error } = await supabase.functions.invoke('submission-file', {
@@ -111,9 +115,16 @@ export async function uploadCover(
   submissionId: string,
   file: File,
 ): Promise<void> {
-  const objectPath = `${publisherId}/${submissionId}/${file.name}`;
+  const objectPath = `${publisherId}/${submissionId}/${Date.now()}-${file.name}`;
   const { error } = await supabase.storage
     .from('covers')
-    .upload(objectPath, file, { upsert: true });
+    .upload(objectPath, file);
   if (error) throw new Error(error.message);
+  // LA COUVERTURE EST ENREGISTRÉE SUR L'OUVRAGE (10/10/2026) : sans cela, elle
+  // restait dans le seau, la publication n'en trouvait aucune, et WCL App ne
+  // range pas en rayon un titre sans couverture.
+  const { error: rpcError } = await supabase.rpc('submission_set_cover', {
+    p_id: submissionId, p_cover_key: objectPath,
+  });
+  if (rpcError) throw new Error(rpcError.message);
 }

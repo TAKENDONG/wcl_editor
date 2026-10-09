@@ -1,4 +1,5 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useRef, useState } from 'react';
+import type { Submission } from '../../lib/types.ts';
 import { useSubmissions } from '../../hooks/useSubmissions.ts';
 import { usePublishers } from '../../hooks/usePublishers.ts';
 import { withdrawSubmission } from '../../services/submissionService.ts';
@@ -22,6 +23,13 @@ export default function CatalogPage() {
   const [openHistory, setOpenHistory] = useState<string | null>(null);
   const publisherId = selected ?? publishers[0]?.publisher_id ?? null;
   const { submissions, error, reload } = useSubmissions(publisherId);
+  const [editing, setEditing] = useState<Submission | null>(null);
+  const formulaire = useRef<HTMLHeadingElement>(null);
+
+  function completer(s: Submission) {
+    setEditing(s);
+    window.setTimeout(() => formulaire.current?.scrollIntoView({ behavior: 'smooth' }), 50);
+  }
 
   async function onWithdraw(id: string) {
     await withdrawSubmission(id);
@@ -78,6 +86,10 @@ export default function CatalogPage() {
                 </button>
               </td>
               <td>
+                {s.state === 'draft' && (
+                  <button type="button" className="btn btn--sm" style={{ marginRight: '0.4rem' }}
+                          onClick={() => completer(s)}>{strings.completeDraft}</button>
+                )}
                 {(s.state === 'draft' || s.state === 'submitted') && (
                   <button type="button" className="danger"
                           onClick={() => void onWithdraw(s.id)}>{strings.withdraw}</button>
@@ -117,9 +129,13 @@ export default function CatalogPage() {
         }))}
       />
 
-      <h2>{strings.newWork}</h2>
+      <h2 ref={formulaire}>{editing ? `${strings.completeDraft} — ${editing.title}` : strings.newWork}</h2>
+      {editing && (
+        <p><button type="button" className="secondary" onClick={() => setEditing(null)}>{strings.newWork}</button></p>
+      )}
       {publisherId && (
-        <SubmissionForm publisherId={publisherId} onDone={() => { void reload(); void reloadPublishers(); }} />
+        <SubmissionForm key={editing?.id ?? 'nouveau'} publisherId={publisherId} initial={editing}
+                        onDone={() => { setEditing(null); void reload(); void reloadPublishers(); }} />
       )}
 
       <h2>{strings.bulkTitle}</h2>

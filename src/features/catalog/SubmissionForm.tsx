@@ -10,7 +10,7 @@ import {
 import { useLocale } from '../../i18n/LocaleContext.tsx';
 import { SelectField, TextAreaField, TextField } from '../../components/ui/Field.tsx';
 import { DropZone } from '../../components/ui/DropZone.tsx';
-import type { RightsStatus } from '../../lib/types.ts';
+import type { RightsStatus, Submission } from '../../lib/types.ts';
 
 const EMPTY: SubmissionDraft = {
   id: null, title: '', subtitle: '', authors: '', language: 'fr',
@@ -22,14 +22,24 @@ const list = (value: string) => value.split(',').map((v) => v.trim()).filter(Boo
 // Module C — depot d'un ouvrage, declaration de droits, envoi en validation.
 // Le formulaire est decoupe en quatre intentions plutot qu'en une liste de
 // champs : l'ouvrage, son classement, ses fichiers, ses droits.
-export function SubmissionForm({ publisherId, onDone }: {
-  publisherId: string; onDone: () => void;
+// `initial` : un brouillon déjà enregistré (import en masse, « Enregistrer »,
+// ou correction demandée par WCL), rouvert pour y joindre son fichier et
+// l'envoyer (10/10/2026). Sans lui, un tel brouillon ne pouvait plus avancer.
+export function SubmissionForm({ publisherId, onDone, initial }: {
+  publisherId: string; onDone: () => void; initial?: Submission | null;
 }) {
   const { strings } = useLocale();
-  const [draft, setDraft] = useState<SubmissionDraft>(EMPTY);
-  const [categories, setCategories] = useState('');
-  const [keywords, setKeywords] = useState('');
-  const [rights, setRights] = useState<RightsStatus>('licensed');
+  const [draft, setDraft] = useState<SubmissionDraft>(initial ? {
+    id: initial.id, title: initial.title, subtitle: initial.subtitle ?? '', authors: initial.authors,
+    language: initial.language, description: initial.description ?? '', isbn: initial.isbn ?? '',
+    edition: '', categories: initial.categories ?? [], keywords: initial.keywords ?? [],
+  } : EMPTY);
+  const [categories, setCategories] = useState((initial?.categories ?? []).join(', '));
+  const [keywords, setKeywords] = useState((initial?.keywords ?? []).join(', '));
+  // Un fichier déjà mesuré sur le brouillon suffit pour l'envoyer.
+  const dejaUnFichier = Boolean(initial?.file_sha256);
+  const [rights, setRights] = useState<RightsStatus>(
+    initial && initial.declared_rights !== 'unknown' ? initial.declared_rights : 'licensed');
   const [territories, setTerritories] = useState('CM');
   const [book, setBook] = useState<File | null>(null);
   const [cover, setCover] = useState<File | null>(null);
@@ -75,8 +85,8 @@ export function SubmissionForm({ publisherId, onDone }: {
       if (cover) await uploadCover(publisherId, id, cover);
 
       if (sendForReview) {
-        if (!measurement) throw new Error(strings.errFileRequired);
-        if (measurement.needs_conversion) throw new Error(strings.errNeedsConversion);
+        if (!measurement && !dejaUnFichier) throw new Error(strings.errFileRequired);
+        if (measurement?.needs_conversion) throw new Error(strings.errNeedsConversion);
         await submitForReview(id, {
           rights, territories: list(territories), languages: [draft.language],
         });
